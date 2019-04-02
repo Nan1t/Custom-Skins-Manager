@@ -12,11 +12,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/Skins.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="72" column="20" lean-forward="true" selection-start-line="72" selection-start-column="20" selection-end-line="72" selection-end-column="20" />
+            <state relative-caret-position="19">
+              <caret line="58" selection-start-line="58" selection-end-line="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="256">
+              <caret line="143" column="62" selection-start-line="143" selection-start-column="62" selection-end-line="143" selection-end-column="62" />
             </state>
           </provider>
         </entry>
@@ -68,7 +77,6 @@
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/NPCService.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueMojang.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/Language.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/TargetSkinPlayer.java" />
         <option value="$PROJECT_DIR$/src/main/resources/lang/ru.conf" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/network/Channels.java" />
@@ -87,7 +95,6 @@
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandUrl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/configuration/bukkit/config.conf" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/SkinMenu.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/Skins.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/CommandSkin.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/MenuManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/ItemHead.java" />
@@ -98,6 +105,8 @@
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/Heads.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/listeners/InventoryClickListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/CustomMenuManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/Skins.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
@@ -278,7 +287,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554220010908" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554221153248" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../VKAuth" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -448,13 +457,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="76" column="21" lean-forward="true" selection-start-line="76" selection-start-column="21" selection-end-line="76" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -771,8 +773,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/Skins.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="72" column="20" lean-forward="true" selection-start-line="72" selection-start-column="20" selection-end-line="72" selection-end-column="20" />
+        <state relative-caret-position="19">
+          <caret line="58" selection-start-line="58" selection-end-line="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="143" column="62" selection-start-line="143" selection-start-column="62" selection-end-line="143" selection-end-column="62" />
         </state>
       </provider>
     </entry>

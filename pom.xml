@@ -141,7 +141,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>/home/nanit/Projects/Spigot server/1.13.2/plugins</outputDirectory>
+                    <outputDirectory>${project.basedir}/output</outputDirectory>
                 </configuration>
             </plugin>
 
