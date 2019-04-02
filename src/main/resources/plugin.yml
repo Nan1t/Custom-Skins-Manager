@@ -1,0 +1,28 @@
+name: CustomSkinsManager
+main: ru.csm.bukkit.Skins
+version: 2.0
+api-version: 1.13
+author: _Nanit_
+depend:
+  - "ProtocolLib"
+softdepend:
+  - "Citizens"
+commands:
+  csm:
+    description: Custom Skins Manager main command
+    aliases: ["skin", "skins"]
+permissions:
+  csm.skin.player:
+    description: "Allow to setup skin from license name"
+  csm.skin.url:
+    description: "Allow to setup skin from url to image"
+  csm.skin.menu:
+    description: "Allow to open menu with users skins"
+  csm.skin.reset:
+    description: "Allow to reset skin to default"
+  csm.skin.npc:
+    description: "Allow to set skin via url for Citizens NPC's"
+  csm.skin.to:
+    description: "Allow to setup skins for any player"
+  csm.admin:
+    description: "Allow to use '/csm reload' command. More information see on spigotmc"

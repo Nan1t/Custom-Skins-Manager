@@ -1,0 +1,96 @@
+package ru.csm.api.services;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
+import ru.csm.api.player.Skin;
+import ru.csm.api.utils.UuidUtil;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Scanner;
+import java.util.UUID;
+
+public class MojangAPI {
+
+    private static final String UUID_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
+    private static final String SKIN_URL = "https://sessionserver.mojang.com/session/minecraft/profile/%s?unsigned=false";
+
+    public static UUID getUUID(String name){
+        try{
+            URL url = new URL(String.format(UUID_URL, name));
+            String jsonString = getLine(url.openStream());
+
+            if(!jsonString.isEmpty()){
+                JsonObject object = new JsonParser().parse(jsonString).getAsJsonObject();
+                String uuid = object.get("id").getAsString();
+
+                return UuidUtil.getUUID(uuid);
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static Skin getPremiumSkin(UUID uuid){
+        Skin skin = new Skin();
+
+        try{
+            URL url = new URL(String.format(SKIN_URL, clearUUID(uuid)));
+            String jsonString = getLine(url.openStream());
+
+            if(!jsonString.isEmpty()){
+                JsonObject object = new JsonParser().parse(jsonString).getAsJsonObject();
+
+                if(object.has("properties")){
+                    JsonObject properties = object.get("properties").getAsJsonArray().get(0).getAsJsonObject();
+
+                    String value = properties.get("value").getAsString();
+                    String signature = properties.get("signature").getAsString();
+                    String skinUrl = getsSkinURL(value);
+
+                    if(skinUrl != null){
+                        skin.setValue(value);
+                        skin.setSignature(signature);
+                        return skin;
+                    }
+                }
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String getsSkinURL(String base64String){
+        String encoded = Base64Coder.decodeString(base64String);
+        JsonObject json = new JsonParser().parse(encoded).getAsJsonObject();
+        JsonObject textures = json.get("textures").getAsJsonObject();
+
+        if(textures.entrySet().size() != 0){
+            return textures.get("SKIN").getAsJsonObject().get("url").getAsString();
+        }
+
+        return null;
+    }
+
+    private static String getLine(InputStream in){
+        Scanner scanner = new Scanner(in);
+        String result = "";
+
+        while(scanner.hasNext()){
+            result += scanner.next();
+        }
+
+        return result;
+    }
+
+    private static String clearUUID(UUID uuid){
+        return uuid.toString().replace("-", "");
+    }
+
+}
