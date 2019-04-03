@@ -5,6 +5,8 @@ be described below.
 
 #### Minimal tested version is 1.8.8
 
+#### [API docs](https://gitlab.com/Nanit/custom-skins-manager/wikis/API_EN)
+#### [SpigotMC page](https://www.spigotmc.org/resources/custom-skins-manager.57760/)
 ### Dependencies
 1) ProtocolLib (important)  
 2) Citizens (optional, for change npc skin via url)  
