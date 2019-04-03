@@ -79,8 +79,8 @@ Aliases you can change in plugin.yml inside jar file
 ### Language support
 In default plugin support two language: English and Russian. But you can add you own language file. 
 For this:  
-1) Copy default language file inf folder `lang`, 
-2) Rename it as you want (Recommend language coder like `EN`, `DE`)
+1) Copy default language file in folder `lang`, 
+2) Rename it as you want (recommend language code like `EN`, `DE`)
 3) Change all values as you want.
-4) In plugin config change paraneter `language` to your file name (without extension)
-5) Profit
+4) In plugin config change parameter `language` to your file name (without extension)
+5) Profit!
