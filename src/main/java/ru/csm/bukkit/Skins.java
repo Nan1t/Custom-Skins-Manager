@@ -4,11 +4,14 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.csm.api.network.Channels;
+import ru.csm.api.player.Skin;
+import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.serializers.ItemStackSerializer;
 import ru.csm.api.serializers.ProfileSerializer;
 import ru.csm.api.services.SkinsAPI;
@@ -86,6 +89,8 @@ public class Skins extends JavaPlugin {
             registerEvents();
 
             getServer().getServicesManager().register(SkinsAPI.class, api, plugin, ServicePriority.Normal);
+
+            getServer().getServicesManager().getRegistration(SkinsAPI.class).getProvider();
             getCommand("csm").setExecutor(new CommandSkin(api, configuration, lang, menuManager));
         } catch (Exception e){
             e.printStackTrace();

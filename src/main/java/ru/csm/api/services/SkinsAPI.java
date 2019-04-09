@@ -117,7 +117,7 @@ public class SkinsAPI {
         }
     }
 
-    private void parseConstraints() throws ObjectMappingException {
+    private void parseConstraints() {
         boolean enableBlacklist = conf.get().getNode("skins", "blacklist", "enable").getBoolean();
         boolean enableNicknamesWhiteList = conf.get().getNode("skins", "whitelist", "nicknames", "enable").getBoolean();
         boolean enableUrlWhiteList = conf.get().getNode("skins", "whitelist", "url", "enable").getBoolean();
@@ -416,28 +416,26 @@ public class SkinsAPI {
      * @param player - Object of a player
      * */
     public void savePlayer(SkinPlayer player){
-        try {
-            if(player instanceof CitizensSkinPlayer){
-                return;
-            }
-        } catch (Exception e){
-            new Thread(()->{
-                Row row = new Row();
-
-                row.addField("name", player.getName());
-                row.addField("default_value", player.getDefaultSkin().getValue());
-                row.addField("default_signature", player.getDefaultSkin().getSignature());
-                row.addField("custom_value", null);
-                row.addField("custom_signature", null);
-
-                if(player.hasCustomSkin()){
-                    row.addField("custom_value", player.getCustomSkin().getValue());
-                    row.addField("custom_signature", player.getCustomSkin().getSignature());
-                }
-
-                database.updateRow(Tables.SKINS, "uuid", player.getUUID().toString(), row);
-            }).start();
+        if(player instanceof CitizensSkinPlayer){
+            return;
         }
+
+        new Thread(()->{
+            Row row = new Row();
+
+            row.addField("name", player.getName());
+            row.addField("default_value", player.getDefaultSkin().getValue());
+            row.addField("default_signature", player.getDefaultSkin().getSignature());
+            row.addField("custom_value", null);
+            row.addField("custom_signature", null);
+
+            if(player.hasCustomSkin()){
+                row.addField("custom_value", player.getCustomSkin().getValue());
+                row.addField("custom_signature", player.getCustomSkin().getSignature());
+            }
+
+            database.updateRow(Tables.SKINS, "uuid", player.getUUID().toString(), row);
+        }).start();
     }
 
     public void createPlayer(SkinPlayer player){
