@@ -118,7 +118,7 @@
         <dependency>
             <groupId>com.github.tr7zw.Item-NBT-API</groupId>
             <artifactId>item-nbt-api</artifactId>
-            <version>be4dfa593b</version>
+            <version>1.8.3</version>
         </dependency>
     </dependencies>
 

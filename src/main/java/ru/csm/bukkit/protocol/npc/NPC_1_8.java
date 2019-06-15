@@ -153,10 +153,6 @@ public class NPC_1_8 implements NPC {
         return dataList;
     }
 
-    public int getFixLocation(double pos){
-        return (int)Math.floor(pos * 32.0D);
-    }
-
     public byte getFixRotation(float yawpitch){
         return (byte) ((int) (yawpitch * 256.0F / 360.0F));
     }

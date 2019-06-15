@@ -1,7 +1,6 @@
 package ru.csm.bungee.player;
 
 import com.google.gson.JsonObject;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.connection.InitialHandler;
@@ -9,10 +8,11 @@ import net.md_5.bungee.connection.LoginResult;
 import ru.csm.api.network.Channels;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
-import ru.csm.api.utils.reflection.ReflectionUtil;
 import ru.csm.bungee.Skins;
 import ru.csm.bungee.network.JsonMessage;
+import ru.csm.bungee.network.PluginMessageService;
 
+import java.lang.reflect.Field;
 import java.util.UUID;
 
 public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
@@ -74,15 +74,18 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
         }
 
         try{
-            InitialHandler handler = (InitialHandler)player.getPendingConnection();
+            InitialHandler handler = (InitialHandler) player.getPendingConnection();
             LoginResult.Property texture = new LoginResult.Property("textures", skin.getValue(), skin.getSignature());
             LoginResult profile = new LoginResult(player.getUniqueId().toString(), "textures", new LoginResult.Property[] { texture });
 
             profile.getProperties()[0].setName("textures");
+            profile.getProperties()[0].setName("textures");
             profile.getProperties()[0].setValue(skin.getValue());
             profile.getProperties()[0].setSignature(skin.getSignature());
 
-            ReflectionUtil.setObject(InitialHandler.class, handler, "loginProfile", profile);
+            Field field = InitialHandler.class.getDeclaredField("loginProfile");
+            field.setAccessible(true);
+            field.set(handler, profile);
         } catch (Exception e){
             System.out.println("Error while apply skin: " + e.getMessage());
         }
@@ -93,7 +96,7 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
         JsonObject json = new JsonObject();
         json.addProperty("player", player.getUniqueId().toString());
         JsonMessage message = new JsonMessage(Channels.SKINS_REFRESH, player, json);
-        Skins.getPluginMessageService().sendMessage(message);
+        PluginMessageService.sendMessage(message);
     }
 
     @Override

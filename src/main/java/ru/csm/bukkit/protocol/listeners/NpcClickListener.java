@@ -32,17 +32,17 @@ public class NpcClickListener extends PacketAdapter {
     @Override
     public void onPacketReceiving(PacketEvent event) {
         PacketContainer packet = event.getPacket();
+        NPC clicked = service.getNPC(packet.getIntegers().read(0));
+
+        if(clicked == null){
+            return;
+        }
+
         Player player = event.getPlayer();
         SkinPlayer skinPlayer = api.getPlayer(player.getUniqueId());
 
         if(skinPlayer == null){
             skinPlayer = new BukkitSkinPlayer(player);
-        }
-
-        NPC clicked = service.getNPC(packet.getIntegers().read(0));
-
-        if(clicked == null){
-            return;
         }
 
         if(packet.getEntityUseActions().getValues().get(0).equals(EnumWrappers.EntityUseAction.ATTACK)) {
@@ -71,8 +71,6 @@ public class NpcClickListener extends PacketAdapter {
             // Apply skin
             api.setCustomSkin(skinPlayer, clicked.getSkin());
             clicked.destroy();
-            return;
         }
-
     }
 }

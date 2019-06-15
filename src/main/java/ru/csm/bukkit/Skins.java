@@ -4,14 +4,12 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
-import org.bukkit.entity.Player;
+
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import ru.csm.api.network.Channels;
-import ru.csm.api.player.Skin;
-import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.serializers.ItemStackSerializer;
 import ru.csm.api.serializers.ProfileSerializer;
 import ru.csm.api.services.SkinsAPI;
@@ -28,70 +26,68 @@ import ru.csm.bukkit.gui.managers.CustomMenuManager;
 import ru.csm.bukkit.gui.managers.MenuManager;
 import ru.csm.bukkit.listeners.InventoryClickListener;
 import ru.csm.bukkit.listeners.PlayerJoinListener;
-import ru.csm.bukkit.network.SkinsCitizensListener;
-import ru.csm.bukkit.network.SkinsMenuListener;
-import ru.csm.bukkit.network.SkinsRefreshListener;
+import ru.csm.bukkit.network.PluginMessageService;
+import ru.csm.bukkit.network.executors.SkinsCitizensExecutor;
+import ru.csm.bukkit.network.executors.SkinsMenuExecutor;
+import ru.csm.bukkit.network.executors.SkinsRefreshExecutor;
 import ru.csm.bukkit.protocol.NPCService;
 import ru.csm.bukkit.protocol.listeners.NpcClickListener;
-import ru.csm.bukkit.services.BungeeSkinsAPI;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
 public class Skins extends JavaPlugin {
 
-    private static Plugin plugin;
-    private static Path pluginFolder;
+    private Database database;
+    private SkinsAPI api;
+    private MenuManager menuManager;
+    private NPCService npcService;
 
-    private static Configuration configuration, menuConf;
-    private static Language lang;
-    private static Database database;
-
-    private static SkinsAPI api;
-    private static MenuManager menuManager;
-    private static NPCService npcService;
-
+    private static int subVersion;
     private static boolean isBungeeCord = false;
+    private static boolean isEnabledCitizens = false;
 
     @Override
     public void onEnable(){
         try{
-            checkDependencies();
+            if(!checkDependencies()){
+                getServer().getPluginManager().disablePlugin(this);
+                return;
+            }
 
-            plugin = this;
-            pluginFolder = this.getDataFolder().toPath();
-            configuration = new Configuration("configuration/bukkit/config.conf", pluginFolder, plugin);
-            menuConf = new Configuration("configuration/bukkit/menu.conf", pluginFolder, plugin);
-            lang = new Language(plugin, Paths.get(pluginFolder.toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
+            Configuration configuration = new Configuration("configuration/bukkit/config.conf", getDataFolder().toPath(), this);
+            Configuration menuConf = new Configuration("configuration/bukkit/menu.conf", getDataFolder().toPath(), this);
+            Language lang = new Language(this, Paths.get(getDataFolder().toPath().toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
+            PluginMessageService pmService = new PluginMessageService(this);
+
             isBungeeCord = configuration.get().getNode("bungeecord").getBoolean();
+            isEnabledCitizens = getServer().getPluginManager().isPluginEnabled("Citizens");
+
+            String packageName = getServer().getClass().getPackage().getName();
+            String ver = packageName.substring(packageName.lastIndexOf('.') + 1);
+            subVersion = Integer.parseInt(ver.split("_")[1]);
 
             registerSerializers();
 
-            if(isBungeeCord){
-                getLogger().info("Using BungeeCord as skin applier");
-                api = new BungeeSkinsAPI(database, configuration, lang);
-                menuManager = new BungeeMenuManager(menuConf, lang, api);
-            } else {
-                setupDatabase();
+            boolean isCustomMenu = menuConf.get().getNode("custom", "enable").getBoolean();
+
+            if(!isBungeeCord){
+                setupDatabase(configuration);
                 api = new SkinsAPI(database, configuration, lang);
-                menuManager = new MenuManager(menuConf, lang, api);
+                menuManager = isCustomMenu ? new CustomMenuManager(menuConf, lang, api) : new MenuManager(menuConf, lang, api);
+                getCommand("csm").setExecutor(new CommandSkin(this, api, menuConf, lang, menuManager));
+            } else {
+                api = new BungeeSkinsAPI(database, configuration, lang, pmService);
+                menuManager = new BungeeMenuManager(menuConf, lang, api, pmService);
+                getLogger().info("Using BungeeCord as skin applier");
             }
 
-            if(menuConf.get().getNode("custom", "enable").getBoolean()){
-                menuManager = new CustomMenuManager(menuConf, lang, api);
-            }
-
-            npcService = new NPCService(getSubVersion());
+            npcService = new NPCService(subVersion);
 
             registerMessageListeners();
-            registerEvents();
+            registerListeners();
 
-            getServer().getServicesManager().register(SkinsAPI.class, api, plugin, ServicePriority.Normal);
-
-            getServer().getServicesManager().getRegistration(SkinsAPI.class).getProvider();
-            getCommand("csm").setExecutor(new CommandSkin(api, configuration, lang, menuManager));
+            getServer().getServicesManager().register(SkinsAPI.class, api, this, ServicePriority.Normal);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -102,30 +98,32 @@ public class Skins extends JavaPlugin {
         if(database != null){
             database.closeConnection();
         }
+
+        api.stopCleaner();
     }
 
-    private void checkDependencies(){
+    private boolean checkDependencies(){
         if(!getServer().getPluginManager().isPluginEnabled("ProtocolLib")){
             getLogger().severe("ProtocolLib is not enabled! CSM disabled");
-            getServer().getPluginManager().disablePlugin(this);
+            return false;
         }
+
+        return true;
     }
 
     public static int getSubVersion() {
-        final String packageName = plugin.getServer().getClass().getPackage().getName();
-        String ver = packageName.substring(packageName.lastIndexOf('.') + 1);
-        String[] arr = ver.split("_");
-        return Integer.parseInt(arr[1]);
+        return subVersion;
     }
 
     public static boolean isEnabledCitizens(){
-        return plugin.getServer().getPluginManager().isPluginEnabled("Citizens");
+        return isEnabledCitizens;
     }
 
-    private void registerEvents(){
+    private void registerListeners(){
         if(!isBungeeCord){
-            getServer().getPluginManager().registerEvents(new PlayerJoinListener(database, api), this);
+            getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, database, api), this);
         }
+
         getServer().getPluginManager().registerEvents(new InventoryClickListener(menuManager, npcService, api), this);
 
         ProtocolLibrary.getProtocolManager().addPacketListener(new NpcClickListener(this, PacketType.Play.Client.USE_ENTITY, npcService, menuManager, api));
@@ -145,18 +143,13 @@ public class Skins extends JavaPlugin {
         getServer().getMessenger().registerOutgoingPluginChannel(this, Channels.SKINS_REFRESH);
         getServer().getMessenger().registerOutgoingPluginChannel(this, Channels.SKINS_CITIZENS);
 
-        getServer().getMessenger().registerIncomingPluginChannel(this, Channels.SKINS_MENU, new SkinsMenuListener(menuManager));
-        getServer().getMessenger().registerIncomingPluginChannel(this, Channels.SKINS_REFRESH, new SkinsRefreshListener());
+        getServer().getMessenger().registerIncomingPluginChannel(this, Channels.SKINS_MENU, new SkinsMenuExecutor(menuManager));
+        getServer().getMessenger().registerIncomingPluginChannel(this, Channels.SKINS_REFRESH, new SkinsRefreshExecutor());
 
-        getServer().getMessenger().registerIncomingPluginChannel(this, Channels.SKINS_CITIZENS, new SkinsCitizensListener());
+        getServer().getMessenger().registerIncomingPluginChannel(this, Channels.SKINS_CITIZENS, new SkinsCitizensExecutor(this));
     }
 
-    public static void reloadConfiguration() throws IOException {
-        configuration = new Configuration("configuration/bukkit/config.conf", pluginFolder, plugin);
-        lang = new Language(plugin, Paths.get(pluginFolder.toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
-    }
-
-    private void setupDatabase() throws SQLException {
+    private void setupDatabase(Configuration configuration) throws SQLException {
         boolean useRemote = configuration.get().getNode("remoteDatabase").getBoolean();
 
         if(useRemote){
@@ -173,7 +166,7 @@ public class Skins extends JavaPlugin {
                 database.executeSQL("CREATE TABLE IF NOT EXISTS `"+Tables.SKINS+"` (\n" +
                         "\t`id` INT NOT NULL AUTO_INCREMENT,\n" +
                         "\t`uuid` varchar(38) NOT NULL,\n" +
-                        "\t`name` varchar(18) NOT NULL,\n" +
+                        "\t`name` varchar(16) NOT NULL,\n" +
                         "\t`default_value` varchar(512) NOT NULL,\n" +
                         "\t`default_signature` varchar(1024) NOT NULL,\n" +
                         "\t`custom_value` varchar(1024),\n" +
@@ -192,51 +185,19 @@ public class Skins extends JavaPlugin {
         }
 
         // Setup local SQLite database
-        createSQLiteDatabase(pluginFolder.toString(), Tables.SKINS, "user", "");
+        createSQLiteDatabase(getDataFolder().toPath().toString(), Tables.SKINS, "user", "");
     }
 
-    private void createSQLiteDatabase(String path, String dbname, String user, String password) throws SQLException{
-        database = new SQLiteDatabase(path, dbname, user, password);
+    private void createSQLiteDatabase(String path, String dbName, String user, String password) throws SQLException{
+        database = new SQLiteDatabase(path, dbName, user, password);
 
         database.executeSQL("CREATE TABLE IF NOT EXISTS `"+Tables.SKINS+"` (\n" +
                 "\t`id` IDENTITY PRIMARY KEY,\n" +
                 "\t`uuid` varchar(38) NOT NULL,\n" +
-                "\t`name` varchar(18) NOT NULL,\n" +
+                "\t`name` varchar(16) NOT NULL,\n" +
                 "\t`default_value` varchar(512) NOT NULL,\n" +
                 "\t`default_signature` varchar(1024) NOT NULL,\n" +
                 "\t`custom_value` varchar(1024),\n" +
                 "\t`custom_signature` varchar(1024));");
-    }
-
-    public static Plugin getPlugin(){
-        return plugin;
-    }
-
-    public static Path getPluginFolder(){
-        return pluginFolder;
-    }
-
-    public static Configuration getConfiguration() {
-        return configuration;
-    }
-
-    public static Configuration getMenuConf() {
-        return menuConf;
-    }
-
-    public static Language getLang() {
-        return lang;
-    }
-
-    public static Database getDatabase() {
-        return database;
-    }
-
-    public static SkinsAPI getSkinsAPI() {
-        return api;
-    }
-
-    public static MenuManager getMenuManager(){
-        return menuManager;
     }
 }

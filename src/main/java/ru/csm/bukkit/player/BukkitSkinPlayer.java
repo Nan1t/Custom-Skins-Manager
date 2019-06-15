@@ -1,17 +1,20 @@
 package ru.csm.bukkit.player;
 
 import com.comphenix.packetwrapper.*;
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.*;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
-import ru.csm.api.utils.reflection.ReflectionUtil;
 import ru.csm.bukkit.Skins;
 import ru.csm.bukkit.events.SkinChangedEvent;
 import ru.csm.bukkit.events.SkinResetEvent;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,22 +27,9 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
     private Skin defaultSkin;
     private Skin customSkin;
 
-    private Class<?> Packet;
-    private Class<?> PlayOutRespawn;
-    private Enum<?> PEACEFUL;
-
     public BukkitSkinPlayer(Player player){
         this.player = player;
         this.profile = WrappedGameProfile.fromPlayer(player);
-
-        try{
-            Packet = ReflectionUtil.getNMSClass("Packet");
-            PlayOutRespawn = ReflectionUtil.getNMSClass("PacketPlayOutRespawn");
-
-            PEACEFUL = ReflectionUtil.getEnum(ReflectionUtil.getNMSClass("EnumDifficulty"), "PEACEFUL");
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
     }
 
     @Override
@@ -116,6 +106,27 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
             spawn.setPlayerUUID(this.player.getUniqueId());
             spawn.setEntityID(player.getEntityId());
 
+            PacketContainer respawnPacket = new PacketContainer(PacketType.Play.Server.RESPAWN);
+            respawnPacket.getGameModes().write(0, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()));
+            respawnPacket.getWorldTypeModifier().write(0, player.getWorld().getWorldType());
+
+            switch (player.getWorld().getEnvironment()){
+                case NETHER:
+                    respawnPacket.getDimensions().write(0, -1);
+                    break;
+                case NORMAL:
+                    respawnPacket.getDimensions().write(0, 0);
+                    break;
+                case THE_END:
+                    respawnPacket.getDimensions().write(0, 1);
+                    break;
+            }
+
+            // For version < 1.14
+            if(Skins.getSubVersion() < 14){
+                respawnPacket.getDifficulties().write(0, EnumWrappers.Difficulty.PEACEFUL);
+            }
+
             // For version > 1.8
             if(Skins.getSubVersion() > 8){
                 spawn.setMetadata(WrappedDataWatcher.getEntityWatcher(player));
@@ -135,13 +146,10 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
             slot.setSlot(player.getInventory().getHeldItemSlot());
 
             for(Player player : Bukkit.getOnlinePlayers()){
-                Object craftHandle = ReflectionUtil.invokeMethod(player, "getHandle");
-                Object playerCon = ReflectionUtil.getObject(craftHandle, "playerConnection");
-
                 if(player.getName().equals(this.player.getName())){
                     removeInfo.sendPacket(player);
                     addInfo.sendPacket(player);
-                    sendPacket(playerCon, getRespawnPacket());
+                    ProtocolLibrary.getProtocolManager().sendServerPacket(player, respawnPacket);
                     position.sendPacket(player);
                     slot.sendPacket(player);
                     continue;
@@ -152,54 +160,17 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
                     removeInfo.sendPacket(player);
                     addInfo.sendPacket(player);
                     spawn.sendPacket(player);
-                } else {
-                    removeInfo.sendPacket(player);
-                    addInfo.sendPacket(player);
+                    continue;
                 }
+
+                removeInfo.sendPacket(player);
+                addInfo.sendPacket(player);
             }
 
             player.updateInventory();
         } catch (Exception e){
             System.out.println("Error while skin refreshing: " + e.getMessage());
         }
-    }
-
-    private void sendPacket(Object playerConnection, Object packet) throws Exception {
-        ReflectionUtil.invokeMethod(playerConnection.getClass(), playerConnection, "sendPacket",
-                new Class<?>[]{Packet}, new Object[]{packet});
-    }
-
-    private Object getRespawnPacket() throws Exception{
-        Object handle = ReflectionUtil.invokeMethod(player, "getHandle");
-        Object playerIntManager = ReflectionUtil.getObject(handle, "playerInteractManager");
-        Enum<?> enumGamemode = (Enum<?>) ReflectionUtil.invokeMethod(playerIntManager, "getGameMode");
-
-        int dimension = player.getWorld().getEnvironment().getId();
-        int gmid = (int) ReflectionUtil.invokeMethod(enumGamemode, "getId");
-        Object world = ReflectionUtil.invokeMethod(handle, "getWorld");
-        Object difficulty = ReflectionUtil.invokeMethod(world, "getDifficulty");
-        Object worldData = ReflectionUtil.getObject(world, "worldData");
-        Object worldType = ReflectionUtil.invokeMethod(worldData, "getType");
-
-        Object respawn;
-
-        try {
-            respawn = ReflectionUtil.invokeConstructor(PlayOutRespawn,
-                    new Class<?>[]{int.class, PEACEFUL.getClass(), worldType.getClass(), enumGamemode.getClass()},
-                    dimension, difficulty, worldType, ReflectionUtil.invokeMethod(enumGamemode.getClass(), null, "getById", new Class<?>[]{int.class}, gmid));
-        } catch (Exception ignored) {
-            Class<?> dimensionManagerClass = ReflectionUtil.getNMSClass("DimensionManager");
-            Method m = dimensionManagerClass.getDeclaredMethod("a", Integer.TYPE);
-            Object dimensionManger = m.invoke(null, dimension);
-
-            respawn = ReflectionUtil.invokeConstructor(PlayOutRespawn,
-                    new Class<?>[]{
-                            dimensionManagerClass, PEACEFUL.getClass(), worldType.getClass(), enumGamemode.getClass()
-                    },
-                    dimensionManger, difficulty, worldType, ReflectionUtil.invokeMethod(enumGamemode.getClass(), null, "getById", new Class<?>[]{int.class}, gmid));
-        }
-
-        return respawn;
     }
 
     private List<PlayerInfoData> getInfoData(){

@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.csm.api.services.MojangAPI;
 import ru.csm.api.services.SkinsAPI;
@@ -19,10 +20,12 @@ import java.util.UUID;
 
 public class PlayerJoinListener implements Listener {
 
+    private Plugin plugin;
     private Database db;
     private SkinsAPI api;
 
-    public PlayerJoinListener(Database db, SkinsAPI api) {
+    public PlayerJoinListener(Plugin plugin, Database db, SkinsAPI api) {
+        this.plugin = plugin;
         this.db = db;
         this.api = api;
     }
@@ -38,7 +41,7 @@ public class PlayerJoinListener implements Listener {
                     player.applySkin();
                     player.refreshSkin();
                 }
-            }.runTaskLater(Skins.getPlugin(), 20);
+            }.runTaskLater(plugin, 20);
             return;
         }
 

@@ -11,8 +11,11 @@ import ru.csm.bukkit.network.PluginMessageService;
 
 public class BungeeMenuManager extends MenuManager {
 
-    public BungeeMenuManager(Configuration conf, Language lang, SkinsAPI api) throws ObjectMappingException {
+    private PluginMessageService pmService;
+
+    public BungeeMenuManager(Configuration conf, Language lang, SkinsAPI api, PluginMessageService pmService) throws ObjectMappingException {
         super(conf, lang, api);
+        this.pmService = pmService;
     }
 
     @Override
@@ -20,7 +23,7 @@ public class BungeeMenuManager extends MenuManager {
         JsonObject json = new JsonObject();
         json.addProperty("player", player.getUniqueId().toString());
         json.addProperty("page", page);
-        PluginMessageService.sendMessage(player, Channels.SKINS_MENU, json);
+        pmService.sendMessage(player, Channels.SKINS_MENU, json);
     }
 
 }

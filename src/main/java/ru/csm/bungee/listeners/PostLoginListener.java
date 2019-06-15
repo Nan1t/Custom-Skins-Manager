@@ -12,16 +12,19 @@ import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.Row;
+import ru.csm.bungee.network.PluginMessageService;
 import ru.csm.bungee.player.BungeeSkinPlayer;
 
 import java.util.UUID;
 
 public class PostLoginListener implements Listener {
 
+    private PluginMessageService pmService;
     private Database db;
     private SkinsAPI api;
 
-    public PostLoginListener(Database db, SkinsAPI api){
+    public PostLoginListener(Database db, SkinsAPI api, PluginMessageService pmService){
+        this.pmService = pmService;
         this.db = db;
         this.api = api;
     }

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class PluginMessageService implements Listener {
 
     private Map<String, MessageExecutor> executors = new HashMap<>();
@@ -45,7 +46,7 @@ public class PluginMessageService implements Listener {
         }
     }
 
-    public void sendMessage(JsonMessage message){
+    public static void sendMessage(JsonMessage message){
         message.getReceiver().getServer().sendData(message.getChannel(), message.getJson().toString().getBytes());
     }
 

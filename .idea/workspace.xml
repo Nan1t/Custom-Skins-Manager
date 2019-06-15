@@ -1,7 +1,289 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bada985d-0198-421a-9a7b-755464a9e7b9" name="Default Changelist" comment="" />
+    <list default="true" id="bada985d-0198-421a-9a7b-755464a9e7b9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/nanit.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CustomSkinsManager.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CustomSkinsManager.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README_RU.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_RU.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/BungeeCord.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libs/BungeeCord.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/spigot-1.13.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libs/spigot-1.13.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/CustomSkinsManager-2.0.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/output/CustomSkinsManager-2.0.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/AbstractPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/AbstractPacket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/ChunkPacketProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/ChunkPacketProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/OldWrapperPlayServerNamedEntitySpawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/OldWrapperPlayServerNamedEntitySpawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/OldWrapperPlayServerSpawnEntityLiving.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/OldWrapperPlayServerSpawnEntityLiving.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/PacketWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/PacketWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayClientChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayClientChat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerChat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityDestroy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityDestroy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityEffect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityEffect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityEquipment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityEquipment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityHeadRotation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityHeadRotation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityLook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityLook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityMetadata.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityVelocity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityVelocity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerHeldItemSlot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerHeldItemSlot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerNamedEntitySpawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerNamedEntitySpawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerPlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerPlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerPosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerRespawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerRespawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerSpawnEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerSpawnEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerSpawnEntityLiving.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerSpawnEntityLiving.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerSpawnPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerSpawnPosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/WhiteListElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/WhiteListElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/http/HttpPost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/http/HttpPost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/http/HttpRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/http/HttpRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/http/entity/HttpEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/http/entity/HttpEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/http/entity/HttpResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/http/entity/HttpResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/http/entity/RequestMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/http/entity/RequestMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/network/Channels.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/network/Channels.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/player/Head.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/player/Head.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/player/Skin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/player/Skin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/player/SkinModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/player/SkinModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/player/SkinPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/player/SkinPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/serializers/ItemStackSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/serializers/ItemStackSerializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/serializers/ProfileSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/serializers/ProfileSerializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/services/MojangAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/services/MojangAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/services/SkinsAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/services/SkinsAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/Language.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/Language.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/Tables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/Tables.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/database/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/database/MySQLDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/database/MySQLDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/database/Row.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/database/Row.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/database/SQLiteDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/database/SQLiteDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueLicense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueLicense.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueMineSkin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueMineSkin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueMojang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueMojang.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/entity/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/entity/Profile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/entity/RequestImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/entity/RequestImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/entity/RequestLicense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/entity/RequestLicense.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/entity/SkinRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/entity/SkinRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/utils/UuidUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/utils/UuidUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/utils/text/Colors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/utils/text/Colors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/api/utils/text/Validator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/api/utils/text/Validator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/Skins.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/Skins.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/CommandSkin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/CommandSkin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/SubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/SubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandNPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandNPC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandReload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandReload.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandReset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandReset.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandTo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandTo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandUrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandUrl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/events/SkinChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/events/SkinChangedEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/events/SkinResetEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/events/SkinResetEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/Heads.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/Heads.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/Materials.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/Materials.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/SkinMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/SkinMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/Skull.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/Skull.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/SkullReflections.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/SkullReflections.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/BungeeMenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/BungeeMenuManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/CustomMenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/CustomMenuManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/MenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/MenuManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/listeners/InventoryClickListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/listeners/InventoryClickListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/listeners/PlayerJoinListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/listeners/PlayerJoinListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/PluginMessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/PluginMessageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/SkinsCitizensListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/SkinsCitizensListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/SkinsMenuListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/SkinsMenuListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/SkinsRefreshListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/SkinsRefreshListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/BukkitSkinPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/BukkitSkinPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/CitizensSkinPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/CitizensSkinPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/TargetSkinPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/TargetSkinPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/HologramReflection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/HologramReflection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/NPCService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/NPCService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_13.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_13.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_8.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_8.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_9.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_9.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Hologram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Hologram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/listeners/NpcClickListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/listeners/NpcClickListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_10.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_10.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_13.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_13.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_8.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_8.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_9.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_9.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/services/BungeeSkinsAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/services/BungeeSkinsAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/Skins.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/Skins.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/listeners/PostLoginListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/listeners/PostLoginListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/JsonMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/JsonMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/MessageExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/MessageExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/PluginMessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/PluginMessageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorCommandPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorCommandPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorCommandReset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorCommandReset.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorCommandUrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorCommandUrl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsApply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsApply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsCitizens.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsCitizens.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/player/BungeCitizensPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/player/BungeCitizensPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/player/BungeeSkinPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/csm/bungee/player/BungeeSkinPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bungee.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/bungee.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/configuration/bukkit/config.conf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/configuration/bukkit/config.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/configuration/bukkit/menu.conf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/configuration/bukkit/menu.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/configuration/bungee/config.conf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/configuration/bungee/config.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/lang/en.conf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lang/en.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/lang/ru.conf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lang/ru.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/QueueTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/QueueTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/CustomSkinManager.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/CustomSkinManager.kotlin_module" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/CustomSkinsManager.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/CustomSkinsManager.kotlin_module" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bungee.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bungee.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/AbstractPacket.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/ChunkPacketProcessor$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/ChunkPacketProcessor$ChunkOffsets.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/ChunkPacketProcessor$ChunkletProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/ChunkPacketProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/OldWrapperPlayServerNamedEntitySpawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/OldWrapperPlayServerNamedEntitySpawn.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/OldWrapperPlayServerSpawnEntityLiving.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/OldWrapperPlayServerSpawnEntityLiving.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/PacketWrapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayClientChat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerChat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerEntityDestroy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerEntityEffect.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerEntityEquipment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerEntityHeadRotation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerEntityLook.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerEntityMetadata.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerEntityStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerEntityVelocity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerHeldItemSlot.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerNamedEntitySpawn.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerPlayerInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerPosition$PlayerTeleportFlag.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerPosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerRespawn.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerSpawnEntity$ObjectTypes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerSpawnEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerSpawnEntityLiving.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/comphenix/packetwrapper/WrapperPlayServerSpawnPosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/configuration/bukkit/config.conf" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/configuration/bukkit/config.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/configuration/bukkit/menu.conf" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/configuration/bukkit/menu.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/configuration/bungee/config.conf" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/configuration/bungee/config.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lang/en.conf" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lang/en.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lang/ru.conf" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lang/ru.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/WhiteListElement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/api/WhiteListElement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/http/HttpPost.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/api/http/HttpPost.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/http/HttpRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/api/http/HttpRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/http/entity/HttpEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/api/http/entity/HttpEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/http/entity/HttpResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/api/http/entity/HttpResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/http/entity/RequestMethod.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/api/http/entity/RequestMethod.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/network/Channels.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/player/Head.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/api/player/Head.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/player/Skin.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/player/SkinModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/player/SkinPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/serializers/ItemStackSerializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/api/serializers/ItemStackSerializer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/serializers/ProfileSerializer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/services/MojangAPI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/services/SkinsAPI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/storage/Configuration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/storage/Language.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/storage/Tables.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/storage/database/Database.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/storage/database/MySQLDatabase.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/storage/database/Row.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/storage/database/SQLiteDatabase.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/upload/QueueLicense$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/upload/QueueLicense.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/upload/QueueMineSkin$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/upload/QueueMineSkin.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/upload/QueueMojang$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/upload/QueueMojang.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/upload/QueueService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/upload/entity/Profile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/upload/entity/RequestImage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/upload/entity/RequestLicense.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/upload/entity/SkinRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/utils/UuidUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/utils/reflection/ReflectionUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/utils/text/Colors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/api/utils/text/Validator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/Skins.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/commands/CommandSkin.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/commands/SubCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/commands/subcommands/CommandMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/commands/subcommands/CommandNPC.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/commands/subcommands/CommandNPC.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/commands/subcommands/CommandPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/commands/subcommands/CommandReload.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/commands/subcommands/CommandReset.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/commands/subcommands/CommandTo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/commands/subcommands/CommandUrl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/events/SkinChangedEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/events/SkinResetEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/Heads.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/Heads.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/Materials.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkinMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/Skull.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/Skull.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections$ConstructorInvoker.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections$ConstructorInvoker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections$FieldAccessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections$FieldAccessor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections$MethodInvoker.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections$MethodInvoker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/SkullReflections.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/managers/BungeeMenuManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/managers/BungeeMenuManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/managers/CustomMenuManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/managers/CustomMenuManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/managers/MenuManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/gui/managers/MenuManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/listeners/InventoryClickListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/listeners/PlayerJoinListener$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/listeners/PlayerJoinListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/network/PluginMessageService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/network/SkinsCitizensListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/network/SkinsCitizensListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/network/SkinsMenuListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/network/SkinsMenuListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/network/SkinsRefreshListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/player/BukkitSkinPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/player/CitizensSkinPlayer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/player/CitizensSkinPlayer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/player/CitizensSkinPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/player/CitizensSkinPlayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/player/TargetSkinPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/player/TargetSkinPlayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/HologramReflection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/HologramReflection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/NPCService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/NPCService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/hologram/Holo_1_13.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/hologram/Holo_1_13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/hologram/Holo_1_8.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/hologram/Holo_1_8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/hologram/Holo_1_9.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/hologram/Holo_1_9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/hologram/Hologram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/hologram/Hologram.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/listeners/NpcClickListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/listeners/NpcClickListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/npc/NPC.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/npc/NPC.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/npc/NPC_1_10.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/npc/NPC_1_10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/npc/NPC_1_13.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/npc/NPC_1_13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/npc/NPC_1_8.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/npc/NPC_1_8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/npc/NPC_1_9.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/protocol/npc/NPC_1_9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bukkit/services/BungeeSkinsAPI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/Skins.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/listeners/PostLoginListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/network/JsonMessage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/network/MessageExecutor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/network/PluginMessageService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/network/executors/ExecutorCommandPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/network/executors/ExecutorCommandReset.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/network/executors/ExecutorCommandUrl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/network/executors/ExecutorSkinsApply.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bungee/network/executors/ExecutorSkinsApply.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/network/executors/ExecutorSkinsCitizens.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bungee/network/executors/ExecutorSkinsCitizens.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/network/executors/ExecutorSkinsMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bungee/network/executors/ExecutorSkinsMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/player/BungeCitizensPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/csm/bungee/player/BungeCitizensPlayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/csm/bungee/player/BungeeSkinPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/config.conf" beforeDir="false" afterPath="$PROJECT_DIR$/target/config.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-CustomSkinsManager-2.0.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-CustomSkinsManager-2.0.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-CustomSkinsManager-2.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-CustomSkinsManager-2.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/QueueTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/QueueTest.class" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -10,16 +292,40 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/services/SkinsAPI.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/Skins.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="119" column="37" selection-start-line="119" selection-start-column="37" selection-end-line="119" selection-end-column="37" />
+            <state relative-caret-position="-950">
+              <caret line="83" selection-start-line="83" selection-end-line="83" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandMenu.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="213">
+              <caret line="50" column="9" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="361">
+              <caret line="121" column="21" lean-forward="true" selection-start-line="121" selection-start-column="21" selection-end-line="121" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -42,65 +348,69 @@
       <find>QueueMojang</find>
       <find>imageSkinsQueue</find>
       <find>command.undefined</find>
+      <find>ThreadPool</find>
     </findStrings>
     <replaceStrings>
       <replace />
     </replaceStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/BukkitSkinPlayer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/NPC.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/listeners/PostLoginListener.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/PluginMessageService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Hologram.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/OldWrapperPlayServerNamedEntitySpawn.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/listeners/NpcClickListener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/utils/text/Validator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/utils/reflection/ReflectionUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/BukkitSkinPlayer.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_8.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper/OldWrapperPlayServerSpawnEntityLiving.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_8.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_13.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_9.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_9.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_10.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_10.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/NPCService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueMojang.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/storage/Language.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/TargetSkinPlayer.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/lang/ru.conf" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/network/Channels.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueMineSkin.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/Skins.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/player/BungeCitizensPlayer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsCitizens.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/listeners/PlayerJoinListener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/SkinsMenuListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/CitizensSkinPlayer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_8.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/HologramReflection.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/services/BungeeSkinsAPI.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/SkinsCitizensListener.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/WhiteListElement.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandTo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/player/BungeCitizensPlayer.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandNPC.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandPlayer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandUrl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/SkinMenu.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/CommandSkin.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/MenuManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/ItemHead.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/utils/text/Colors.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/configuration/bukkit/menu.conf" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/player/Head.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/Heads.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/listeners/InventoryClickListener.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/CustomMenuManager.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/configuration/bukkit/config.conf" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/Skins.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/configuration/bungee/config.conf" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_13.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/listeners/PlayerQuitListener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/player/HashedSkin.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueLicense.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/SubCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandNPC.java" />
+        <option value="$PROJECT_DIR$/src/test/java/QueueTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/executors/SkinsCitizensExecutor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/executors/SkinsRefreshExecutor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/utils/ThreadPool.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/threads/ThreadPool.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/threads/ThreadWorker.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/csm/api/services/SkinsAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/listeners/PostLoginListener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/player/BungeeSkinPlayer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandPlayer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandReset.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandTo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandUrl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/CommandSkin.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/MessageExecutor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsApply.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/PluginMessageService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/PluginMessageService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/BungeeMenuManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/CustomBungeeMenuManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsMenu.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/executors/SkinsMenuExecutor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/BungeeSkinsAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/Skins.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsCitizens.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/player/BungeeCitizensPlayer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/Skins.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/PluginMessageExecutor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandMenu.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/bungee.yml" />
-        <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
       </list>
     </option>
   </component>
@@ -128,58 +438,93 @@
     <option name="width" value="1612" />
     <option name="height" value="876" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="CustomSkinManager" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CustomSkinManager" type="462c0819:PsiDirectoryNode" />
+              <item name="CustomSkinsManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CustomSkinsManager" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="CustomSkinManager" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CustomSkinManager" type="462c0819:PsiDirectoryNode" />
+              <item name="CustomSkinsManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CustomSkinsManager" type="462c0819:PsiDirectoryNode" />
+              <item name="libs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CustomSkinsManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CustomSkinsManager" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="CustomSkinManager" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CustomSkinManager" type="462c0819:PsiDirectoryNode" />
+              <item name="CustomSkinsManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CustomSkinsManager" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="CustomSkinManager" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CustomSkinManager" type="462c0819:PsiDirectoryNode" />
+              <item name="CustomSkinsManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CustomSkinsManager" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CustomSkinsManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CustomSkinsManager" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="csm" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CustomSkinsManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CustomSkinsManager" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="csm" type="462c0819:PsiDirectoryNode" />
+              <item name="bukkit" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CustomSkinsManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CustomSkinsManager" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="csm" type="462c0819:PsiDirectoryNode" />
+              <item name="bukkit" type="462c0819:PsiDirectoryNode" />
+              <item name="protocol" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554802803138" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../VKAuth" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1558099627490" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.41034484" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors" />
+      <recent name="$PROJECT_DIR$/src/main/java/ru/csm/bungee" />
       <recent name="$PROJECT_DIR$/libs" />
       <recent name="$PROJECT_DIR$/src/main/java/com/comphenix/packetwrapper" />
       <recent name="$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/bungee/subcommands" />
-      <recent name="$PROJECT_DIR$/src/main/java" />
-      <recent name="$PROJECT_DIR$/src/main/java/ru/csm/api/storage" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.comphenix.packetwrapper" />
@@ -231,10 +576,20 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-2" y="-1" width="1924" height="1051" extended-state="6" />
+    <frame x="-2" y="-1" width="1924" height="1049" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28944564" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22068231" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -243,21 +598,22 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32903227" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4978678" weight="0.32903227" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4978678" visible="true" weight="0.32903227" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32903227" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32903227" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5021322" side_tool="true" weight="0.32903227" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32903227" />
+      <window_info anchor="bottom" id="Problems" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" show_stripe_button="false" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="ASM" order="4" show_stripe_button="false" />
-      <window_info active="true" anchor="right" id="Maven" order="5" visible="true" weight="0.118336886" />
+      <window_info anchor="right" id="Maven" order="5" visible="true" weight="0.118336886" />
       <window_info anchor="right" id="Theme Preview" order="6" />
       <window_info anchor="right" id="Capture Analysis" order="7" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
@@ -268,391 +624,380 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_10.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/net/md-5/bungeecord-api/1.12-SNAPSHOT/bungeecord-api-1.12-20180712.114619-97.jar!/net/md_5/bungee/api/plugin/Command.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="76" column="67" lean-forward="true" selection-start-line="76" selection-start-column="67" selection-end-line="76" selection-end-column="69" />
+        <state relative-caret-position="247">
+          <caret line="20" column="11" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/SubCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="27" column="27" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/CommandSkin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1444">
+          <caret line="92" column="60" selection-start-line="92" selection-start-column="60" selection-end-line="92" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/QueueTest.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/player/SkinPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1159">
+          <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/CitizensSkinPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/configuration/bukkit/config.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="9" lean-forward="true" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/threads/ThreadWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="25" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/threads/ThreadPool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/listeners/PostLoginListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-13">
+          <caret line="39" column="9" lean-forward="true" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandNPC.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/NPCService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/player/BungeeSkinPlayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="45" column="9" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="448">
+          <caret line="103" column="26" lean-forward="true" selection-start-line="103" selection-start-column="26" selection-end-line="103" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_9.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-922">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/TargetSkinPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="8" column="61" lean-forward="true" selection-start-line="8" selection-start-column="61" selection-end-line="8" selection-end-column="61" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/net/citizensnpcs/citizens/2.0.24-SNAPSHOT/citizens-2.0.24-20190331.190518-1628.jar!/net/citizensnpcs/api/npc/NPCSelector.class">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandReset.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
-          <caret line="7" column="33" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
+          <caret line="6" column="35" selection-start-line="6" selection-start-column="35" selection-end-line="6" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/network/Channels.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandTo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" column="45" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="45" />
+        <state relative-caret-position="-171">
+          <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandUrl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-243">
+          <caret line="37" column="9" lean-forward="true" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/services/BungeeSkinsAPI.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/CommandSkin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1222">
+          <caret line="104" column="63" selection-start-line="104" selection-start-column="63" selection-end-line="104" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/JsonMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="5" column="26" lean-forward="true" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/BukkitSkinPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="124" column="33" lean-forward="true" selection-start-line="124" selection-start-column="33" selection-end-line="124" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/MessageExecutor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
-          <caret line="6" column="41" lean-forward="true" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+          <caret line="6" column="34" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/net/citizensnpcs/citizens/2.0.24-SNAPSHOT/citizens-2.0.24-20190331.190518-1628.jar!/net/citizensnpcs/npc/skin/Skin.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="6" column="19" lean-forward="true" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/PluginMessageService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsCitizens.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="26" column="22" selection-start-line="26" selection-start-column="15" selection-end-line="26" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/BukkitSkinPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/player/BungeCitizensPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="25" column="23" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/PluginMessageService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/Skins.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1045">
-          <caret line="77" column="5" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/services/BungeeSkinsAPI.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/executors/SkinsRefreshExecutor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
-          <caret line="44" column="60" selection-start-line="44" selection-start-column="60" selection-end-line="44" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/player/CitizensSkinPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="41" column="27" lean-forward="true" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/SkinsRefreshListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/SkinsMenuListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-266">
-          <caret line="21" column="63" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/SkinsCitizensListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="32" column="13" lean-forward="true" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/WhiteListElement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="29" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueMojang.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="671">
-          <caret line="205" column="42" lean-forward="true" selection-start-line="205" selection-start-column="8" selection-end-line="205" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/player/Skin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1254">
-          <caret line="69" column="5" lean-forward="true" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandTo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1653">
-          <caret line="101" column="17" lean-forward="true" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandNPC.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="44" column="24" lean-forward="true" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/lang/ru.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="1" lean-forward="true" selection-start-column="1" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/subcommands/CommandUrl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="519">
-          <caret line="59" column="21" lean-forward="true" selection-start-line="59" selection-start-column="21" selection-end-line="59" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/BungeeMenuManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/ItemHead.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/storage/Language.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="25" column="40" lean-forward="true" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/utils/text/Colors.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
           <caret line="28" column="9" lean-forward="true" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/commands/CommandSkin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="95" column="9" lean-forward="true" selection-start-line="95" selection-start-column="9" selection-end-line="95" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/SkinMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="42" column="9" selection-start-line="36" selection-start-column="8" selection-end-line="42" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/player/Head.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="912">
-          <caret line="51" column="37" selection-start-line="51" selection-start-column="37" selection-end-line="51" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/Heads.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="18" column="9" lean-forward="true" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/MenuManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-779">
-          <caret line="16" column="26" lean-forward="true" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/lang/en.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="1" selection-start-column="1" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/listeners/InventoryClickListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="62" column="21" lean-forward="true" selection-start-line="62" selection-start-column="21" selection-end-line="62" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/configuration/bukkit/menu.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" column="9" lean-forward="true" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/CustomMenuManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1482">
-          <caret line="78" column="12" lean-forward="true" selection-start-line="78" selection-start-column="12" selection-end-line="78" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/configuration/bukkit/config.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="13" column="21" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/storage/database/MySQLDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="247" column="9" lean-forward="true" selection-start-line="247" selection-start-column="9" selection-end-line="247" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/storage/database/Database.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="29" column="4" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueMineSkin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="51" column="21" lean-forward="true" selection-start-line="51" selection-start-column="21" selection-end-line="51" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/upload/QueueLicense.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="65" column="13" lean-forward="true" selection-start-line="65" selection-start-column="13" selection-end-line="65" selection-end-column="13" />
-          <folding>
-            <element signature="e#700#1602#0" expanded="true" />
-            <element signature="e#1601#1602#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/configuration/bungee/config.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/Skins.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1235">
-          <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="28" lean-forward="true" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/bungee.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="17" lean-forward="true" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/services/SkinsAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="119" column="37" selection-start-line="119" selection-start-column="37" selection-end-line="119" selection-end-column="37" />
+        <state relative-caret-position="377">
+          <caret line="312" column="27" lean-forward="true" selection-start-line="312" selection-start-column="27" selection-end-line="312" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/PluginMessageService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/executors/SkinsCitizensExecutor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="34" column="9" lean-forward="true" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/PluginMessageService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/SkinMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/Heads.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/protocol/NPCService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6">
+          <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/CustomBungeeMenuManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="62" selection-start-line="2" selection-start-column="62" selection-end-line="2" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/MenuManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="899">
+          <caret line="116" column="26" lean-forward="true" selection-start-line="116" selection-start-column="26" selection-end-line="116" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/CustomMenuManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="94" column="51" lean-forward="true" selection-start-line="94" selection-start-column="51" selection-end-line="94" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/gui/managers/BungeeMenuManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/listeners/InventoryClickListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="42" column="33" lean-forward="true" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/BungeeSkinsAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="16" column="27" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="24" column="5" lean-forward="true" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsCitizens.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="31" column="50" lean-forward="true" selection-start-line="31" selection-start-column="50" selection-end-line="31" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/player/BungeeCitizensPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="29" lean-forward="true" selection-start-column="29" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsApply.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="16" column="23" lean-forward="true" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorCommandUrl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorCommandReset.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/network/executors/ExecutorCommandPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/upload/entity/Profile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="12" column="22" lean-forward="true" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/api/serializers/ProfileSerializer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="13" column="21" lean-forward="true" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/Skins.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="798">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/executors/SkinsMenuExecutor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/Skins.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-950">
+          <caret line="83" selection-start-line="83" selection-end-line="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bukkit/network/PluginMessageExecutor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="30" column="9" lean-forward="true" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dependency-reduced-pom.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/csm/bungee/commands/subcommands/CommandMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="50" column="9" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="121" column="21" lean-forward="true" selection-start-line="121" selection-start-column="21" selection-end-line="121" selection-end-column="21" />
         </state>
       </provider>
     </entry>

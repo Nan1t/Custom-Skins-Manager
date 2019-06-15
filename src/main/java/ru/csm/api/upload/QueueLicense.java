@@ -1,5 +1,6 @@
 package ru.csm.api.upload;
 
+import ru.csm.api.player.HashedSkin;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.MojangAPI;
@@ -60,12 +61,14 @@ public class QueueLicense extends QueueService {
             Skin skin = MojangAPI.getPremiumSkin(targetUUID);
 
             if(skin != null){
-                api.hashSkin(targetName, skin);
+                HashedSkin hashedSkin = new HashedSkin(targetName, System.currentTimeMillis() + 60000);
+                hashedSkin.setValue(skin.getValue());
+                hashedSkin.setSignature(skin.getSignature());
+
+                api.hashSkin(targetName, hashedSkin);
                 setSkin(request.getSender(), targetName, skin);
                 return;
             }
-
-            api.hashSkin(targetName, api.getDefaultSkin());
         }
 
         request.getSender().sendMessage(lang.of("skin.name.error"));

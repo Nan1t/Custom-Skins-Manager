@@ -5,6 +5,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.npc.skin.SkinnableEntity;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import ru.csm.api.player.SkinModel;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Language;
@@ -15,11 +16,13 @@ import ru.csm.bukkit.player.CitizensSkinPlayer;
 
 public class CommandNPC extends SubCommand {
 
+    private Plugin plugin;
     private SkinsAPI api;
     private Language lang;
 
-    public CommandNPC(SkinsAPI api){
+    public CommandNPC(Plugin plugin, SkinsAPI api){
         super("csm.skin.npc","/skin npc <npc> <url> [slim]");
+        this.plugin = plugin;
         this.api = api;
         this.lang = api.getLang();
     }
@@ -60,7 +63,7 @@ public class CommandNPC extends SubCommand {
                 }
             }
 
-            CitizensSkinPlayer skinPlayer = new CitizensSkinPlayer((Player) sender, selectedNPC);
+            CitizensSkinPlayer skinPlayer = new CitizensSkinPlayer(plugin, (Player)sender, selectedNPC);
             api.setSkinFromImage(skinPlayer, url, model);
         }
 

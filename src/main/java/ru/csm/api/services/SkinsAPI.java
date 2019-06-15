@@ -1,12 +1,9 @@
 package ru.csm.api.services;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ru.csm.api.WhiteListElement;
-import ru.csm.api.player.Skin;
-import ru.csm.api.player.SkinModel;
-import ru.csm.api.player.SkinPlayer;
+import ru.csm.api.player.*;
 import ru.csm.api.storage.Language;
+import ru.csm.api.threads.ThreadWorker;
 import ru.csm.api.upload.QueueLicense;
 import ru.csm.api.upload.QueueMineSkin;
 import ru.csm.api.upload.QueueMojang;
@@ -18,7 +15,6 @@ import ru.csm.api.storage.database.Row;
 import ru.csm.api.upload.entity.RequestImage;
 import ru.csm.api.upload.entity.RequestLicense;
 import ru.csm.api.upload.entity.SkinRequest;
-import ru.csm.api.player.Head;
 import ru.csm.bukkit.player.CitizensSkinPlayer;
 
 import java.util.*;
@@ -32,7 +28,7 @@ public class SkinsAPI {
 
     private TreeMap<UUID, SkinPlayer> playersByUUID = new TreeMap<>();
     private TreeMap<String, SkinPlayer> playersByName = new TreeMap<>();
-    private TreeMap<String, Skin> namedSkinHash = new TreeMap<>();
+    private TreeMap<String, HashedSkin> namedSkinHash = new TreeMap<>();
 
     private List<String> blacklist = new ArrayList<>();
     private Map<String, WhiteListElement> nicknamesWhitelist = new TreeMap<>();
@@ -48,8 +44,9 @@ public class SkinsAPI {
     private QueueService imageSkinsQueue;
 
     private Random random = new Random();
+    private Timer cleanTimer = new Timer();
 
-    public SkinsAPI(Database database, Configuration conf, Language lang) throws ObjectMappingException {
+    public SkinsAPI(Database database, Configuration conf, Language lang) {
         this.database = database;
         this.conf = conf;
         this.lang = lang;
@@ -72,6 +69,8 @@ public class SkinsAPI {
 
         licenseSkinsQueue.start();
         imageSkinsQueue.start();
+
+        startCleaner();
     }
 
     public Configuration getConfiguration(){
@@ -102,6 +101,23 @@ public class SkinsAPI {
         return imageSkinsQueue;
     }
 
+    private void startCleaner(){
+        cleanTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                namedSkinHash.values().forEach((skin)->{
+                    if(System.currentTimeMillis() > skin.getExpiryTime()){
+                        namedSkinHash.remove(skin.getName());
+                    }
+                });
+            }
+        }, 0, 1000);
+    }
+
+    public void stopCleaner(){
+        cleanTimer.cancel();
+    }
+
     private void parseDefaultSkins(){
         List<LinkedHashMap> list = (ArrayList<LinkedHashMap>)conf.get().getNode("skins", "default").getValue();
 
@@ -123,7 +139,7 @@ public class SkinsAPI {
         boolean enableUrlWhiteList = conf.get().getNode("skins", "whitelist", "url", "enable").getBoolean();
 
         if(enableNicknamesWhiteList){
-            List<String> list = (ArrayList<String>)conf.get().getNode("skins", "whitelist", "nicknames", "list").getValue();
+            List<String> list = (ArrayList<String>) conf.get().getNode("skins", "whitelist", "nicknames", "list").getValue();
 
             for(String str : list){
                 WhiteListElement elem = null;
@@ -142,7 +158,7 @@ public class SkinsAPI {
             }
         } else {
             if(enableBlacklist){
-                blacklist = (ArrayList<String>)conf.get().getNode("skins", "blacklist", "list").getValue();
+                blacklist = (ArrayList<String>) conf.get().getNode("skins", "blacklist", "list").getValue();
                 blacklist = toLowerCase(blacklist);
             }
         }
@@ -169,12 +185,10 @@ public class SkinsAPI {
     }
 
     private List<String> toLowerCase(List<String> list){
-        List<String> newList = new ArrayList<>();
-        for(String str : list){
-            newList.add(str.toLowerCase());
+        for (int i = 0; i < list.size(); i++){
+            list.set(i, list.get(i).toLowerCase());
         }
-
-        return newList;
+        return list;
     }
 
     /**
@@ -283,7 +297,7 @@ public class SkinsAPI {
      * @param name - Name of the premium player
      * @param skin - Skin object
      */
-    public void hashSkin(String name, Skin skin){
+    public void hashSkin(String name, HashedSkin skin){
         namedSkinHash.put(name.toLowerCase(), skin);
     }
 
@@ -412,7 +426,7 @@ public class SkinsAPI {
     }
 
     /**
-     * Save the player data into current storage (locale or remote database)
+     * Save the player data into current storage (local or remote database)
      * @param player - Object of a player
      * */
     public void savePlayer(SkinPlayer player){
@@ -420,7 +434,7 @@ public class SkinsAPI {
             return;
         }
 
-        new Thread(()->{
+        ThreadWorker.execute(()->{
             Row row = new Row();
 
             row.addField("name", player.getName());
@@ -435,11 +449,11 @@ public class SkinsAPI {
             }
 
             database.updateRow(Tables.SKINS, "uuid", player.getUUID().toString(), row);
-        }).start();
+        });
     }
 
     public void createPlayer(SkinPlayer player){
-        new Thread(()->{
+        ThreadWorker.execute(()->{
             Row row = new Row();
 
             row.addField("uuid", player.getUUID());
@@ -448,6 +462,6 @@ public class SkinsAPI {
             row.addField("default_signature", player.getDefaultSkin().getSignature());
 
             database.createRow(Tables.SKINS, row);
-        }).start();
+        });
     }
 }

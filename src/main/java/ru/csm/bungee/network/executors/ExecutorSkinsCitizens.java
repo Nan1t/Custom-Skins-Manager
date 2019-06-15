@@ -7,7 +7,8 @@ import ru.csm.api.player.SkinModel;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.bungee.network.JsonMessage;
 import ru.csm.bungee.network.MessageExecutor;
-import ru.csm.bungee.player.BungeCitizensPlayer;
+import ru.csm.bungee.network.PluginMessageService;
+import ru.csm.bungee.player.BungeeCitizensPlayer;
 
 import java.util.UUID;
 
@@ -28,7 +29,7 @@ public class ExecutorSkinsCitizens implements MessageExecutor {
         String url = json.get("url").getAsString();
         SkinModel model = SkinModel.fromName(json.get("model").getAsString());
 
-        BungeCitizensPlayer player = new BungeCitizensPlayer(proxiedPlayer, npcUUID);
+        BungeeCitizensPlayer player = new BungeeCitizensPlayer(proxiedPlayer, npcUUID);
         api.setSkinFromImage(player, url, model);
         return null;
     }

@@ -5,6 +5,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.npc.skin.SkinnableEntity;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 public class CitizensSkinPlayer implements SkinPlayer<Player> {
 
-
+    private Plugin plugin;
     private NPC npc;
     private SkinnableEntity skinnableEntity;
     private Player playerNPC;
@@ -22,7 +23,8 @@ public class CitizensSkinPlayer implements SkinPlayer<Player> {
 
     private Skin skin;
 
-    public CitizensSkinPlayer(Player sender, NPC npc){
+    public CitizensSkinPlayer(Plugin plugin, Player sender, NPC npc){
+        this.plugin = plugin;
         this.sender = sender;
         this.npc = npc;
         this.skinnableEntity = (SkinnableEntity)npc.getEntity();
@@ -88,7 +90,7 @@ public class CitizensSkinPlayer implements SkinPlayer<Player> {
                 npc.despawn();
                 npc.spawn(loc);
             }
-        }.runTask(Skins.getPlugin());
+        }.runTask(plugin);
     }
 
     @Override

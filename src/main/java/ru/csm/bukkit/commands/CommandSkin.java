@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import org.bukkit.plugin.Plugin;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
@@ -20,14 +21,16 @@ public class CommandSkin implements CommandExecutor {
     private Map<String, SubCommand> playerSubCommands = new HashMap<>();
     private Map<String, SubCommand> adminSubCommands = new HashMap<>();
 
+    private Plugin plugin;
     private SkinsAPI api;
-    private Configuration conf;
+    private Configuration menuConf;
     private Language lang;
     private MenuManager menuManager;
 
-    public CommandSkin(SkinsAPI api, Configuration conf, Language lang, MenuManager menuManager) {
+    public CommandSkin(Plugin plugin, SkinsAPI api, Configuration menuConf, Language lang, MenuManager menuManager) {
+        this.plugin = plugin;
         this.api = api;
-        this.conf = conf;
+        this.menuConf = menuConf;
         this.lang = lang;
         this.menuManager = menuManager;
 
@@ -87,9 +90,9 @@ public class CommandSkin implements CommandExecutor {
         playerSubCommands.put("player", new CommandPlayer(api, lang));
         playerSubCommands.put("url", new CommandUrl(api, lang));
         playerSubCommands.put("reset", new CommandReset(api, lang));
-        playerSubCommands.put("npc", new CommandNPC(api));
+        playerSubCommands.put("npc", new CommandNPC(plugin, api));
 
-        ConfigurationNode node = Skins.getMenuConf().get();
+        ConfigurationNode node = menuConf.get();
 
         if(node.getNode("auto", "enable").getBoolean() || node.getNode("custom", "enable").getBoolean()){
             playerSubCommands.put("menu", new CommandMenu(menuManager, lang));
@@ -97,12 +100,9 @@ public class CommandSkin implements CommandExecutor {
 
         // Admin or console commands
         SubCommand commandTo = new CommandTo(api, lang);
-        SubCommand commandReload = new CommandReload();
 
         playerSubCommands.put("to", commandTo);
-        playerSubCommands.put("reload", commandReload);
         adminSubCommands.put("to", commandTo);
-        adminSubCommands.put("reload", commandReload);
     }
 
 }

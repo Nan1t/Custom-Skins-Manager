@@ -1,19 +1,15 @@
 package ru.csm.bukkit.protocol.hologram;
 
-import com.comphenix.packetwrapper.OldWrapperPlayServerNamedEntitySpawn;
 import com.comphenix.packetwrapper.OldWrapperPlayServerSpawnEntityLiving;
 import com.comphenix.packetwrapper.WrapperPlayServerEntityDestroy;
-import com.comphenix.packetwrapper.WrapperPlayServerSpawnEntityLiving;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import ru.csm.bukkit.Skins;
-import ru.csm.bukkit.protocol.HologramReflection;
 
 import java.util.Random;
-import java.util.UUID;
 
 public class Holo_1_8 implements Hologram {
 

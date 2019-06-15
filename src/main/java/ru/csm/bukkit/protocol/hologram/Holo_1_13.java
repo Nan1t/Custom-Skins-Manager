@@ -2,12 +2,14 @@ package ru.csm.bukkit.protocol.hologram;
 
 import com.comphenix.packetwrapper.WrapperPlayServerEntityDestroy;
 import com.comphenix.packetwrapper.WrapperPlayServerSpawnEntityLiving;
+import com.comphenix.protocol.utility.MinecraftReflection;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import ru.csm.bukkit.protocol.HologramReflection;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -60,9 +62,15 @@ public class Holo_1_13 implements Hologram {
     public void setText(String text){
         this.text = text;
 
-        WrappedDataWatcher.Serializer chatSerializer = WrappedDataWatcher.Registry.getChatComponentSerializer(true);
-        Object chatComponent = HologramReflection.getOptionalChatComponent(text);
-        watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(2, chatSerializer), chatComponent);
+        try{
+            WrappedDataWatcher.Serializer chatSerializer = WrappedDataWatcher.Registry.getChatComponentSerializer(true);
+            Class<?> chatComponentClass = MinecraftReflection.getChatComponentTextClass();
+            Object chatComponent = chatComponentClass.getConstructor(String.class).newInstance(text);
+
+            watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(2, chatSerializer), Optional.of(chatComponent));
+        } catch (ReflectiveOperationException e){
+            e.printStackTrace();
+        }
     }
 
     public void show(Player player){
