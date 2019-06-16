@@ -9,7 +9,6 @@
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bungee/commands/subcommands/CommandMenu.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerHeldItemSlot.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerSpawnEntity.java
-/home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/events/SkinResetEvent.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bungee/network/JsonMessage.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerEntityEquipment.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/player/CitizensSkinPlayer.java
@@ -49,6 +48,7 @@
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsCitizens.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/commands/subcommands/CommandMenu.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_9.java
+/home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_14.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bungee/network/executors/ExecutorCommandReset.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/commands/SubCommand.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/api/http/entity/RequestMethod.java
@@ -62,13 +62,13 @@
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/api/storage/database/Database.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/api/player/SkinModel.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/network/executors/SkinsRefreshExecutor.java
-/home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/events/SkinChangedEvent.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/api/http/HttpRequest.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/api/http/entity/HttpEntity.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_13.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/api/upload/QueueMineSkin.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bungee/network/executors/ExecutorCommandUrl.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/gui/Heads.java
+/home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/protocol/hologram/Holo_1_14.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/gui/SkinMenu.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/gui/managers/MenuManager.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/gui/managers/CustomMenuManager.java
