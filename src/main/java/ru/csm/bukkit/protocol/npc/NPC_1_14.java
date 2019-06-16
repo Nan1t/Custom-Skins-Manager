@@ -1,12 +1,14 @@
 package ru.csm.bukkit.protocol.npc;
 
-import com.comphenix.packetwrapper.*;
+import com.comphenix.packetwrapper.WrapperPlayServerEntityDestroy;
+import com.comphenix.packetwrapper.WrapperPlayServerEntityHeadRotation;
+import com.comphenix.packetwrapper.WrapperPlayServerNamedEntitySpawn;
+import com.comphenix.packetwrapper.WrapperPlayServerPlayerInfo;
 import com.comphenix.protocol.wrappers.*;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import ru.csm.api.player.Skin;
-import ru.csm.bukkit.protocol.hologram.Holo_1_13;
-import ru.csm.bukkit.protocol.hologram.Holo_1_9;
+import ru.csm.bukkit.protocol.hologram.Holo_1_14;
 import ru.csm.bukkit.protocol.hologram.Hologram;
 
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public class NPC_1_13 implements NPC {
+public class NPC_1_14 implements NPC {
 
     private WrapperPlayServerNamedEntitySpawn wrapper;
     private WrapperPlayServerPlayerInfo info;
@@ -55,7 +57,7 @@ public class NPC_1_13 implements NPC {
         return entityId;
     }
 
-    public NPC_1_13(UUID uuid, String name){
+    public NPC_1_14(UUID uuid, String name){
         this.uuid = uuid;
         this.name = name;
 
@@ -73,6 +75,7 @@ public class NPC_1_13 implements NPC {
         WrappedDataWatcher watcher = new WrappedDataWatcher();
         WrappedDataWatcher.Serializer byteSerializer = WrappedDataWatcher.Registry.get(Byte.class);
         watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(0, byteSerializer), (byte) 0x4);
+
         watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(13, byteSerializer), (byte) 0x02);
         watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(13, byteSerializer), (byte) 0x04);
         watcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(13, byteSerializer), (byte) 0x08);
@@ -111,7 +114,7 @@ public class NPC_1_13 implements NPC {
 
         for(int i = count; i > 0; i--){
             double height = 1.75d + holoHeight*i;
-            Hologram hologram = new Holo_1_13(getLocation().clone().add(0, height,0));
+            Hologram hologram = new Holo_1_14(getLocation().clone().add(0, height,0));
             hologram.setText(lines.get(i-1));
             customName.add(hologram);
         }

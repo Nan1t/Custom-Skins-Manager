@@ -9,7 +9,6 @@ import org.bukkit.plugin.Plugin;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
-import ru.csm.bukkit.Skins;
 import ru.csm.bukkit.commands.subcommands.*;
 import ru.csm.bukkit.gui.managers.MenuManager;
 

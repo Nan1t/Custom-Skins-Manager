@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 public class Configuration {
 
     private Path file;
-    private CommentedConfigurationNode node;
+    private CommentedConfigurationNode rootNode;
     private ConfigurationLoader<CommentedConfigurationNode> loader;
 
     /**
@@ -67,7 +67,7 @@ public class Configuration {
      * */
     public void load(){
         try {
-            node = loader.load();
+            rootNode = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,7 +78,7 @@ public class Configuration {
      * */
     public void save(){
         try {
-            loader.save(node);
+            loader.save(rootNode);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,7 +88,13 @@ public class Configuration {
      * Get root node
      * */
     public CommentedConfigurationNode get(){
-        return this.node;
+        return this.rootNode;
     }
 
+    /**
+     * Get file path
+     * */
+    public Path getFile(){
+        return file;
+    }
 }

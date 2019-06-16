@@ -5,6 +5,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -52,11 +53,11 @@ public class NpcClickListener extends PacketAdapter {
             SkinMenu menu = menuManager.getPlayerCurrentMenu(player.getUniqueId());
 
             if(menu != null){
-                menuManager.openMenu(player, menu);
+                openMenu(player, menu);
                 return;
             }
 
-            menuManager.openMenu(player, 1);
+            openMenu(player, 1);
             return;
         }
 
@@ -72,5 +73,19 @@ public class NpcClickListener extends PacketAdapter {
             api.setCustomSkin(skinPlayer, clicked.getSkin());
             clicked.destroy();
         }
+    }
+
+    private void openMenu(Player player, SkinMenu menu){
+        Bukkit.getScheduler().callSyncMethod(getPlugin(), ()->{
+            menuManager.openMenu(player, menu);
+            return true;
+        });
+    }
+
+    private void openMenu(Player player, int page){
+        Bukkit.getScheduler().callSyncMethod(getPlugin(), ()->{
+            menuManager.openMenu(player, page);
+            return true;
+        });
     }
 }

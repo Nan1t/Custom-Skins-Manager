@@ -1,16 +1,20 @@
-name: CustomSkinsManager
-main: ru.csm.bukkit.Skins
-version: 2.0.2
-api-version: 1.13
-author: _Nanit_
+name: 'CustomSkinsManager'
+main: 'ru.csm.bukkit.Skins'
+version: '2.0.2'
+api-version: '1.13'
+author: '_Nanit_'
 depend:
   - "ProtocolLib"
 softdepend:
   - "Citizens"
 commands:
   csm:
-    description: Custom Skins Manager main command
+    description: 'Custom Skins Manager main command'
     aliases: ["skin", "skins"]
+  csmskull:
+    permission: 'csm.skulls'
+    description: 'Custom Skins Manager skull command'
+    aliases: ["skull"]
 permissions:
   csm.skin.player:
     description: "Allow to setup skin from license name"
@@ -26,3 +30,5 @@ permissions:
     description: "Allow to setup skins for any player"
   csm.admin:
     description: "Allow to use '/csm reload' command. More information see on spigotmc"
+  csm.skulls:
+    description: "Allow to use '/skull <player>' command. More information see on spigotmc"

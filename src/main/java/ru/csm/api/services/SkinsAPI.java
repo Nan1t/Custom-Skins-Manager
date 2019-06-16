@@ -15,6 +15,7 @@ import ru.csm.api.storage.database.Row;
 import ru.csm.api.upload.entity.RequestImage;
 import ru.csm.api.upload.entity.RequestLicense;
 import ru.csm.api.upload.entity.SkinRequest;
+import ru.csm.api.utils.UuidUtil;
 import ru.csm.bukkit.player.CitizensSkinPlayer;
 
 import java.util.*;
@@ -371,6 +372,44 @@ public class SkinsAPI {
             }
             return new Head(player.getUUID(), player.getName(), skin);
         }
+        return null;
+    }
+
+    /**
+     * Get player head by name with her current skin (custom or default)
+     * @param playerName Name of the player
+     * @return Head object if player exist or null otherwise
+     */
+    public Head getPlayerHead(String playerName){
+        SkinPlayer player = getPlayer(playerName);
+
+        if(player != null){
+            Skin skin = player.getCustomSkin();
+
+            if(skin == null){
+                skin = player.getDefaultSkin();
+            }
+
+            return new Head(player.getUUID(), player.getName(), skin);
+        }
+
+        Row row = database.getRow(Tables.SKINS, "name", playerName);
+
+        if(row != null){
+            UUID uuid = UuidUtil.getUUID(row.getField("uuid").toString());
+            Skin skin = new Skin();
+
+            if(row.getField("custom_value") != null){
+                skin.setValue(row.getField("custom_value").toString());
+                skin.setSignature(row.getField("custom_signature").toString());
+            } else{
+                skin.setValue(row.getField("default_value").toString());
+                skin.setSignature(row.getField("default_signature").toString());
+            }
+
+            return new Head(uuid, playerName, skin);
+        }
+
         return null;
     }
 

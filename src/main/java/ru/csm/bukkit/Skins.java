@@ -21,6 +21,7 @@ import ru.csm.api.storage.database.MySQLDatabase;
 import ru.csm.api.storage.database.SQLiteDatabase;
 import ru.csm.api.upload.entity.Profile;
 import ru.csm.bukkit.commands.CommandSkin;
+import ru.csm.bukkit.commands.CommandSkull;
 import ru.csm.bukkit.gui.managers.BungeeMenuManager;
 import ru.csm.bukkit.gui.managers.CustomMenuManager;
 import ru.csm.bukkit.gui.managers.MenuManager;
@@ -76,6 +77,7 @@ public class Skins extends JavaPlugin {
                 api = new SkinsAPI(database, configuration, lang);
                 menuManager = isCustomMenu ? new CustomMenuManager(menuConf, lang, api) : new MenuManager(menuConf, lang, api);
                 getCommand("csm").setExecutor(new CommandSkin(this, api, menuConf, lang, menuManager));
+                getCommand("csmskull").setExecutor(new CommandSkull(api, lang));
             } else {
                 api = new BungeeSkinsAPI(database, configuration, lang, pmService);
                 menuManager = new BungeeMenuManager(menuConf, lang, api, pmService);

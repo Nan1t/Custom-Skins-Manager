@@ -12,8 +12,6 @@ import org.bukkit.entity.Player;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.bukkit.Skins;
-import ru.csm.bukkit.events.SkinChangedEvent;
-import ru.csm.bukkit.events.SkinResetEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +68,6 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
     @Override
     public void setCustomSkin(Skin skin) {
         this.customSkin = skin;
-        Bukkit.getPluginManager().callEvent(new SkinChangedEvent(this, skin));
     }
 
     @Override
@@ -81,9 +78,7 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
             currentSkin = customSkin;
         }
 
-        WrappedSignedProperty property = new WrappedSignedProperty("textures",
-                currentSkin.getValue(),
-                currentSkin.getSignature());
+        WrappedSignedProperty property = new WrappedSignedProperty("textures", currentSkin.getValue(), currentSkin.getSignature());
         profile.getProperties().removeAll("textures");
         profile.getProperties().put("textures", property);
     }
@@ -110,18 +105,6 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
             respawnPacket.getGameModes().write(0, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()));
             respawnPacket.getWorldTypeModifier().write(0, player.getWorld().getWorldType());
 
-            switch (player.getWorld().getEnvironment()){
-                case NETHER:
-                    respawnPacket.getDimensions().write(0, -1);
-                    break;
-                case NORMAL:
-                    respawnPacket.getDimensions().write(0, 0);
-                    break;
-                case THE_END:
-                    respawnPacket.getDimensions().write(0, 1);
-                    break;
-            }
-
             // For version < 1.14
             if(Skins.getSubVersion() < 14){
                 respawnPacket.getDifficulties().write(0, EnumWrappers.Difficulty.PEACEFUL);
@@ -133,6 +116,20 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
                 spawn.setPosition(player.getLocation().toVector());
                 spawn.setYaw(player.getLocation().getYaw());
                 spawn.setPitch(player.getLocation().getPitch());
+            }
+
+            if(Skins.getSubVersion() >= 13){
+                switch (player.getWorld().getEnvironment()){
+                    case NETHER:
+                        respawnPacket.getDimensions().write(0, -1);
+                        break;
+                    case NORMAL:
+                        respawnPacket.getDimensions().write(0, 0);
+                        break;
+                    case THE_END:
+                        respawnPacket.getDimensions().write(0, 1);
+                        break;
+                }
             }
 
             WrapperPlayServerPosition position = new WrapperPlayServerPosition();
@@ -185,7 +182,6 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
     @Override
     public void resetSkin() {
         this.customSkin = null;
-        Bukkit.getPluginManager().callEvent(new SkinResetEvent(this));
     }
 
     @Override

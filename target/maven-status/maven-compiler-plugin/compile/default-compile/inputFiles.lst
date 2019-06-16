@@ -17,6 +17,7 @@
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/protocol/npc/NPC_1_9.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/api/player/Skin.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/api/player/Head.java
+/home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/commands/CommandSkull.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/commands/subcommands/CommandUrl.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/commands/subcommands/CommandTo.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bungee/network/executors/ExecutorSkinsApply.java

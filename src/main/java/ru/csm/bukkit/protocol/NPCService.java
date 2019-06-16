@@ -44,6 +44,9 @@ public class NPCService {
         else if (version == 13){
             npc = new NPC_1_13(uuid, name);
         }
+        else if (version == 14){
+            npc = new NPC_1_14(uuid, name);
+        }
         else {
             npc = new NPC_1_10(uuid, name);
         }
