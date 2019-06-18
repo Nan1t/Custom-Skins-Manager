@@ -106,15 +106,7 @@ public class SkinsAPI {
         cleanTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                List<String> toRem = new ArrayList<>();
-
-                for(HashedSkin skin : namedSkinHash.values()){
-                    toRem.add(skin.getName());
-                }
-
-                for(String name : toRem){
-                    namedSkinHash.remove(name);
-                }
+                namedSkinHash.entrySet().removeIf(entry -> entry.getValue().getExpiryTime() < System.currentTimeMillis());
             }
         }, 0, 1000);
     }
