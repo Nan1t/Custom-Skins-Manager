@@ -5,12 +5,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLiteDatabase extends Database {
+public class SQLiteDatabase implements Database {
 
     private Connection connection;
 
     public SQLiteDatabase(String url, String database, String user, String password) throws SQLException {
-        super(url, 3306, database, user, password);
 
         try{
             Class.forName("org.sqlite.JDBC");

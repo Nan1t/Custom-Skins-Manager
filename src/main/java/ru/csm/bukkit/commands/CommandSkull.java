@@ -9,6 +9,7 @@ import ru.csm.api.player.Head;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Language;
 import ru.csm.bukkit.gui.Heads;
+import ru.csm.bukkit.gui.Skull;
 
 public class CommandSkull implements CommandExecutor {
 
@@ -47,6 +48,12 @@ public class CommandSkull implements CommandExecutor {
             if(!sender.hasPermission("csm.skulls.admin")){
                 sender.sendMessage(lang.of("permission.deny"));
                 return false;
+            }
+
+            if(args[0].equals("url")){
+                String url = args[1];
+                player.getInventory().addItem(Skull.getCustomSkull(url));
+                return true;
             }
 
             Player target = Bukkit.getPlayer(args[1]);

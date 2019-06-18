@@ -3,41 +3,37 @@ package ru.csm.api.storage.database;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class Database {
+public interface Database {
 
-    public Database(String url, int port, String database, String user, String password) throws SQLException {
+    Connection getConnection();
 
-    }
+    void closeConnection();
 
-    public abstract Connection getConnection();
+    Row getRow(String table, String key, Object value);
 
-    public abstract void closeConnection();
+    Row getRow(String table, String key1, Object value1, String key2, Object value2);
 
-    public abstract Row getRow(String table, String key, Object value);
+    Row[] getAllRows(String table);
 
-    public abstract Row getRow(String table, String key1, Object value1, String key2, Object value2);
+    Row[] getRows(String table, String key, Object value);
 
-    public abstract Row[] getAllRows(String table);
+    Row[] getRows(String table, String key1, Object value1, String key2, Object value2);
 
-    public abstract Row[] getRows(String table, String key, Object value);
+    Row[] getRowsWithRequest(String request);
 
-    public abstract Row[] getRows(String table, String key1, Object value1, String key2, Object value2);
+    void createRow(String table, Row row);
 
-    public abstract Row[] getRowsWithRequest(String request);
+    void updateRow(String table, String key, Object value, Row newRow);
 
-    public abstract void createRow(String table, Row row);
+    Object getObject(String table, String column, String key, String value);
 
-    public abstract void updateRow(String table, String key, Object value, Row newRow);
+    void setObject(String table, String column, Object content, String key, Object value);
 
-    public abstract Object getObject(String table, String column, String key, String value);
+    void setObject(String table, String column, Object content, String key1, Object value1, String key2, Object value2);
 
-    public abstract void setObject(String table, String column, Object content, String key, Object value);
+    void removeRow(String table, String key, String value);
 
-    public abstract void setObject(String table, String column, Object content, String key1, Object value1, String key2, Object value2);
+    void executeSQL(String request);
 
-    public abstract void removeRow(String table, String key, String value);
-
-    public abstract void executeSQL(String request);
-
-    public abstract boolean existsRow(String table, String key, Object value);
+    boolean existsRow(String table, String key, Object value);
 }

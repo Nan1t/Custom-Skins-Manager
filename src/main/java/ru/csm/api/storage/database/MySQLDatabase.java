@@ -1,44 +1,48 @@
 package ru.csm.api.storage.database;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySQLDatabase extends Database {
+public class MySQLDatabase implements Database {
 
-    private Connection connection;
+    private HikariDataSource dataSource;
 
-    public MySQLDatabase(String url, int port, String database, String user, String password) throws SQLException {
-        super(url, port, database, user, password);
-
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://" + url + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false", user, password);
-        }catch (Exception e){
-            System.out.println("Error while connection to MySQL database. Yu should check connection params");
-        }
+    public MySQLDatabase(String url, int port, String database, String user, String password) {
+        HikariConfig conf = new HikariConfig();
+        conf.setJdbcUrl("jdbc:mysql://" + url + ":" + port + "/" + database + "?characterEncoding=utf8");
+        conf.setUsername(user);
+        conf.setPassword(password);
+        conf.addDataSourceProperty("connectionTimeout", 30000);
+        conf.addDataSourceProperty("idleTimeout", 60000);
+        conf.addDataSourceProperty("maxLifetime", 90000);
+        conf.addDataSourceProperty("maximumPoolSize", 4);
+        dataSource = new HikariDataSource(conf);
     }
 
     @Override
     public Connection getConnection() {
-        return connection;
+        try{
+            return dataSource.getConnection();
+        } catch (SQLException e){
+            return null;
+        }
     }
 
     @Override
     public void closeConnection(){
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        dataSource.close();
     }
 
     @Override
     public Row getRow(String table, String key, Object value) {
         Row row = null;
 
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE LOWER("+key+") LIKE LOWER(?)");
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE LOWER("+key+") LIKE LOWER(?)")){
             statement.setObject(1, value);
 
             ResultSet result = statement.executeQuery();
@@ -63,8 +67,8 @@ public class MySQLDatabase extends Database {
     public Row getRow(String table, String key1, Object value1, String key2, Object value2) {
         Row row = null;
 
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE LOWER("+key1+") LIKE LOWER(?) AND LOWER("+key2+") LIKE LOWER(?)");
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE LOWER("+key1+") LIKE LOWER(?) AND LOWER("+key2+") LIKE LOWER(?)")){
             statement.setObject(1, value1);
             statement.setObject(2, value2);
 
@@ -90,8 +94,8 @@ public class MySQLDatabase extends Database {
     public Row[] getRows(String table, String key, Object value) {
         List<Row> rows;
 
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE LOWER("+key+") LIKE LOWER(?)");
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE LOWER("+key+") LIKE LOWER(?)")){
             statement.setObject(1, value);
 
             ResultSet result = statement.executeQuery();
@@ -121,8 +125,8 @@ public class MySQLDatabase extends Database {
     public Row[] getRows(String table, String key1, Object value1, String key2, Object value2) {
         Row[] rows;
 
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE LOWER("+key1+") LIKE LOWER(?) AND LOWER("+key2+") LIKE LOWER(?)");
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE LOWER("+key1+") LIKE LOWER(?) AND LOWER("+key2+") LIKE LOWER(?)")){
             statement.setObject(1, value1);
             statement.setObject(2, value2);
 
@@ -155,8 +159,8 @@ public class MySQLDatabase extends Database {
     public Row[] getAllRows(String table) {
         List<Row> list = new ArrayList<>();
 
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table);
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table)){
             ResultSet result = statement.executeQuery();
             ResultSetMetaData data = result.getMetaData();
 
@@ -181,8 +185,8 @@ public class MySQLDatabase extends Database {
     public Row[] getRowsWithRequest(String request) {
         List<Row> list = new ArrayList<>();
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(request);
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(request)){
             ResultSet result = statement.executeQuery();
             ResultSetMetaData data = result.getMetaData();
 
@@ -226,9 +230,9 @@ public class MySQLDatabase extends Database {
         cols = cols.substring(0, cols.length()-1);
         vals = vals.substring(0, vals.length()-1);
 
-        try {
-            String request = "INSERT INTO " + table + "(" + cols + ") VALUES (" + vals + ");";
-            PreparedStatement statement = connection.prepareStatement(request);
+        String request = "INSERT INTO " + table + "(" + cols + ") VALUES (" + vals + ");";
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(request)){
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -249,9 +253,9 @@ public class MySQLDatabase extends Database {
 
         elements = elements.substring(0, elements.length()-1);
 
-        try {
-            String request = "UPDATE " + table + " SET " + elements + " WHERE `" + key + "`='" + value + "'";
-            PreparedStatement statement = connection.prepareStatement(request);
+        String request = "UPDATE " + table + " SET " + elements + " WHERE `" + key + "`='" + value + "'";
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(request)){
 
             for(int i = 0; i < values.length; i++){
                 int index = i+1;
@@ -268,8 +272,8 @@ public class MySQLDatabase extends Database {
     public Object getObject(String table, String column, String key, String value) {
         Object obj = null;
 
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE " + key + "=?");
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE " + key + "=?")){
             statement.setObject(1, value);
 
             ResultSet result = statement.executeQuery();
@@ -286,8 +290,8 @@ public class MySQLDatabase extends Database {
 
     @Override
     public void setObject(String table, String column, Object content, String key, Object value) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE " + table + " SET "+column+"=? WHERE "+key+"=?");
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement("UPDATE " + table + " SET "+column+"=? WHERE "+key+"=?")){
             statement.setObject(1, content);
             statement.setObject(2, value);
 
@@ -299,8 +303,8 @@ public class MySQLDatabase extends Database {
 
     @Override
     public void setObject(String table, String column, Object content, String key1, Object value1, String key2, Object value2) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE " + table + " SET "+column+"=? WHERE "+key1+"=? AND "+key2+"=?");
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement("UPDATE " + table + " SET "+column+"=? WHERE "+key1+"=? AND "+key2+"=?")){
             statement.setObject(1, content);
             statement.setObject(2, value1);
             statement.setObject(3, value2);
@@ -313,10 +317,10 @@ public class MySQLDatabase extends Database {
 
     @Override
     public void removeRow(String table, String key, String value) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM " + table + " WHERE " + key + "=?");
-            statement.setObject(1, value);
+        try(Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM " + table + " WHERE " + key + "=?")){
 
+            statement.setObject(1, value);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -324,9 +328,9 @@ public class MySQLDatabase extends Database {
     }
 
     @Override
-    public void executeSQL(String request) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(request);
+    public void executeSQL(String sql) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)){
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -335,17 +339,15 @@ public class MySQLDatabase extends Database {
 
     @Override
     public boolean existsRow(String table, String key, Object value) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE " + key + "=?");
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM "+table+" WHERE "+key+"=?")){
             statement.setObject(1, value);
-
             ResultSet result = statement.executeQuery();
 
             return result.next();
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 }
