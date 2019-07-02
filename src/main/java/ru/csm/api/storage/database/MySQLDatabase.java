@@ -1,6 +1,5 @@
 package ru.csm.api.storage.database;
 
-import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.*;
@@ -12,15 +11,14 @@ public class MySQLDatabase implements Database {
     private HikariDataSource dataSource;
 
     public MySQLDatabase(String url, int port, String database, String user, String password) {
-        HikariConfig conf = new HikariConfig();
-        conf.setJdbcUrl("jdbc:mysql://" + url + ":" + port + "/" + database + "?characterEncoding=utf8");
-        conf.setUsername(user);
-        conf.setPassword(password);
-        conf.addDataSourceProperty("connectionTimeout", 30000);
-        conf.addDataSourceProperty("idleTimeout", 60000);
-        conf.addDataSourceProperty("maxLifetime", 90000);
-        conf.addDataSourceProperty("maximumPoolSize", 4);
-        dataSource = new HikariDataSource(conf);
+        dataSource = new HikariDataSource();
+        dataSource.setJdbcUrl("jdbc:mysql://" + url + ":" + port + "/" + database + "?characterEncoding=utf8");
+        dataSource.setUsername(user);
+        dataSource.setPassword(password);
+        dataSource.setConnectionTimeout(30000);
+        dataSource.setIdleTimeout(60000);
+        dataSource.setMaxLifetime(90000);
+        dataSource.setMaximumPoolSize(4);
     }
 
     @Override

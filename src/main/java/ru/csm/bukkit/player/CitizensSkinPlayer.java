@@ -77,9 +77,11 @@ public class CitizensSkinPlayer implements SkinPlayer<Player> {
 
     @Override
     public void applySkin() {
-        npc.data().setPersistent(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_METADATA, skin.getValue());
-        npc.data().setPersistent(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_SIGN_METADATA, skin.getSignature());
-        skinnableEntity.getProfile().getProperties().put("textures", new Property("textures", skin.getValue(), skin.getSignature()));
+        new BukkitRunnable(){
+            public void run(){
+                skinnableEntity.setSkinPersistent(skin.getOwnerUUID(), skin.getSignature(), skin.getValue());
+            }
+        }.runTask(plugin);
     }
 
     @Override
