@@ -1,6 +1,6 @@
 name: 'CustomSkinsManager'
 main: 'ru.csm.bukkit.Skins'
-version: '2.0.3'
+version: '2.0.5'
 api-version: '1.13'
 author: '_Nanit_'
 depend:

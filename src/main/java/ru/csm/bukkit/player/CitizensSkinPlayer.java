@@ -1,6 +1,5 @@
 package ru.csm.bukkit.player;
 
-import com.mojang.authlib.properties.Property;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.npc.skin.SkinnableEntity;
 import org.bukkit.Location;
@@ -9,7 +8,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
-import ru.csm.bukkit.Skins;
 
 import java.util.UUID;
 
@@ -18,7 +16,6 @@ public class CitizensSkinPlayer implements SkinPlayer<Player> {
     private Plugin plugin;
     private NPC npc;
     private SkinnableEntity skinnableEntity;
-    private Player playerNPC;
     private Player sender;
 
     private Skin skin;
@@ -28,11 +25,10 @@ public class CitizensSkinPlayer implements SkinPlayer<Player> {
         this.sender = sender;
         this.npc = npc;
         this.skinnableEntity = (SkinnableEntity)npc.getEntity();
-        this.playerNPC = skinnableEntity.getBukkitEntity();
     }
 
     public Player getCitizensNPC(){
-        return playerNPC;
+        return skinnableEntity.getBukkitEntity();
     }
 
     @Override

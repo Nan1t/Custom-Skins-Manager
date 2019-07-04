@@ -10,7 +10,6 @@ public class SQLiteDatabase implements Database {
     private Connection connection;
 
     public SQLiteDatabase(String url, String database, String user, String password) throws SQLException {
-
         try{
             Class.forName("org.sqlite.JDBC");
         }catch (ClassNotFoundException e){

@@ -61,10 +61,10 @@ public class CommandSkin extends Command {
     }
 
     private void sendHelp(CommandSender sender){
-        ComponentBuilder builder = new ComponentBuilder("");
+        ComponentBuilder builder = new ComponentBuilder("\n");
 
         for(String s : lang.ofArray("help")){
-            builder.append(s);
+            builder.append(s + "\n");
         }
 
         sender.sendMessage(builder.create());
@@ -75,10 +75,10 @@ public class CommandSkin extends Command {
     }
 
     private void sendAdminHelp(CommandSender sender){
-        ComponentBuilder builder = new ComponentBuilder("");
+        ComponentBuilder builder = new ComponentBuilder("\n");
 
         for(String s : lang.ofArray("admin")){
-            builder.append(s);
+            builder.append(s + "\n");
         }
 
         sender.sendMessage(builder.create());
@@ -90,7 +90,7 @@ public class CommandSkin extends Command {
         ComponentBuilder builder = new ComponentBuilder("");
 
         for(String s : cmd.getUsage()){
-            builder.append(s);
+            builder.append(s + "\n");
         }
 
         sender.sendMessage(builder.create());

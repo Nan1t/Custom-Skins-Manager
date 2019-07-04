@@ -12,6 +12,7 @@ public class MySQLDatabase implements Database {
 
     public MySQLDatabase(String url, int port, String database, String user, String password) {
         dataSource = new HikariDataSource();
+        dataSource.setPoolName("csm-pool");
         dataSource.setJdbcUrl("jdbc:mysql://" + url + ":" + port + "/" + database + "?characterEncoding=utf8");
         dataSource.setUsername(user);
         dataSource.setPassword(password);

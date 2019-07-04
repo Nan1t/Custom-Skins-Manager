@@ -11,6 +11,7 @@ import ru.csm.api.storage.Language;
 import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.MySQLDatabase;
+import ru.csm.api.storage.database.SimpleMySQLDatabase;
 import ru.csm.api.upload.entity.Profile;
 import ru.csm.bungee.commands.CommandSkin;
 import ru.csm.bungee.listeners.PostLoginListener;
@@ -83,7 +84,7 @@ public class Skins extends Plugin {
         int port = configuration.get().getNode("database", "port").getInt();
 
         if(type.equalsIgnoreCase("mysql")){
-            database = new MySQLDatabase(host, port, name, user, password);
+            database = new SimpleMySQLDatabase(host, port, name, user, password);
 
             database.executeSQL("CREATE TABLE IF NOT EXISTS `"+ Tables.SKINS+"` (\n" +
                     "\t`id` INT NOT NULL AUTO_INCREMENT,\n" +

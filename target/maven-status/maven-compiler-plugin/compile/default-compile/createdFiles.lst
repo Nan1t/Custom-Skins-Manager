@@ -1,6 +1,7 @@
 ru/csm/api/upload/QueueLicense$1.class
 com/comphenix/packetwrapper/WrapperPlayServerEntityLook.class
 ru/csm/api/upload/entity/RequestImage.class
+ru/csm/bukkit/player/CitizensSkinPlayer$2.class
 ru/csm/bungee/commands/subcommands/CommandMenu.class
 ru/csm/bukkit/commands/subcommands/CommandTo.class
 com/comphenix/packetwrapper/PacketWrapper.class

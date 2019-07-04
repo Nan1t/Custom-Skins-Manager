@@ -75,6 +75,7 @@
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bungee/commands/SubCommand.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/com/comphenix/packetwrapper/WrapperPlayServerSpawnEntityLiving.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bukkit/commands/subcommands/CommandNPC.java
+/home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/api/storage/database/SimpleMySQLDatabase.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/api/WhiteListElement.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bungee/listeners/PostLoginListener.java
 /home/nanit/IdeaProjects/CustomSkinsManager/src/main/java/ru/csm/bungee/network/MessageExecutor.java
