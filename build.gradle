@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.nanit'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'http://repo.dmulloy2.net/nexus/repository/public' }
+    maven { url = 'https://jitpack.io' }
+    maven { url = 'http://repo.citizensnpcs.co' }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compileOnly files('libs/BungeeCord.jar')
+    compileOnly files('libs/spigot-1.13.2.jar')
+
+    compileOnly 'com.comphenix.protocol:ProtocolLib:4.4.0'
+    compileOnly 'net.citizensnpcs:citizens:2.0.24-SNAPSHOT'
+
+    compile 'com.google.guava:guava:13.0-rc1'
+    compile 'ninja.leaping.configurate:configurate-hocon:3.1'
+    compile 'com.zaxxer:HikariCP:3.3.1'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'commons-io:commons-io:2.4'
+    compile 'org.apache.commons:commons-lang3:3.0'
+    compile 'com.github.tr7zw.Item-NBT-API:item-nbt-api:1.8.3'
+}
+
+jar {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

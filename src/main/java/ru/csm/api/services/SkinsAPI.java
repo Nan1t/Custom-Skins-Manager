@@ -3,7 +3,6 @@ package ru.csm.api.services;
 import ru.csm.api.WhiteListElement;
 import ru.csm.api.player.*;
 import ru.csm.api.storage.Language;
-import ru.csm.api.threads.ThreadWorker;
 import ru.csm.api.upload.QueueLicense;
 import ru.csm.api.upload.QueueMineSkin;
 import ru.csm.api.upload.QueueMojang;
@@ -19,6 +18,7 @@ import ru.csm.api.utils.UuidUtil;
 import ru.csm.bukkit.player.CitizensSkinPlayer;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class SkinsAPI {
 
@@ -469,7 +469,7 @@ public class SkinsAPI {
             return;
         }
 
-        ThreadWorker.execute(()->{
+        CompletableFuture.runAsync(()->{
             Row row = new Row();
 
             row.addField("name", player.getName());
@@ -488,7 +488,7 @@ public class SkinsAPI {
     }
 
     public void createPlayer(SkinPlayer player){
-        ThreadWorker.execute(()->{
+        CompletableFuture.runAsync(()->{
             Row row = new Row();
 
             row.addField("uuid", player.getUUID());
