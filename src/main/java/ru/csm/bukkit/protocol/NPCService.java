@@ -34,23 +34,19 @@ public class NPCService {
     }
 
     public NPC createNPC(UUID uuid, String name){
-        NPC npc;
-        if(version == 8){
-            npc = new NPC_1_8(uuid, name);
+        switch (version){
+            default:
+                return new NPC_1_10(uuid, name);
+            case 8:
+                return new NPC_1_8(uuid, name);
+            case 9:
+                return new NPC_1_9(uuid, name);
+            case 13:
+                return new NPC_1_13(uuid, name);
+            case 14:
+                return new NPC_1_14(uuid, name);
+            case 15:
+                return new NPC_1_15(uuid, name);
         }
-        else if(version == 9){
-            npc = new NPC_1_9(uuid, name);
-        }
-        else if (version == 13){
-            npc = new NPC_1_13(uuid, name);
-        }
-        else if (version == 14){
-            npc = new NPC_1_14(uuid, name);
-        }
-        else {
-            npc = new NPC_1_10(uuid, name);
-        }
-
-        return npc;
     }
 }

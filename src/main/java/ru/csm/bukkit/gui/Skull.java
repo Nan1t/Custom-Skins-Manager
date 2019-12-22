@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 
-import de.tr7zw.itemnbtapi.NBTItem;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -27,10 +26,6 @@ public class Skull {
         Class<?> headMetaClass = headMeta.getClass();
         SkullReflections.getField(headMetaClass, "profile", GameProfile.class).set(headMeta, profile);
         head.setItemMeta(headMeta);
-
-        NBTItem nbt = new NBTItem(head);
-        nbt.setInteger("RCHead", 1);
-        head = nbt.getItem();
 
         return head;
     }

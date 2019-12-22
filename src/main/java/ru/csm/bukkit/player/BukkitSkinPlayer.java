@@ -15,7 +15,6 @@ import ru.csm.bukkit.Skins;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class BukkitSkinPlayer implements SkinPlayer<Player> {
@@ -73,11 +72,7 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
 
     @Override
     public void applySkin() {
-        Skin currentSkin = defaultSkin;
-
-        if(hasCustomSkin()){
-            currentSkin = customSkin;
-        }
+        Skin currentSkin = hasCustomSkin() ? customSkin : defaultSkin;
 
         WrappedSignedProperty property = new WrappedSignedProperty("textures", currentSkin.getValue(), currentSkin.getSignature());
         profile.getProperties().removeAll("textures");
@@ -106,11 +101,6 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
             respawnPacket.getGameModes().write(0, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()));
             respawnPacket.getWorldTypeModifier().write(0, player.getWorld().getWorldType());
 
-            // For version 1.15
-            if(Skins.getSubVersion() == 15){
-                
-            }
-
             // For version < 1.14
             if(Skins.getSubVersion() < 14){
                 respawnPacket.getDifficulties().write(0, EnumWrappers.Difficulty.PEACEFUL);
@@ -118,7 +108,9 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
 
             // For version > 1.8
             if(Skins.getSubVersion() > 8){
-                spawn.setMetadata(WrappedDataWatcher.getEntityWatcher(player));
+                if(Skins.getSubVersion() < 15){
+                    spawn.setMetadata(WrappedDataWatcher.getEntityWatcher(player));
+                }
                 spawn.setPosition(player.getLocation().toVector());
                 spawn.setYaw(player.getLocation().getYaw());
                 spawn.setPitch(player.getLocation().getPitch());

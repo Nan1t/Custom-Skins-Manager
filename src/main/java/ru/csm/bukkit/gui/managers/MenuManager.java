@@ -1,7 +1,7 @@
 package ru.csm.bukkit.gui.managers;
 
 import com.google.common.reflect.TypeToken;
-import de.tr7zw.itemnbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.bukkit.entity.Player;

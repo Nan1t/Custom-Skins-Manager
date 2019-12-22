@@ -33,6 +33,7 @@ import ru.csm.bukkit.network.executors.SkinsMenuExecutor;
 import ru.csm.bukkit.network.executors.SkinsRefreshExecutor;
 import ru.csm.bukkit.protocol.NPCService;
 import ru.csm.bukkit.protocol.listeners.NpcClickListener;
+import ru.csm.bukkit.util.BukkitTasks;
 
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -55,6 +56,8 @@ public class Skins extends JavaPlugin {
                 getServer().getPluginManager().disablePlugin(this);
                 return;
             }
+
+            BukkitTasks.setPlugin(this);
 
             Configuration configuration = new Configuration("configuration/bukkit/config.conf", getDataFolder().toPath(), this);
             Configuration menuConf = new Configuration("configuration/bukkit/menu.conf", getDataFolder().toPath(), this);

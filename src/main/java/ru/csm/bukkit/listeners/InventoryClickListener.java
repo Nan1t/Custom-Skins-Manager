@@ -1,6 +1,6 @@
 package ru.csm.bukkit.listeners;
 
-import de.tr7zw.itemnbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
