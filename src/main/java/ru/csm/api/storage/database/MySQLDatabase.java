@@ -1,6 +1,6 @@
 package ru.csm.api.storage.database;
 
-import com.zaxxer.hikari.HikariDataSource;
+import org.apache.commons.dbcp.BasicDataSource;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,18 +8,20 @@ import java.util.List;
 
 public class MySQLDatabase implements Database {
 
-    private HikariDataSource dataSource;
+    private BasicDataSource dataSource;
 
-    public MySQLDatabase(String url, int port, String database, String user, String password) {
-        dataSource = new HikariDataSource();
-        dataSource.setPoolName("csm-pool");
-        dataSource.setJdbcUrl("jdbc:mysql://" + url + ":" + port + "/" + database + "?characterEncoding=utf8");
+    public MySQLDatabase(String url, int port, String database, String user, String password) throws SQLException {
+        dataSource = new BasicDataSource();
+        dataSource.setUrl("jdbc:mysql://" + url + ":" + port + "/" + database);
         dataSource.setUsername(user);
         dataSource.setPassword(password);
-        dataSource.setConnectionTimeout(30000);
-        dataSource.setIdleTimeout(60000);
-        dataSource.setMaxLifetime(90000);
-        dataSource.setMaximumPoolSize(4);
+        dataSource.setMinIdle(5);
+        dataSource.setMaxIdle(10);
+        dataSource.setMaxOpenPreparedStatements(100);
+        dataSource.addConnectionProperty("autoReconnect", "true");
+        dataSource.addConnectionProperty("characterEncoding", "UTF-8");
+
+        if(dataSource.getConnection() == null) throw new SQLException();
     }
 
     @Override
@@ -27,13 +29,18 @@ public class MySQLDatabase implements Database {
         try{
             return dataSource.getConnection();
         } catch (SQLException e){
+            e.printStackTrace();
             return null;
         }
     }
 
     @Override
     public void closeConnection(){
-        dataSource.close();
+        try{
+            dataSource.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override

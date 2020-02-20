@@ -164,6 +164,9 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
             }
 
             player.updateInventory();
+            player.setExp(player.getExp());
+            player.setLevel(player.getLevel());
+            player.setHealth(player.getHealth());
         } catch (Exception e){
             System.out.println("Error while skin refreshing: " + e.getMessage());
         }

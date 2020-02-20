@@ -37,7 +37,12 @@ public class Skins extends Plugin {
             Configuration configuration = new Configuration("configuration/bungee/config.conf", pluginFolder, this);
             Language lang = new Language(this, Paths.get(pluginFolder.toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
 
-            setupDatabase(configuration);
+            try{
+                setupDatabase(configuration);
+            } catch (SQLException e){
+                getLogger().severe("Cannot connect to SQL database: " + e.getMessage());
+                return;
+            }
 
             pmService = new PluginMessageService();
             api = new SkinsAPI(database, configuration, lang);
@@ -84,7 +89,7 @@ public class Skins extends Plugin {
         int port = configuration.get().getNode("database", "port").getInt();
 
         if(type.equalsIgnoreCase("mysql")){
-            database = new SimpleMySQLDatabase(host, port, name, user, password);
+            database = new MySQLDatabase(host, port, name, user, password);
 
             database.executeSQL("CREATE TABLE IF NOT EXISTS `"+ Tables.SKINS+"` (\n" +
                     "\t`id` INT NOT NULL AUTO_INCREMENT,\n" +

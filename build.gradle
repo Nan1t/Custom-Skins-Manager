@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'ru.nanit'
-version '2.0.6'
+version '2.0.7'
 
 sourceCompatibility = 1.8
 
@@ -28,7 +28,7 @@ dependencies {
 
     compile 'com.google.guava:guava:13.0-rc1'
     compile 'ninja.leaping.configurate:configurate-hocon:3.1'
-    compile 'com.zaxxer:HikariCP:3.3.1'
+    compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
     compile 'com.google.code.gson:gson:2.8.5'
     compile 'commons-io:commons-io:2.4'
     compile 'org.apache.commons:commons-lang3:3.0'

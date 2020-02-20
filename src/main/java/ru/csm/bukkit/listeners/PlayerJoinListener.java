@@ -41,7 +41,7 @@ public class PlayerJoinListener implements Listener {
                     player.applySkin();
                     player.refreshSkin();
                 }
-            }.runTaskLater(plugin, 20);
+            }.runTaskAsynchronously(plugin);
             return;
         }
 

@@ -76,7 +76,14 @@ public class Skins extends JavaPlugin {
             boolean isCustomMenu = menuConf.get().getNode("custom", "enable").getBoolean();
 
             if(!isBungeeCord){
-                setupDatabase(configuration);
+                try{
+                    setupDatabase(configuration);
+                } catch (SQLException e){
+                    getLogger().severe("Cannot connect to SQL database: " + e.getMessage());
+                    getServer().getPluginManager().disablePlugin(this);
+                    return;
+                }
+
                 api = new SkinsAPI(database, configuration, lang);
                 menuManager = isCustomMenu ? new CustomMenuManager(menuConf, lang, api) : new MenuManager(menuConf, lang, api);
                 getCommand("csm").setExecutor(new CommandSkin(this, api, menuConf, lang, menuManager));
