@@ -75,6 +75,8 @@ public class Skins extends JavaPlugin {
 
             boolean isCustomMenu = menuConf.get().getNode("custom", "enable").getBoolean();
 
+            npcService = new NPCService(subVersion);
+
             if(!isBungeeCord){
                 try{
                     setupDatabase(configuration);
@@ -86,17 +88,13 @@ public class Skins extends JavaPlugin {
 
                 api = new SkinsAPI(database, configuration, lang);
                 menuManager = isCustomMenu ? new CustomMenuManager(menuConf, lang, api) : new MenuManager(menuConf, lang, api);
-                getCommand("csm").setExecutor(new CommandSkin(this, api, menuConf, lang, menuManager));
+                getCommand("csm").setExecutor(new CommandSkin(this, api, menuConf, lang, menuManager, npcService));
                 getCommand("csmskull").setExecutor(new CommandSkull(api, lang));
             } else {
                 api = new BungeeSkinsAPI(database, configuration, lang, pmService);
                 menuManager = new BungeeMenuManager(menuConf, lang, api, pmService);
                 getLogger().info("Using BungeeCord as skin applier");
             }
-
-            npcService = new NPCService(subVersion);
-
-            System.out.println(api);
 
             registerMessageListeners();
             registerListeners();

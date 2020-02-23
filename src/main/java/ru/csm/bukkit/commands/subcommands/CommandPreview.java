@@ -43,6 +43,7 @@ public class CommandPreview extends SubCommand {
             Skin skin = new Skin(args[2], args[3]);
             NPC npc = npcService.createNPC(UUID.randomUUID(), "");
             npc.setSkin(skin);
+            npc.setOpenMenu(false);
 
             Location loc = player.getLocation().clone();
             Vector modify = player.getLocation().getDirection().normalize().multiply(2);
@@ -60,6 +61,7 @@ public class CommandPreview extends SubCommand {
             npc.spawn(player);
 
             npcService.addNPC(player.getUniqueId(), npc);
+            return true;
         }
         return false;
     }

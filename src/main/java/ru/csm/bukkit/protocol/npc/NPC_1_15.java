@@ -27,8 +27,19 @@ public class NPC_1_15 implements NPC {
     private Skin skin = new Skin();
     private List<Hologram> customName = new ArrayList<>();
     private Player viewer;
+    private boolean openMenu = true;
 
     private int entityId;
+
+    @Override
+    public boolean isOpenMenu() {
+        return openMenu;
+    }
+
+    @Override
+    public void setOpenMenu(boolean value) {
+        this.openMenu = value;
+    }
 
     @Override
     public Location getLocation(){

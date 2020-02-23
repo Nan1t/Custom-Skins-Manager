@@ -29,4 +29,8 @@ public interface NPC {
 
     void destroy();
 
+    boolean isOpenMenu();
+
+    void setOpenMenu(boolean value);
+
 }

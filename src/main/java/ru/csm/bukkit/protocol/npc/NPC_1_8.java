@@ -29,6 +29,7 @@ public class NPC_1_8 implements NPC {
     private Skin skin = new Skin();
     private List<Hologram> customName = new ArrayList<>();
     private Player viewer;
+    private boolean openMenu = true;
 
     private int entityId;
 
@@ -54,6 +55,16 @@ public class NPC_1_8 implements NPC {
         watcher.setObject(12, (byte) 0xFF);
 
         wrapper.setMetadata(watcher);
+    }
+
+    @Override
+    public boolean isOpenMenu() {
+        return openMenu;
+    }
+
+    @Override
+    public void setOpenMenu(boolean value) {
+        this.openMenu = value;
     }
 
     @Override

@@ -50,14 +50,16 @@ public class NpcClickListener extends PacketAdapter {
             // Open menu again
             clicked.destroy();
 
-            SkinMenu menu = menuManager.getPlayerCurrentMenu(player.getUniqueId());
+            if(clicked.isOpenMenu()){
+                SkinMenu menu = menuManager.getPlayerCurrentMenu(player.getUniqueId());
 
-            if(menu != null){
-                openMenu(player, menu);
-                return;
+                if(menu != null){
+                    openMenu(player, menu);
+                    return;
+                }
+
+                openMenu(player, 1);
             }
-
-            openMenu(player, 1);
             return;
         }
 
