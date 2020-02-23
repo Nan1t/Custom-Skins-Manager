@@ -16,27 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.comphenix.packetwrapper;
+package ru.csm.wrappers;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 
-import java.util.List;
+public class WrapperPlayServerEntityStatus extends AbstractPacket {
+	public static final PacketType TYPE = PacketType.Play.Server.ENTITY_STATUS;
 
-public class WrapperPlayServerEntityMetadata extends AbstractPacket {
-	public static final PacketType TYPE =
-			PacketType.Play.Server.ENTITY_METADATA;
-
-	public WrapperPlayServerEntityMetadata() {
+	public WrapperPlayServerEntityStatus() {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
 
-	public WrapperPlayServerEntityMetadata(PacketContainer packet) {
+	public WrapperPlayServerEntityStatus(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
@@ -81,20 +77,22 @@ public class WrapperPlayServerEntityMetadata extends AbstractPacket {
 	}
 
 	/**
-	 * Retrieve Metadata.
+	 * Retrieve Entity Status.
+	 * <p>
+	 * Notes: see below
 	 * 
-	 * @return The current Metadata
+	 * @return The current Entity Status
 	 */
-	public List<WrappedWatchableObject> getMetadata() {
-		return handle.getWatchableCollectionModifier().read(0);
+	public byte getEntityStatus() {
+		return handle.getBytes().read(0);
 	}
 
 	/**
-	 * Set Metadata.
+	 * Set Entity Status.
 	 * 
 	 * @param value - new value.
 	 */
-	public void setMetadata(List<WrappedWatchableObject> value) {
-		handle.getWatchableCollectionModifier().write(0, value);
+	public void setEntityStatus(byte value) {
+		handle.getBytes().write(0, value);
 	}
 }

@@ -1,6 +1,5 @@
 package ru.csm.bukkit.player;
 
-import com.comphenix.packetwrapper.*;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
@@ -12,6 +11,7 @@ import org.bukkit.entity.Player;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.bukkit.Skins;
+import ru.csm.wrappers.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,6 +167,8 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
             player.setExp(player.getExp());
             player.setLevel(player.getLevel());
             player.setHealth(player.getHealth());
+            player.setFlying(player.isFlying());
+            player.setPlayerListName(player.getPlayerListName());
         } catch (Exception e){
             System.out.println("Error while skin refreshing: " + e.getMessage());
         }

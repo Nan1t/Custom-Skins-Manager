@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.comphenix.packetwrapper;
+package ru.csm.wrappers;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
@@ -24,15 +24,15 @@ import com.comphenix.protocol.events.PacketEvent;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 
-public class WrapperPlayServerEntityStatus extends AbstractPacket {
-	public static final PacketType TYPE = PacketType.Play.Server.ENTITY_STATUS;
+public class WrapperPlayServerEntity extends AbstractPacket {
+	public static final PacketType TYPE = PacketType.Play.Server.ENTITY;
 
-	public WrapperPlayServerEntityStatus() {
+	public WrapperPlayServerEntity() {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
 
-	public WrapperPlayServerEntityStatus(PacketContainer packet) {
+	public WrapperPlayServerEntity(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
@@ -74,25 +74,5 @@ public class WrapperPlayServerEntityStatus extends AbstractPacket {
 	 */
 	public Entity getEntity(PacketEvent event) {
 		return getEntity(event.getPlayer().getWorld());
-	}
-
-	/**
-	 * Retrieve Entity Status.
-	 * <p>
-	 * Notes: see below
-	 * 
-	 * @return The current Entity Status
-	 */
-	public byte getEntityStatus() {
-		return handle.getBytes().read(0);
-	}
-
-	/**
-	 * Set Entity Status.
-	 * 
-	 * @param value - new value.
-	 */
-	public void setEntityStatus(byte value) {
-		handle.getBytes().write(0, value);
 	}
 }

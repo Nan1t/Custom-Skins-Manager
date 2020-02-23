@@ -16,28 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.comphenix.packetwrapper;
+package ru.csm.wrappers;
+
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.util.Vector;
 
-import java.util.UUID;
+public class WrapperPlayServerEntityLook extends AbstractPacket {
+	public static final PacketType TYPE = PacketType.Play.Server.ENTITY_LOOK;
 
-public class WrapperPlayServerNamedEntitySpawn extends AbstractPacket {
-	public static final PacketType TYPE =
-			PacketType.Play.Server.NAMED_ENTITY_SPAWN;
-
-	public WrapperPlayServerNamedEntitySpawn() {
+	public WrapperPlayServerEntityLook() {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
 
-	public WrapperPlayServerNamedEntitySpawn(PacketContainer packet) {
+	public WrapperPlayServerEntityLook(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
@@ -82,71 +78,7 @@ public class WrapperPlayServerNamedEntitySpawn extends AbstractPacket {
 	}
 
 	/**
-	 * Retrieve Player UUID.
-	 * <p>
-	 * Notes: player's UUID
-	 * 
-	 * @return The current Player UUID
-	 */
-	public UUID getPlayerUUID() {
-		return handle.getUUIDs().read(0);
-	}
-
-	/**
-	 * Set Player UUID.
-	 * 
-	 * @param value - new value.
-	 */
-	public void setPlayerUUID(UUID value) {
-		handle.getUUIDs().write(0, value);
-	}
-
-	/**
-	 * Retrieve the position of the spawned entity as a vector.
-	 * 
-	 * @return The position as a vector.
-	 */
-	public Vector getPosition() {
-		return new Vector(getX(), getY(), getZ());
-	}
-
-	/**
-	 * Set the position of the spawned entity using a vector.
-	 * 
-	 * @param position - the new position.
-	 */
-	public void setPosition(Vector position) {
-		setX(position.getX());
-		setY(position.getY());
-		setZ(position.getZ());
-	}
-
-	public double getX() {
-		return handle.getDoubles().read(0);
-	}
-
-	public void setX(double value) {
-		handle.getDoubles().write(0, value);
-	}
-
-	public double getY() {
-		return handle.getDoubles().read(1);
-	}
-
-	public void setY(double value) {
-		handle.getDoubles().write(1, value);
-	}
-
-	public double getZ() {
-		return handle.getDoubles().read(2);
-	}
-
-	public void setZ(double value) {
-		handle.getDoubles().write(2, value);
-	}
-
-	/**
-	 * Retrieve the yaw of the spawned entity.
+	 * Retrieve the yaw of the current entity.
 	 * 
 	 * @return The current Yaw
 	 */
@@ -155,7 +87,7 @@ public class WrapperPlayServerNamedEntitySpawn extends AbstractPacket {
 	}
 
 	/**
-	 * Set the yaw of the spawned entity.
+	 * Set the yaw of the current entity.
 	 * 
 	 * @param value - new yaw.
 	 */
@@ -164,7 +96,7 @@ public class WrapperPlayServerNamedEntitySpawn extends AbstractPacket {
 	}
 
 	/**
-	 * Retrieve the pitch of the spawned entity.
+	 * Retrieve the pitch of the current entity.
 	 * 
 	 * @return The current pitch
 	 */
@@ -173,7 +105,7 @@ public class WrapperPlayServerNamedEntitySpawn extends AbstractPacket {
 	}
 
 	/**
-	 * Set the pitch of the spawned entity.
+	 * Set the pitch of the current entity.
 	 * 
 	 * @param value - new pitch.
 	 */
@@ -182,22 +114,20 @@ public class WrapperPlayServerNamedEntitySpawn extends AbstractPacket {
 	}
 
 	/**
-	 * Retrieve Metadata.
-	 * <p>
-	 * Notes: the client will crash if no metadata is sent
+	 * Retrieve On Ground.
 	 * 
-	 * @return The current Metadata
+	 * @return The current On Ground
 	 */
-	public WrappedDataWatcher getMetadata() {
-		return handle.getDataWatcherModifier().read(0);
+	public boolean getOnGround() {
+		return handle.getBooleans().read(0);
 	}
 
 	/**
-	 * Set Metadata.
+	 * Set On Ground.
 	 * 
 	 * @param value - new value.
 	 */
-	public void setMetadata(WrappedDataWatcher value) {
-		handle.getDataWatcherModifier().write(0, value);
+	public void setOnGround(boolean value) {
+		handle.getBooleans().write(0, value);
 	}
 }

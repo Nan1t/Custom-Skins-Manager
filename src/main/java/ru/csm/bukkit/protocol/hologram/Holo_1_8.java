@@ -1,7 +1,7 @@
 package ru.csm.bukkit.protocol.hologram;
 
-import com.comphenix.packetwrapper.OldWrapperPlayServerSpawnEntityLiving;
-import com.comphenix.packetwrapper.WrapperPlayServerEntityDestroy;
+import ru.csm.wrappers.OldWrapperPlayServerSpawnEntityLiving;
+import ru.csm.wrappers.WrapperPlayServerEntityDestroy;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -11,6 +11,7 @@ import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
 import ru.csm.bukkit.commands.subcommands.*;
 import ru.csm.bukkit.gui.managers.MenuManager;
+import ru.csm.bukkit.protocol.NPCService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,13 +26,15 @@ public class CommandSkin implements CommandExecutor {
     private Configuration menuConf;
     private Language lang;
     private MenuManager menuManager;
+    private NPCService npcService;
 
-    public CommandSkin(Plugin plugin, SkinsAPI api, Configuration menuConf, Language lang, MenuManager menuManager) {
+    public CommandSkin(Plugin plugin, SkinsAPI api, Configuration menuConf, Language lang, MenuManager menuManager, NPCService npcService) {
         this.plugin = plugin;
         this.api = api;
         this.menuConf = menuConf;
         this.lang = lang;
         this.menuManager = menuManager;
+        this.npcService = npcService;
 
         registerSubCommands();
     }
@@ -90,6 +93,7 @@ public class CommandSkin implements CommandExecutor {
         playerSubCommands.put("url", new CommandUrl(api, lang));
         playerSubCommands.put("reset", new CommandReset(api, lang));
         playerSubCommands.put("npc", new CommandNPC(plugin, api));
+        playerSubCommands.put("preview", new CommandPreview(npcService, lang));
 
         ConfigurationNode node = menuConf.get();
 

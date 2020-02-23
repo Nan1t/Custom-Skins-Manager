@@ -16,39 +16,42 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.comphenix.packetwrapper;
+package ru.csm.wrappers;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.BlockPosition;
 
-public class WrapperPlayClientChat extends AbstractPacket {
-	public static final PacketType TYPE = PacketType.Play.Client.CHAT;
+public class WrapperPlayServerSpawnPosition extends AbstractPacket {
+	public static final PacketType TYPE = PacketType.Play.Server.SPAWN_POSITION;
 
-	public WrapperPlayClientChat() {
+	public WrapperPlayServerSpawnPosition() {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
 
-	public WrapperPlayClientChat(PacketContainer packet) {
+	public WrapperPlayServerSpawnPosition(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
 	/**
-	 * Retrieve Message.
+	 * Retrieve Location.
+	 * <p>
+	 * Notes: spawn location
 	 * 
-	 * @return The current Message
+	 * @return The current Location
 	 */
-	public String getMessage() {
-		return handle.getStrings().read(0);
+	public BlockPosition getLocation() {
+		return handle.getBlockPositionModifier().read(0);
 	}
 
 	/**
-	 * Set Message.
+	 * Set Location.
 	 * 
 	 * @param value - new value.
 	 */
-	public void setMessage(String value) {
-		handle.getStrings().write(0, value);
+	public void setLocation(BlockPosition value) {
+		handle.getBlockPositionModifier().write(0, value);
 	}
 
 }

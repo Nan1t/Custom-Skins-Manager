@@ -96,6 +96,8 @@ public class Skins extends JavaPlugin {
 
             npcService = new NPCService(subVersion);
 
+            System.out.println(api);
+
             registerMessageListeners();
             registerListeners();
 

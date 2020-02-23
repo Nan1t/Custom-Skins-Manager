@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.comphenix.packetwrapper;
+package ru.csm.wrappers;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -27,8 +27,6 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-
-import java.util.UUID;
 
 public class OldWrapperPlayServerSpawnEntityLiving extends AbstractPacket {
 	public static final PacketType TYPE = PacketType.Play.Server.SPAWN_ENTITY_LIVING;

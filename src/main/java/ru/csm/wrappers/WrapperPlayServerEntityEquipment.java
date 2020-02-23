@@ -16,24 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.comphenix.packetwrapper;
+package ru.csm.wrappers;
+
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.inventory.ItemStack;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
+import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 
-public class WrapperPlayServerEntityHeadRotation extends AbstractPacket {
+public class WrapperPlayServerEntityEquipment extends AbstractPacket {
 	public static final PacketType TYPE =
-			PacketType.Play.Server.ENTITY_HEAD_ROTATION;
+			PacketType.Play.Server.ENTITY_EQUIPMENT;
 
-	public WrapperPlayServerEntityHeadRotation() {
+	public WrapperPlayServerEntityEquipment() {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
 
-	public WrapperPlayServerEntityHeadRotation(PacketContainer packet) {
+	public WrapperPlayServerEntityEquipment(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
@@ -77,23 +80,31 @@ public class WrapperPlayServerEntityHeadRotation extends AbstractPacket {
 		return getEntity(event.getPlayer().getWorld());
 	}
 
-	/**
-	 * Retrieve Head Yaw.
-	 * <p>
-	 * Notes: head yaw in steps of 2p/256
-	 * 
-	 * @return The current Head Yaw
-	 */
-	public byte getHeadYaw() {
-		return handle.getBytes().read(0);
+	public ItemSlot getSlot() {
+		return handle.getItemSlots().read(0);
+	}
+
+	public void setSlot(ItemSlot value) {
+		handle.getItemSlots().write(0, value);
 	}
 
 	/**
-	 * Set Head Yaw.
+	 * Retrieve Item.
+	 * <p>
+	 * Notes: item in slot format
+	 * 
+	 * @return The current Item
+	 */
+	public ItemStack getItem() {
+		return handle.getItemModifier().read(0);
+	}
+
+	/**
+	 * Set Item.
 	 * 
 	 * @param value - new value.
 	 */
-	public void setHeadYaw(byte value) {
-		handle.getBytes().write(0, value);
+	public void setItem(ItemStack value) {
+		handle.getItemModifier().write(0, value);
 	}
 }

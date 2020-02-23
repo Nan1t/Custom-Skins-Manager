@@ -1,14 +1,13 @@
 package ru.csm.bukkit.protocol.npc;
 
-import com.comphenix.packetwrapper.WrapperPlayServerEntityDestroy;
-import com.comphenix.packetwrapper.WrapperPlayServerEntityHeadRotation;
-import com.comphenix.packetwrapper.WrapperPlayServerNamedEntitySpawn;
-import com.comphenix.packetwrapper.WrapperPlayServerPlayerInfo;
+import ru.csm.wrappers.WrapperPlayServerEntityDestroy;
+import ru.csm.wrappers.WrapperPlayServerEntityHeadRotation;
+import ru.csm.wrappers.WrapperPlayServerNamedEntitySpawn;
+import ru.csm.wrappers.WrapperPlayServerPlayerInfo;
 import com.comphenix.protocol.wrappers.*;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import ru.csm.api.player.Skin;
-import ru.csm.bukkit.protocol.hologram.Holo_1_13;
 import ru.csm.bukkit.protocol.hologram.Holo_1_9;
 import ru.csm.bukkit.protocol.hologram.Hologram;
 

@@ -16,23 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.comphenix.packetwrapper;
+package ru.csm.wrappers;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 
-public class WrapperPlayServerEntity extends AbstractPacket {
-	public static final PacketType TYPE = PacketType.Play.Server.ENTITY;
+import java.util.List;
 
-	public WrapperPlayServerEntity() {
+public class WrapperPlayServerEntityMetadata extends AbstractPacket {
+	public static final PacketType TYPE =
+			PacketType.Play.Server.ENTITY_METADATA;
+
+	public WrapperPlayServerEntityMetadata() {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
 
-	public WrapperPlayServerEntity(PacketContainer packet) {
+	public WrapperPlayServerEntityMetadata(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
@@ -74,5 +78,23 @@ public class WrapperPlayServerEntity extends AbstractPacket {
 	 */
 	public Entity getEntity(PacketEvent event) {
 		return getEntity(event.getPlayer().getWorld());
+	}
+
+	/**
+	 * Retrieve Metadata.
+	 * 
+	 * @return The current Metadata
+	 */
+	public List<WrappedWatchableObject> getMetadata() {
+		return handle.getWatchableCollectionModifier().read(0);
+	}
+
+	/**
+	 * Set Metadata.
+	 * 
+	 * @param value - new value.
+	 */
+	public void setMetadata(List<WrappedWatchableObject> value) {
+		handle.getWatchableCollectionModifier().write(0, value);
 	}
 }

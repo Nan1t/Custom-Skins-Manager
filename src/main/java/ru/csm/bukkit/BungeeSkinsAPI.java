@@ -16,7 +16,7 @@ import ru.csm.bukkit.player.CitizensSkinPlayer;
 
 public class BungeeSkinsAPI extends SkinsAPI {
 
-    PluginMessageService pmService;
+    private PluginMessageService pmService;
 
     public BungeeSkinsAPI(Database database, Configuration conf, Language lang, PluginMessageService pmService) throws ObjectMappingException {
         super(database, conf, lang);

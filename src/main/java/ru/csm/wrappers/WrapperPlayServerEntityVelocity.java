@@ -16,27 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.comphenix.packetwrapper;
-
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.inventory.ItemStack;
+package ru.csm.wrappers;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 
-public class WrapperPlayServerEntityEquipment extends AbstractPacket {
+public class WrapperPlayServerEntityVelocity extends AbstractPacket {
 	public static final PacketType TYPE =
-			PacketType.Play.Server.ENTITY_EQUIPMENT;
+			PacketType.Play.Server.ENTITY_VELOCITY;
 
-	public WrapperPlayServerEntityEquipment() {
+	public WrapperPlayServerEntityVelocity() {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
 
-	public WrapperPlayServerEntityEquipment(PacketContainer packet) {
+	public WrapperPlayServerEntityVelocity(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
@@ -80,31 +77,57 @@ public class WrapperPlayServerEntityEquipment extends AbstractPacket {
 		return getEntity(event.getPlayer().getWorld());
 	}
 
-	public ItemSlot getSlot() {
-		return handle.getItemSlots().read(0);
-	}
-
-	public void setSlot(ItemSlot value) {
-		handle.getItemSlots().write(0, value);
-	}
-
 	/**
-	 * Retrieve Item.
-	 * <p>
-	 * Notes: item in slot format
+	 * Retrieve the velocity in the x axis.
 	 * 
-	 * @return The current Item
+	 * @return The current velocity X
 	 */
-	public ItemStack getItem() {
-		return handle.getItemModifier().read(0);
+	public double getVelocityX() {
+		return handle.getIntegers().read(1) / 8000.0D;
 	}
 
 	/**
-	 * Set Item.
+	 * Set the velocity in the x axis.
 	 * 
 	 * @param value - new value.
 	 */
-	public void setItem(ItemStack value) {
-		handle.getItemModifier().write(0, value);
+	public void setVelocityX(double value) {
+		handle.getIntegers().write(1, (int) (value * 8000.0D));
+	}
+
+	/**
+	 * Retrieve the velocity in the y axis.
+	 * 
+	 * @return The current velocity y
+	 */
+	public double getVelocityY() {
+		return handle.getIntegers().read(2) / 8000.0D;
+	}
+
+	/**
+	 * Set the velocity in the y axis.
+	 * 
+	 * @param value - new value.
+	 */
+	public void setVelocityY(double value) {
+		handle.getIntegers().write(2, (int) (value * 8000.0D));
+	}
+
+	/**
+	 * Retrieve the velocity in the z axis.
+	 * 
+	 * @return The current velocity z
+	 */
+	public double getVelocityZ() {
+		return handle.getIntegers().read(3) / 8000.0D;
+	}
+
+	/**
+	 * Set the velocity in the z axis.
+	 * 
+	 * @param value - new value.
+	 */
+	public void setVelocityZ(double value) {
+		handle.getIntegers().write(3, (int) (value * 8000.0D));
 	}
 }

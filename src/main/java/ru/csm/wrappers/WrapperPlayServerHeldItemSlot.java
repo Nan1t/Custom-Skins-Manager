@@ -16,52 +16,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.comphenix.packetwrapper;
+package ru.csm.wrappers;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 
-public class WrapperPlayServerEntityDestroy extends AbstractPacket {
-	public static final PacketType TYPE = PacketType.Play.Server.ENTITY_DESTROY;
+public class WrapperPlayServerHeldItemSlot extends AbstractPacket {
+	public static final PacketType TYPE = PacketType.Play.Server.HELD_ITEM_SLOT;
 
-	public WrapperPlayServerEntityDestroy() {
+	public WrapperPlayServerHeldItemSlot() {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
 
-	public WrapperPlayServerEntityDestroy(PacketContainer packet) {
+	public WrapperPlayServerHeldItemSlot(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
 	/**
-	 * Retrieve Count.
+	 * Retrieve Slot.
 	 * <p>
-	 * Notes: length of following array
+	 * Notes: the slot which the player has selected (0-8)
 	 * 
-	 * @return The current Count
+	 * @return The current Slot
 	 */
-	public int getCount() {
-		return handle.getIntegerArrays().read(0).length;
+	public int getSlot() {
+		return handle.getIntegers().read(0);
 	}
 
 	/**
-	 * Retrieve Entity IDs.
-	 * <p>
-	 * Notes: the list of entities of destroy
-	 * 
-	 * @return The current Entity IDs
-	 */
-	public int[] getEntityIDs() {
-		return handle.getIntegerArrays().read(0);
-	}
-
-	/**
-	 * Set Entity IDs.
+	 * Set Slot.
 	 * 
 	 * @param value - new value.
 	 */
-	public void setEntityIds(int[] value) {
-		handle.getIntegerArrays().write(0, value);
+	public void setSlot(int value) {
+		handle.getIntegers().write(0, value);
 	}
 
 }

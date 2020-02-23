@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.comphenix.packetwrapper;
+package ru.csm.wrappers;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
@@ -24,15 +24,16 @@ import com.comphenix.protocol.events.PacketEvent;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 
-public class WrapperPlayServerEntityEffect extends AbstractPacket {
-	public static final PacketType TYPE = PacketType.Play.Server.ENTITY_EFFECT;
+public class WrapperPlayServerEntityHeadRotation extends AbstractPacket {
+	public static final PacketType TYPE =
+			PacketType.Play.Server.ENTITY_HEAD_ROTATION;
 
-	public WrapperPlayServerEntityEffect() {
+	public WrapperPlayServerEntityHeadRotation() {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
 
-	public WrapperPlayServerEntityEffect(PacketContainer packet) {
+	public WrapperPlayServerEntityHeadRotation(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
@@ -77,77 +78,22 @@ public class WrapperPlayServerEntityEffect extends AbstractPacket {
 	}
 
 	/**
-	 * Retrieve Effect ID.
+	 * Retrieve Head Yaw.
 	 * <p>
-	 * Notes: see [[1]]
+	 * Notes: head yaw in steps of 2p/256
 	 * 
-	 * @return The current Effect ID
+	 * @return The current Head Yaw
 	 */
-	public byte getEffectID() {
+	public byte getHeadYaw() {
 		return handle.getBytes().read(0);
 	}
 
 	/**
-	 * Set Effect ID.
+	 * Set Head Yaw.
 	 * 
 	 * @param value - new value.
 	 */
-	public void setEffectID(byte value) {
-		handle.getBytes().write(0, (byte) (value & 255));
+	public void setHeadYaw(byte value) {
+		handle.getBytes().write(0, value);
 	}
-
-	/**
-	 * Retrieve Amplifier.
-	 * 
-	 * @return The current Amplifier
-	 */
-	public byte getAmplifier() {
-		return handle.getBytes().read(1);
-	}
-
-	/**
-	 * Set Amplifier.
-	 * 
-	 * @param value - new value.
-	 */
-	public void setAmplifier(byte value) {
-		handle.getBytes().write(1, (byte) (value & 255));
-	}
-
-	/**
-	 * Retrieve Duration.
-	 * 
-	 * @return The current Duration
-	 */
-	public int getDuration() {
-		return handle.getIntegers().read(1);
-	}
-
-	/**
-	 * Set Duration.
-	 * 
-	 * @param value - new value.
-	 */
-	public void setDuration(int value) {
-		handle.getIntegers().write(1, value);
-	}
-
-	/**
-	 * Retrieve Hide Particles.
-	 * 
-	 * @return The current Hide Particles
-	 */
-	public boolean getHideParticles() {
-		return handle.getBytes().read(2) == 0;
-	}
-
-	/**
-	 * Set Hide Particles.
-	 * 
-	 * @param value - new value.
-	 */
-	public void setHideParticles(boolean value) {
-		handle.getBytes().write(2, (byte) (value ? 0 : 1));
-	}
-
 }

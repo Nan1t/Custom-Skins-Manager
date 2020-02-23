@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.comphenix.packetwrapper;
+package ru.csm.wrappers;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
@@ -24,16 +24,15 @@ import com.comphenix.protocol.events.PacketEvent;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 
-public class WrapperPlayServerEntityVelocity extends AbstractPacket {
-	public static final PacketType TYPE =
-			PacketType.Play.Server.ENTITY_VELOCITY;
+public class WrapperPlayServerEntityEffect extends AbstractPacket {
+	public static final PacketType TYPE = PacketType.Play.Server.ENTITY_EFFECT;
 
-	public WrapperPlayServerEntityVelocity() {
+	public WrapperPlayServerEntityEffect() {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
 
-	public WrapperPlayServerEntityVelocity(PacketContainer packet) {
+	public WrapperPlayServerEntityEffect(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
@@ -78,56 +77,77 @@ public class WrapperPlayServerEntityVelocity extends AbstractPacket {
 	}
 
 	/**
-	 * Retrieve the velocity in the x axis.
+	 * Retrieve Effect ID.
+	 * <p>
+	 * Notes: see [[1]]
 	 * 
-	 * @return The current velocity X
+	 * @return The current Effect ID
 	 */
-	public double getVelocityX() {
-		return handle.getIntegers().read(1) / 8000.0D;
+	public byte getEffectID() {
+		return handle.getBytes().read(0);
 	}
 
 	/**
-	 * Set the velocity in the x axis.
+	 * Set Effect ID.
 	 * 
 	 * @param value - new value.
 	 */
-	public void setVelocityX(double value) {
-		handle.getIntegers().write(1, (int) (value * 8000.0D));
+	public void setEffectID(byte value) {
+		handle.getBytes().write(0, (byte) (value & 255));
 	}
 
 	/**
-	 * Retrieve the velocity in the y axis.
+	 * Retrieve Amplifier.
 	 * 
-	 * @return The current velocity y
+	 * @return The current Amplifier
 	 */
-	public double getVelocityY() {
-		return handle.getIntegers().read(2) / 8000.0D;
+	public byte getAmplifier() {
+		return handle.getBytes().read(1);
 	}
 
 	/**
-	 * Set the velocity in the y axis.
-	 * 
-	 * @param value - new value.
-	 */
-	public void setVelocityY(double value) {
-		handle.getIntegers().write(2, (int) (value * 8000.0D));
-	}
-
-	/**
-	 * Retrieve the velocity in the z axis.
-	 * 
-	 * @return The current velocity z
-	 */
-	public double getVelocityZ() {
-		return handle.getIntegers().read(3) / 8000.0D;
-	}
-
-	/**
-	 * Set the velocity in the z axis.
+	 * Set Amplifier.
 	 * 
 	 * @param value - new value.
 	 */
-	public void setVelocityZ(double value) {
-		handle.getIntegers().write(3, (int) (value * 8000.0D));
+	public void setAmplifier(byte value) {
+		handle.getBytes().write(1, (byte) (value & 255));
 	}
+
+	/**
+	 * Retrieve Duration.
+	 * 
+	 * @return The current Duration
+	 */
+	public int getDuration() {
+		return handle.getIntegers().read(1);
+	}
+
+	/**
+	 * Set Duration.
+	 * 
+	 * @param value - new value.
+	 */
+	public void setDuration(int value) {
+		handle.getIntegers().write(1, value);
+	}
+
+	/**
+	 * Retrieve Hide Particles.
+	 * 
+	 * @return The current Hide Particles
+	 */
+	public boolean getHideParticles() {
+		return handle.getBytes().read(2) == 0;
+	}
+
+	/**
+	 * Set Hide Particles.
+	 * 
+	 * @param value - new value.
+	 */
+	public void setHideParticles(boolean value) {
+		handle.getBytes().write(2, (byte) (value ? 0 : 1));
+	}
+
 }

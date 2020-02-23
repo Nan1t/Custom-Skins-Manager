@@ -1,8 +1,8 @@
 package ru.csm.bukkit.protocol.hologram;
 
-import com.comphenix.packetwrapper.WrapperPlayServerEntityDestroy;
-import com.comphenix.packetwrapper.WrapperPlayServerEntityMetadata;
-import com.comphenix.packetwrapper.WrapperPlayServerSpawnEntityLiving;
+import ru.csm.wrappers.WrapperPlayServerEntityDestroy;
+import ru.csm.wrappers.WrapperPlayServerEntityMetadata;
+import ru.csm.wrappers.WrapperPlayServerSpawnEntityLiving;
 import com.comphenix.protocol.utility.MinecraftReflection;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import org.bukkit.Bukkit;
