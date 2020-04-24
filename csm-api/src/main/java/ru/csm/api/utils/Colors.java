@@ -1,4 +1,4 @@
-package ru.csm.api.utils.text;
+package ru.csm.api.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +6,7 @@ import java.util.List;
 public class Colors {
 
     public static String of(String text){
-        if(text == null){
-            return " ";
-        }
-
-        return text.replace("&", "§");
+        return text == null ? null : text.replace("&", "§");
     }
 
     public static List<String> ofArr(String... text){
@@ -18,7 +14,6 @@ public class Colors {
         for(String str : text){
             list.add(of(str));
         }
-
         return list;
     }
 
@@ -27,7 +22,6 @@ public class Colors {
         for(String str : text){
             list.add(of(str));
         }
-
         return list;
     }
 

@@ -1,6 +1,6 @@
 package ru.csm.api.storage;
 
-import ru.csm.api.utils.text.Colors;
+import ru.csm.api.utils.Colors;
 
 import java.io.IOException;
 import java.nio.file.Path;

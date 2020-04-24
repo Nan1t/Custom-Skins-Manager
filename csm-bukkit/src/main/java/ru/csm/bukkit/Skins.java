@@ -19,7 +19,7 @@ import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.MySQLDatabase;
 import ru.csm.api.storage.database.SQLiteDatabase;
-import ru.csm.api.upload.data.Profile;
+import ru.csm.api.upload.Profile;
 import ru.csm.bukkit.commands.CommandSkin;
 import ru.csm.bukkit.commands.CommandSkull;
 import ru.csm.bukkit.gui.managers.BungeeMenuManager;

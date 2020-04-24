@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public interface Database {
 
-    Connection getConnection();
+    Connection getConnection() throws SQLException;
 
     void closeConnection();
 

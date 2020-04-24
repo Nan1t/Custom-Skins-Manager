@@ -2,12 +2,11 @@ package ru.csm.bungee.commands.subcommands;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import ru.csm.api.WhiteListElement;
 import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Language;
-import ru.csm.api.utils.text.Validator;
+import ru.csm.api.utils.Validator;
 import ru.csm.bungee.commands.SubCommand;
 import ru.csm.bungee.player.BungeeSkinPlayer;
 

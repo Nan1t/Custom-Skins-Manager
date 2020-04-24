@@ -1,72 +1,47 @@
 package ru.csm.api.services;
 
-import ru.csm.api.WhiteListElement;
+import com.google.common.reflect.TypeToken;
+import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
 import ru.csm.api.player.*;
 import ru.csm.api.storage.Language;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.Row;
-import ru.csm.api.upload.data.ImageQueue;
-import ru.csm.api.upload.data.NameQueue;
+import ru.csm.api.upload.*;
+import ru.csm.api.utils.Logger;
 import ru.csm.api.utils.UuidUtil;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SkinsAPI {
 
-    private static final Skin emptySkin = new Skin(
-            "eyJ0aW1lc3RhbXAiOjE1NTQyMDQ0MTYzOTQsInByb2ZpbGVJZCI6Ijg2NjdiYTcxYjg1YTQwMDRhZjU0NDU3YTk3MzRlZWQ3IiwicHJvZmlsZU5hbWUiOiJTdGV2ZSIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGMxYzc3Y2U4ZTU0OTI1YWI1ODEyNTQ0NmVjNTNiMGNkZDNkMGNhM2RiMjczZWI5MDhkNTQ4Mjc4N2VmNDAxNiJ9LCJDQVBFIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTUzY2FjOGI3NzlmZTQxMzgzZTY3NWVlMmI4NjA3MWE3MTY1OGYyMTgwZjU2ZmJjZThhYTMxNWVhNzBlMmVkNiJ9fX0=",
-            "KObC7VWtO4ixdgW65ZqPlprCq3/CKYJFMP/aUsOPhU/UjDgQF1uQDftpv7sfyKQmabOWkGFrQM52QKk2+cCP9gC3MaIIuHmVz2S09LIscNn5UepXEgSkugnOqMCqw1vvQevTwFQudpgVhvPhUhib/GERSwZCX+qZR0zoFmnOWdZgeCaf9BFR73Z5Gk9ni9lXI/49gfvzjEmeA1HEUdOvk7zO9RBpUQlXskdooztZCO/parc8KB8y4kyM1Q4+cFm0rCHzZcl+VGe17VxJqQgkLQ7jZkJzyp9HEb/fn1eEV65und+RKIypQnU/2qaxCfNq5vFs7C/c4L9Uw3mcliPNaFFxUGufmkCfTQBlKlTEyQspXh6i1yUCAuYPa/jI3eVcImRzHKWV+oVXhqe9mHRHCLWPxFrKczn3cmRwyVA2wB/CW94fchQ7CmkPuhN5DYsCtlWpJXywta3WhYnoJb5vAkL2AaFUOPYyQbamLQiRXoykftptITDSstC3FliDkj0rC4ybGUz3nRhh3Hpm8XeYeWDN2oJU4dfuxAPXdBNEYpTpzE0z6WtkXqT7PUbkZeg1ICRfffwls9D99EuzQr+j/zkEttNK0sD3/4fgKLccDBzhoMTde2bYD24y7juony42ipjpJVuR7PbPyQ/h5Umi2wthUci5rU5JhGAaFm+1mPI="
-    );
+    private final Configuration conf;
+    private final Database database;
+    private final Language lang;
 
-    private TreeMap<UUID, SkinPlayer> playersByUUID = new TreeMap<>();
-    private TreeMap<String, SkinPlayer> playersByName = new TreeMap<>();
-    private TreeMap<String, HashedSkin> namedSkinHash = new TreeMap<>();
+    private final Map<UUID, SkinPlayer<?>> playersByUUID = new TreeMap<>();
+    private final Map<String, SkinPlayer<?>> playersByName = new TreeMap<>();
 
-    private List<String> blacklist = new ArrayList<>();
-    private Map<String, WhiteListElement> nicknamesWhitelist = new TreeMap<>();
-    private Map<String, WhiteListElement> urlWhitelist = new TreeMap<>();
+    private Map<String, String> blacklist;
+    private Map<String, String> whitelist;
 
-    private Configuration conf;
-    private Database database;
-    private Language lang;
-
-    private List<Skin> defaultSkin = new ArrayList<>();
+    private Skin[] defaultSkins;
 
     private NameQueue nameQueue;
     private ImageQueue imageQueue;
-
-    private Random random = new Random();
-    private Timer cleanTimer = new Timer();
 
     public SkinsAPI(Database database, Configuration conf, Language lang) {
         this.database = database;
         this.conf = conf;
         this.lang = lang;
 
-        parseDefaultSkins();
-        parseConstraints();
-
-        /* TODO register queues
-            boolean enableMojang = conf.get().getNode("skins", "mojang", "enable").getBoolean();
-        long licensePeriod = conf.get().getNode("skins", "license", "period").getInt()*1000;
-
-        licenseSkinsQueue = new QueueLicense(this, lang, licensePeriod);
-
-        if(enableMojang){
-            long mojangPeriod = conf.get().getNode("skins", "mojang", "period").getInt()*1000;
-            imageSkinsQueue = new QueueMojang(this, database, conf, lang, mojangPeriod);
-        } else {
-            long mineskinPeriod = conf.get().getNode("skins", "mineskin", "period").getInt()*1000;
-            imageSkinsQueue = new QueueMineSkin(this, lang, mineskinPeriod);
-        }
-
-        licenseSkinsQueue.start();
-        imageSkinsQueue.start();*/
-
-        startCleaner();
+        loadDefaultSkins();
+        loadBlacklist();
+        loadWhitelist();
+        loadQueues();
     }
 
     public Configuration getConfiguration(){
@@ -77,18 +52,6 @@ public class SkinsAPI {
         return lang;
     }
 
-    public List<String> getBlacklist(){
-        return blacklist;
-    }
-
-    public Map<String, WhiteListElement> getNicknamesWhitelist(){
-        return nicknamesWhitelist;
-    }
-
-    public Map<String, WhiteListElement> getUrlWhitelist(){
-        return urlWhitelist;
-    }
-
     public NameQueue getNameQueue() {
         return nameQueue;
     }
@@ -97,99 +60,13 @@ public class SkinsAPI {
         return imageQueue;
     }
 
-    private void startCleaner(){
-        cleanTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                namedSkinHash.entrySet().removeIf(entry -> entry.getValue().getExpiryTime() < System.currentTimeMillis());
-            }
-        }, 0, 1000);
-    }
-
-    public void stopCleaner(){
-        cleanTimer.cancel();
-    }
-
-    private void parseDefaultSkins(){
-        List<LinkedHashMap> list = (ArrayList<LinkedHashMap>)conf.get().getNode("skins", "default").getValue();
-
-        if(list == null || list.isEmpty()){
-            defaultSkin.add(emptySkin);
-            return;
-        }
-
-        for(LinkedHashMap map : list){
-            String value = map.get("value").toString();
-            String signature = map.get("signature").toString();
-            defaultSkin.add(new Skin(value, signature));
-        }
-    }
-
-    private void parseConstraints() {
-        boolean enableBlacklist = conf.get().getNode("skins", "blacklist", "enable").getBoolean();
-        boolean enableNicknamesWhiteList = conf.get().getNode("skins", "whitelist", "nicknames", "enable").getBoolean();
-        boolean enableUrlWhiteList = conf.get().getNode("skins", "whitelist", "url", "enable").getBoolean();
-
-        if(enableNicknamesWhiteList){
-            List<String> list = (ArrayList<String>) conf.get().getNode("skins", "whitelist", "nicknames", "list").getValue();
-
-            for(String str : list){
-                WhiteListElement elem = null;
-                String[] arr = str.split("::");
-
-                if(arr.length == 1){
-                    elem = new WhiteListElement(arr[0].toLowerCase());
-                }
-                if(arr.length == 2){
-                    elem = new WhiteListElement(arr[0].toLowerCase(), arr[1]);
-                }
-
-                if(elem != null){
-                    nicknamesWhitelist.put(elem.getValue(), elem);
-                }
-            }
-        } else {
-            if(enableBlacklist){
-                blacklist = (ArrayList<String>) conf.get().getNode("skins", "blacklist", "list").getValue();
-                blacklist = toLowerCase(blacklist);
-            }
-        }
-
-        if(enableUrlWhiteList){
-            List<String> list = (ArrayList<String>)conf.get().getNode("skins", "whitelist", "url", "list").getValue();
-
-            for(String str : list){
-                WhiteListElement elem = null;
-                String[] arr = str.split("::");
-
-                if(arr.length == 1){
-                    elem = new WhiteListElement(arr[0].toLowerCase());
-                }
-                if(arr.length == 2){
-                    elem = new WhiteListElement(arr[0].toLowerCase(), arr[1]);
-                }
-
-                if(elem != null){
-                    urlWhitelist.put(elem.getValue(), elem);
-                }
-            }
-        }
-    }
-
-    private List<String> toLowerCase(List<String> list){
-        for (int i = 0; i < list.size(); i++){
-            list.set(i, list.get(i).toLowerCase());
-        }
-        return list;
-    }
-
     /**
      * Check is premium nickname exist in blacklist
      * @param nickname Required premium nickname
      * @return true if exists and false otherwise
      */
-    public boolean hasBlacklist(String nickname){
-        return blacklist.contains(nickname.toLowerCase());
+    public boolean isBlackList(String nickname){
+        return blacklist != null && blacklist.containsKey(nickname.toLowerCase());
     }
 
     /**
@@ -197,47 +74,22 @@ public class SkinsAPI {
      * @param nickname Required premium nickname
      * @return true if exists and false otherwise
      */
-    public boolean hasNicknameWhileList(String nickname){
-        return nicknamesWhitelist.containsKey(nickname.toLowerCase());
+    public boolean isWhitelist(String nickname){
+        return whitelist.containsKey(nickname.toLowerCase());
     }
 
     /**
-     * Check is image url exist in whitelist
-     * @param url Required url to image
-     * @return true if exists and false otherwise
-     */
-    public boolean hasUrlWhiteList(String url){
-        return urlWhitelist.containsKey(url.toLowerCase());
-    }
-
-    /**
-     * Get skin saved in hash
-     * @param name Name of the premium player
-     * @return Skin object if it exist and null otherwise
-     */
-    public Skin getHashedSkin(String name){
-        return namedSkinHash.get(name.toLowerCase());
-    }
-
-    /**
-     * @return Default skin, defined in config as skins->default
+     * @return Get random default skin, defined in config
      * */
     public Skin getDefaultSkin(){
-        int size = defaultSkin.size();
-        int index = 0;
-
-        if(size > 1){
-            index = random.nextInt(size-1);
-        }
-
-        return defaultSkin.get(index);
+        return defaultSkins[ThreadLocalRandom.current().nextInt(defaultSkins.length)];
     }
 
     /**
      * Get skinned player by UUID
      * @param uuid - UUID of the player
      * */
-    public SkinPlayer getPlayer(UUID uuid){
+    public SkinPlayer<?> getPlayer(UUID uuid){
         return playersByUUID.get(uuid);
     }
 
@@ -245,7 +97,7 @@ public class SkinsAPI {
      * Get skinned player by name
      * @param name - Name of the player
      * */
-    public SkinPlayer getPlayer(String name){
+    public SkinPlayer<?> getPlayer(String name){
         return playersByName.get(name.toLowerCase());
     }
 
@@ -253,7 +105,7 @@ public class SkinsAPI {
      * Add player to hash. This method used by plugin and not recommended use as API
      * @param player - SkinPlayer object
      * */
-    public void addPlayer(SkinPlayer player){
+    public void addPlayer(SkinPlayer<?> player){
         playersByUUID.put(player.getUUID(), player);
         playersByName.put(player.getName().toLowerCase(), player);
     }
@@ -263,7 +115,7 @@ public class SkinsAPI {
      * @param uuid - UUID of the player
      * */
     public void removePlayer(UUID uuid){
-        SkinPlayer target = playersByUUID.get(uuid);
+        SkinPlayer<?> target = playersByUUID.get(uuid);
 
         if(target != null){
             playersByUUID.remove(target.getUUID());
@@ -276,7 +128,7 @@ public class SkinsAPI {
      * @param name - Name of the player
      * */
     public void removePlayer(String name){
-        SkinPlayer target = playersByName.get(name.toLowerCase());
+        SkinPlayer<?> target = playersByName.get(name.toLowerCase());
 
         if(target != null){
             playersByName.remove(target.getName().toLowerCase());
@@ -285,20 +137,11 @@ public class SkinsAPI {
     }
 
     /**
-     * Save skin in hash for optimizing future requests
-     * @param name - Name of the premium player
-     * @param skin - Skin object
-     */
-    public void hashSkin(String name, HashedSkin skin){
-        namedSkinHash.put(name.toLowerCase(), skin);
-    }
-
-    /**
      * Set custom skin for player
      * @param player SkinPlayer object
      * @param skin Skin object
      */
-    public void setCustomSkin(SkinPlayer player, Skin skin){
+    public void setCustomSkin(SkinPlayer<?> player, Skin skin){
         player.setCustomSkin(skin);
         player.applySkin();
         player.refreshSkin();
@@ -324,7 +167,7 @@ public class SkinsAPI {
      * @param player SkinPlayer object
      * @param name Name of the target premium account
      */
-    public void setSkinFromName(SkinPlayer player, String name) {
+    public void setSkinFromName(SkinPlayer<?> player, String name) {
         // TODO validate name
         nameQueue.push(player, name);
         long seconds = nameQueue.getWaitSeconds();
@@ -335,7 +178,7 @@ public class SkinsAPI {
      * Reset player skin to default
      * @param player SkinPlayer object
      */
-    public void resetSkin(SkinPlayer player) {
+    public void resetSkin(SkinPlayer<?> player) {
         if(!player.hasCustomSkin()){
             player.sendMessage(lang.of("skin.reset.empty"));
             return;
@@ -353,7 +196,7 @@ public class SkinsAPI {
      * @param player Object of SkinPlayer
      * @return Head object if player exist or null otherwise
      */
-    public Head getPlayerHead(SkinPlayer player){
+    public Head getPlayerHead(SkinPlayer<?> player){
         if(player != null) {
             Skin skin = player.getDefaultSkin();
             if(player.hasCustomSkin()){
@@ -457,7 +300,7 @@ public class SkinsAPI {
      * Save the player data into current storage (local or remote database)
      * @param player - Object of a player
      * */
-    public void savePlayer(SkinPlayer player){
+    public void savePlayer(SkinPlayer<?> player){
         CompletableFuture.runAsync(()->{
             Row row = new Row();
 
@@ -476,7 +319,7 @@ public class SkinsAPI {
         });
     }
 
-    public void createPlayer(SkinPlayer player){
+    public void createPlayer(SkinPlayer<?> player){
         CompletableFuture.runAsync(()->{
             Row row = new Row();
 
@@ -487,5 +330,72 @@ public class SkinsAPI {
 
             database.createRow(Tables.SKINS, row);
         });
+    }
+
+    private void loadDefaultSkins(){
+        try{
+            List<Skin> skins = conf.get().getNode("defaultSkins").getList(TypeToken.of(Skin.class));
+            defaultSkins = skins.toArray(new Skin[0]);
+        } catch (ObjectMappingException e){
+            Logger.severe("Cannot load default skins: %s", e.getMessage());
+        }
+    }
+
+    private void loadBlacklist(){
+        boolean enable = conf.get().getNode("enableBlacklist").getBoolean();
+
+        if (enable){
+            blacklist = new HashMap<>();
+            try{
+                List<String> list = conf.get().getNode("blacklist").getList(TypeToken.of(String.class));
+
+                for (String elem : list){
+                    String[] arr = elem.split(":");
+                    blacklist.put(arr[0], (arr.length == 2) ? arr[1] : null);
+                }
+            } catch (ObjectMappingException e){
+                Logger.severe("Cannot load skins blacklist: %s", e.getMessage());
+            }
+        }
+    }
+
+    private void loadWhitelist(){
+        boolean enable = conf.get().getNode("enableWhitelist").getBoolean();
+
+        if (enable){
+            blacklist = null;
+            whitelist = new HashMap<>();
+            try{
+                List<String> list = conf.get().getNode("whitelist").getList(TypeToken.of(String.class));
+
+                for (String elem : list){
+                    String[] arr = elem.split(":");
+                    whitelist.put(arr[0], (arr.length == 2) ? arr[1] : null);
+                }
+            } catch (ObjectMappingException e){
+                Logger.severe("Cannot load skins whitelist: %s", e.getMessage());
+            }
+        }
+    }
+
+    private void loadQueues() {
+        try{
+            boolean enableMojang = conf.get().getNode("mojang", "enable").getBoolean();
+            int imagePeriod = 6;
+
+            if (enableMojang){
+                imagePeriod = conf.get().getNode("mojang", "period").getInt();
+                List<Profile> profiles = conf.get().getNode("mojang", "accounts").getList(TypeToken.of(Profile.class));
+                imageQueue = new MojangQueue(this, profiles);
+            } else {
+                imageQueue = new MineskinQueue(this);
+            }
+
+            nameQueue = new NameQueue(this);
+            nameQueue.start(1);
+            imageQueue.start(imagePeriod);
+        } catch (ObjectMappingException e){
+            Logger.severe("Cannot load skin queue service: %s" + e.getMessage());
+        }
     }
 }

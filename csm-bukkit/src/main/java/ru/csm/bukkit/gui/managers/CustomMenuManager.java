@@ -7,7 +7,7 @@ import ru.csm.api.player.Skin;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
-import ru.csm.api.utils.text.Colors;
+import ru.csm.api.utils.Colors;
 import ru.csm.bukkit.gui.SkinMenu;
 
 import java.util.*;

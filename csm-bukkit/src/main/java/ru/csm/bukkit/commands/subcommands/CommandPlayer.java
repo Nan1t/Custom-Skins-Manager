@@ -2,11 +2,10 @@ package ru.csm.bukkit.commands.subcommands;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import ru.csm.api.WhiteListElement;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Language;
-import ru.csm.api.utils.text.Validator;
+import ru.csm.api.utils.Validator;
 import ru.csm.bukkit.commands.SubCommand;
 import ru.csm.bukkit.player.BukkitSkinPlayer;
 

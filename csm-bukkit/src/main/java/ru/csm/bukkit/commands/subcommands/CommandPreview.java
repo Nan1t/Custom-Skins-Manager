@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import ru.csm.api.player.Skin;
 import ru.csm.api.storage.Language;
-import ru.csm.api.utils.text.Colors;
+import ru.csm.api.utils.Colors;
 import ru.csm.bukkit.commands.SubCommand;
 import ru.csm.bukkit.protocol.NPCService;
 import ru.csm.bukkit.protocol.npc.NPC;

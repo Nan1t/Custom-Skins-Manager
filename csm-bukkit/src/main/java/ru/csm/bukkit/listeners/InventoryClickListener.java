@@ -12,7 +12,7 @@ import org.bukkit.util.Vector;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Language;
-import ru.csm.api.utils.text.Colors;
+import ru.csm.api.utils.Colors;
 import ru.csm.api.player.Head;
 import ru.csm.bukkit.gui.SkinMenu;
 import ru.csm.bukkit.gui.managers.MenuManager;

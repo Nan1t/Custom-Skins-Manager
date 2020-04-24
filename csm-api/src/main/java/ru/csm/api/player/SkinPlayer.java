@@ -29,18 +29,13 @@ public interface SkinPlayer<T> {
     Skin getDefaultSkin();
 
     /**
-     * Set default (instead lisense) skin for player. Real license skin will not change
+     * Set default (instead license) skin for player. Real license skin will not change
      * @return Object of player custom skin, or null if player not have custom skin
      * */
     Skin getCustomSkin();
 
     /**
-     * Set a new player object
-     */
-    void setPlayer(T player);
-
-    /**
-     * Set default (instead lisense) skin for player. Real license skin will not change
+     * Set default (instead license) skin for player. Real license skin will not change
      * @param skin - Skin object with value and signature
      * */
     void setDefaultSkin(Skin skin);
@@ -67,7 +62,7 @@ public interface SkinPlayer<T> {
     void resetSkin();
 
     /**
-    * Send message to player. Need as independ method
+    * Send message to player
     * @param message - String message
     * */
     void sendMessage(String... message);

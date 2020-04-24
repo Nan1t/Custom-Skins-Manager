@@ -1,7 +1,6 @@
 package ru.csm.bukkit;
 
 import com.google.gson.JsonObject;
-import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
 import org.bukkit.entity.Player;
 import ru.csm.api.network.Channels;
 import ru.csm.api.player.Skin;
@@ -15,15 +14,15 @@ import ru.csm.bukkit.network.PluginMessageService;
 
 public class BungeeSkinsAPI extends SkinsAPI {
 
-    private PluginMessageService pmService;
+    private final PluginMessageService pmService;
 
-    public BungeeSkinsAPI(Database database, Configuration conf, Language lang, PluginMessageService pmService) throws ObjectMappingException {
+    public BungeeSkinsAPI(Database database, Configuration conf, Language lang, PluginMessageService pmService) {
         super(database, conf, lang);
         this.pmService = pmService;
     }
 
     @Override
-    public void setCustomSkin(SkinPlayer player, Skin skin){
+    public void setCustomSkin(SkinPlayer<?> player, Skin skin){
         JsonObject json = new JsonObject();
         json.addProperty("player", player.getUUID().toString());
 
@@ -37,7 +36,7 @@ public class BungeeSkinsAPI extends SkinsAPI {
     }
 
     @Override
-    public void setSkinFromImage(SkinPlayer player, String imageUrl, SkinModel model) {
+    public void setSkinFromImage(SkinPlayer<?> player, String imageUrl, SkinModel model) {
         JsonObject json = new JsonObject();
         json.addProperty("player", player.getUUID().toString());
         json.addProperty("url", imageUrl);
@@ -46,7 +45,7 @@ public class BungeeSkinsAPI extends SkinsAPI {
     }
 
     @Override
-    public void setSkinFromName(SkinPlayer player, String name) {
+    public void setSkinFromName(SkinPlayer<?> player, String name) {
         JsonObject json = new JsonObject();
         json.addProperty("player", player.getUUID().toString());
         json.addProperty("name", name);
@@ -55,14 +54,14 @@ public class BungeeSkinsAPI extends SkinsAPI {
     }
 
     @Override
-    public void resetSkin(SkinPlayer player) {
+    public void resetSkin(SkinPlayer<?> player) {
         JsonObject json = new JsonObject();
         json.addProperty("player", player.getUUID().toString());
 
         sendJsonMessage(player, Channels.SKINS_RESET, json);
     }
 
-    private void sendJsonMessage(SkinPlayer player, String channel, JsonObject json){
+    private void sendJsonMessage(SkinPlayer<?> player, String channel, JsonObject json){
         Player bukkitPlayer = (Player) player.getPlayer();
         pmService.sendMessage(bukkitPlayer, channel, json);
     }

@@ -1,4 +1,4 @@
-package ru.csm.api.upload.data;
+package ru.csm.api.upload;
 
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.modded.configurate.ConfigurationNode;
@@ -9,8 +9,8 @@ import java.util.UUID;
 
 public class Profile {
 
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
     private String accessToken;
     private String clientToken;
     private UUID uuid;
@@ -54,6 +54,11 @@ public class Profile {
 
     public void setUUID(UUID uuid){
         this.uuid = uuid;
+    }
+
+    @Override
+    public String toString(){
+        return username;
     }
 
     public static class Serializer implements TypeSerializer<Profile> {

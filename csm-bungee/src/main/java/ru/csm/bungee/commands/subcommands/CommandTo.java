@@ -8,8 +8,8 @@ import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Language;
 import ru.csm.api.storage.database.Database;
-import ru.csm.api.utils.text.Colors;
-import ru.csm.api.utils.text.Validator;
+import ru.csm.api.utils.Colors;
+import ru.csm.api.utils.Validator;
 import ru.csm.bungee.commands.SubCommand;
 import ru.csm.bungee.player.BungeeSkinPlayer;
 

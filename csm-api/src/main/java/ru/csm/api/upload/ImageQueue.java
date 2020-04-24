@@ -1,5 +1,6 @@
-package ru.csm.api.upload.data;
+package ru.csm.api.upload;
 
+import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
 
 import java.util.Optional;
@@ -9,7 +10,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public final class NameQueue implements Runnable {
+public abstract class ImageQueue implements Runnable {
 
     private final Queue<Request> queue = new ConcurrentLinkedQueue<>();
     private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
@@ -24,8 +25,8 @@ public final class NameQueue implements Runnable {
         return queue.size() * period;
     }
 
-    public void push(SkinPlayer<?> player, String name){
-        queue.offer(new Request(player, name));
+    public void push(SkinPlayer<?> player, String url, SkinModel model){
+        queue.offer(new Request(player, url, model));
     }
 
     public void start(int period){
@@ -38,21 +39,16 @@ public final class NameQueue implements Runnable {
         task.cancel(true);
     }
 
-    @Override
-    public void run() {
-        pop().ifPresent((request)->{
-
-        });
-    }
-
-    private static class Request {
+    static class Request {
 
         private final SkinPlayer<?> player;
-        private final String name;
+        private final String url;
+        private final SkinModel model;
 
-        public Request(SkinPlayer<?> player, String name){
+        public Request(SkinPlayer<?> player, String url, SkinModel model){
             this.player = player;
-            this.name = name;
+            this.url = url;
+            this.model = model;
         }
 
         public SkinPlayer<?> getPlayer() {
@@ -60,7 +56,11 @@ public final class NameQueue implements Runnable {
         }
 
         public String getUrl() {
-            return name;
+            return url;
+        }
+
+        public SkinModel getModel() {
+            return model;
         }
     }
 }

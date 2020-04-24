@@ -6,7 +6,7 @@ import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import ru.csm.api.utils.text.Colors;
+import ru.csm.api.utils.Colors;
 
 public class ItemStackSerializer implements TypeSerializer<ItemStack> {
 

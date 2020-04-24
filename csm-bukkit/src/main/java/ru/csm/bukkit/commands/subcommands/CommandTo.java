@@ -11,8 +11,8 @@ import ru.csm.api.storage.database.Database;
 import ru.csm.api.upload.entity.RequestImage;
 import ru.csm.api.upload.entity.RequestLicense;
 import ru.csm.api.upload.entity.SkinRequest;
-import ru.csm.api.utils.text.Colors;
-import ru.csm.api.utils.text.Validator;
+import ru.csm.api.utils.Colors;
+import ru.csm.api.utils.Validator;
 import ru.csm.bukkit.commands.SubCommand;
 import ru.csm.bukkit.player.BukkitSkinPlayer;
 

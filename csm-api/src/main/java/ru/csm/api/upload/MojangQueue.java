@@ -2,101 +2,67 @@ package ru.csm.api.upload;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import ru.csm.api.http.HttpPost;
 import ru.csm.api.http.entity.HttpEntity;
 import ru.csm.api.http.entity.HttpResponse;
 import ru.csm.api.player.Skin;
 import ru.csm.api.services.MojangAPI;
+import ru.csm.api.services.SkinHash;
 import ru.csm.api.services.SkinsAPI;
-import ru.csm.api.storage.Configuration;
-import ru.csm.api.storage.Language;
-import ru.csm.api.storage.database.Database;
-import ru.csm.api.upload.data.Profile;
-import ru.csm.api.upload.entity.RequestImage;
-import ru.csm.api.upload.entity.SkinRequest;
+import ru.csm.api.utils.Logger;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
-public class QueueMojang extends QueueService {
+public final class MojangQueue extends ImageQueue {
 
     private static final String AUTH_URL = "https://authserver.mojang.com";
     private static final String SKIN_URL = "https://api.mojang.com/user/profile/%s/skin";
+    private static final JsonParser JSON_PARSER = new JsonParser();
 
-    private SkinsAPI api;
-    private Database db;
-    private Configuration conf;
-    private Language lang;
-    private Timer timer;
+    private final SkinsAPI api;
+    private final List<Profile> profiles;
+    private Iterator<Profile> profileIterator;
 
-    private List<Profile> profiles = new LinkedList<>();
-
-    private int index;
-
-    public QueueMojang(SkinsAPI api, Database database, Configuration conf, Language lang, long requestPeriod) {
-        super(requestPeriod);
-
+    public MojangQueue(SkinsAPI api, List<Profile> profiles) {
         this.api = api;
-        this.db = database;
-        this.conf = conf;
-        this.lang = lang;
-        this.timer = new Timer();
+        this.profiles = profiles;
+        this.profileIterator = profiles.iterator();
+    }
 
-        fetchProfiles();
-
-        for(Profile profile : profiles){
-            authenticate(profile);
-        }
+    private Profile getAvailableProfile(){
+        if (!profileIterator.hasNext()) profileIterator = profiles.iterator();
+        return profileIterator.next();
     }
 
     @Override
-    public void start() {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                SkinRequest request = getRequestQueue().poll();
+    public void run() {
+        pop().ifPresent((request)->{
+            if (request.getPlayer().isOnline()){
+                Profile profile = getAvailableProfile();
 
-                if(request != null){
-                    if(!request.getSender().isOnline()){
+                Logger.info("Using profile %s", profile.toString());
+
+                if(changeSkin(profile, request)){
+                    Skin skin = MojangAPI.getPremiumSkin(profile.getUUID());
+
+                    if(skin != null){
+                        SkinHash.add(request.getUrl(), skin);
+                        api.setCustomSkin(request.getPlayer(), skin);
+                        request.getPlayer().sendMessage(api.getLang().of("skin.image.success"));
                         return;
                     }
-
-                    RequestImage requestImage = (RequestImage) request;
-                    Profile freeProfile = profiles.get(index);
-
-                    System.out.println("Using profile " + freeProfile.getUsername() + " to change player skin");
-
-                    if(changeSkin(freeProfile, requestImage)){
-                        Skin skin = MojangAPI.getPremiumSkin(freeProfile.getUUID());
-
-                        if(skin != null) {
-                            request.getSender().setCustomSkin(skin);
-                            request.getSender().applySkin();
-                            request.getSender().refreshSkin();
-                            request.getSender().sendMessage(lang.of("skin.image.success"));
-                            api.savePlayer(request.getSender());
-                        }
-
-                        addIndex();
-                        return;
-                    }
-
-                    request.getSender().sendMessage(lang.of("skin.image.error"));
+                    Logger.severe("Cannot get skin of premium profile %s", profile);
+                    return;
                 }
+
+                request.getPlayer().sendMessage(api.getLang().of("skin.image.error"));
             }
-        }, 1000, getRequestPeriod());
+        });
     }
 
-    private void addIndex(){
-        if(index >= (profiles.size()-1)){
-            index = 0;
-            return;
-        }
-        index++;
-    }
-
-    private boolean changeSkin(Profile profile, RequestImage request) {
+    private boolean changeSkin(Profile profile, Request request) {
         try {
             HttpPost post = new HttpPost(String.format(SKIN_URL, profile.getUUID().toString().replace("-", "")));
             post.addHeader("Authorization", "Bearer " + profile.getAccessToken());
@@ -112,13 +78,13 @@ public class QueueMojang extends QueueService {
             int code = response.getCode();
 
             if (code != 204) {
-                System.out.println("Error while change license skin. Response code: " + code);
+                Logger.info("Error while change license skin. Response code: %s", code);
                 return false;
             }
 
             return true;
         } catch (IOException e) {
-            System.out.println("Error while change license skin: " + e.getMessage());
+            Logger.info("Error while change license skin: %s", e.getMessage());
             return false;
         }
     }
@@ -153,15 +119,15 @@ public class QueueMojang extends QueueService {
             request.setEntity(new HttpEntity(json.toString()));
 
             HttpResponse response = request.execute();
-            JsonObject responseJson = new JsonParser().parse(response.getResponse()).getAsJsonObject();
+            JsonObject responseJson = JSON_PARSER.parse(response.getResponse()).getAsJsonObject();
             String accessToken = responseJson.get("accessToken").getAsString();
             String clientToken = responseJson.get("clientToken").getAsString();
 
             profile.setAccessToken(accessToken);
             profile.setClientToken(clientToken);
-            System.out.println("Successfully refreshing session for mojang account " + profile.getUsername());
+            Logger.info("Successfully refreshing session for Mojang account %s", profile.getUsername());
         } catch (IOException e){
-            System.out.println("Error while refreshing session for mojang account " + profile.getUsername() + ": " + e.getMessage());
+            Logger.info("Error while refreshing session for Mojang account %s: %s", profile.getUsername(), e.getMessage());
         }
     }
 
@@ -182,7 +148,7 @@ public class QueueMojang extends QueueService {
             request.setEntity(new HttpEntity(json.toString()));
 
             HttpResponse response = request.execute();
-            JsonObject responseJson = new JsonParser().parse(response.getResponse()).getAsJsonObject();
+            JsonObject responseJson = JSON_PARSER.parse(response.getResponse()).getAsJsonObject();
 
             String accessToken = responseJson.get("accessToken").getAsString();
             String clientToken = responseJson.get("clientToken").getAsString();
@@ -192,18 +158,9 @@ public class QueueMojang extends QueueService {
             profile.setClientToken(clientToken);
             profile.setUUID(uuid);
 
-            System.out.println("Successfully authenticate account " + profile.getUsername());
+            Logger.info("Successfully authenticate account %s", profile.getUsername());
         } catch (Exception e){
-            System.out.println("Error while authenticate profile " + profile.getUsername() + ": " + e.getMessage());
-        }
-    }
-
-    private void fetchProfiles(){
-        ArrayList<LinkedHashMap> profiles = (ArrayList<LinkedHashMap>) conf.get().getNode("skins", "mojang", "accounts").getValue();
-
-        for(LinkedHashMap map : profiles){
-            Profile profile = new Profile(map.get("login").toString(), map.get("password").toString());
-            this.profiles.add(profile);
+            Logger.info("Error while authenticate profile %s: %s", profile.getUsername(), e.getMessage());
         }
     }
 }

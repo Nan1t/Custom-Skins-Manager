@@ -1,8 +1,14 @@
 package ru.csm.api.player;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.Expose;
+import ninja.leaping.modded.configurate.ConfigurationNode;
+import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Base64;
 
@@ -101,5 +107,20 @@ public class Skin {
         String decoded = new String(DECODER.decode(value));
         JsonObject json = new JsonParser().parse(decoded).getAsJsonObject();
         return json.get("textures").getAsJsonObject();
+    }
+
+    public static class Serializer implements TypeSerializer<Skin> {
+
+        @Override
+        public Skin deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
+            String texture = node.getNode("texture").getString();
+            String signature = node.getNode("signature").getString();
+            return new Skin(texture, signature);
+        }
+
+        @Override
+        public void serialize(TypeToken<?> type, Skin obj, ConfigurationNode value) throws ObjectMappingException {
+
+        }
     }
 }

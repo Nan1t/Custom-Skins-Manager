@@ -4,7 +4,7 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import ru.csm.api.player.Head;
-import ru.csm.api.utils.text.Colors;
+import ru.csm.api.utils.Colors;
 
 public class Heads {
 

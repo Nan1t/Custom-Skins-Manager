@@ -14,9 +14,11 @@ import java.util.UUID;
 
 public final class MojangAPI {
 
-    private static final Base64.Decoder BASE64_DECODER = Base64.getDecoder();
     private static final String UUID_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
     private static final String SKIN_URL = "https://sessionserver.mojang.com/session/minecraft/profile/%s?unsigned=false";
+
+    private static final Base64.Decoder BASE64_DECODER = Base64.getDecoder();
+    private static final JsonParser JSON_PARSER = new JsonParser();
 
     private MojangAPI(){}
 
@@ -26,7 +28,7 @@ public final class MojangAPI {
             String jsonString = getLine(url.openStream());
 
             if(!jsonString.isEmpty()){
-                JsonObject object = new JsonParser().parse(jsonString).getAsJsonObject();
+                JsonObject object = JSON_PARSER.parse(jsonString).getAsJsonObject();
                 String uuid = object.get("id").getAsString();
                 return UuidUtil.getUUID(uuid);
             }
@@ -43,7 +45,7 @@ public final class MojangAPI {
             String jsonString = getLine(url.openStream());
 
             if(!jsonString.isEmpty()){
-                JsonObject object = new JsonParser().parse(jsonString).getAsJsonObject();
+                JsonObject object = JSON_PARSER.parse(jsonString).getAsJsonObject();
 
                 if(object.has("properties")){
                     JsonObject properties = object.get("properties").getAsJsonArray().get(0).getAsJsonObject();
@@ -68,7 +70,7 @@ public final class MojangAPI {
 
     public static String getsSkinURL(String base64String){
         String encoded = new String(BASE64_DECODER.decode(base64String));
-        JsonObject json = new JsonParser().parse(encoded).getAsJsonObject();
+        JsonObject json = JSON_PARSER.parse(encoded).getAsJsonObject();
         JsonObject textures = json.get("textures").getAsJsonObject();
 
         if(textures.entrySet().size() != 0){
