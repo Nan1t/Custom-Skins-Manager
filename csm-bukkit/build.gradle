@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compileOnly project(":csm-api")
+
+    compileOnly files('lib/spigot-1.13.2.jar')
+
+    compileOnly 'com.comphenix.protocol:ProtocolLib:4.4.0'
+    compile 'com.github.tr7zw.Item-NBT-API:item-nbt-api:2.1.1'
+}

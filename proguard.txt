@@ -1,0 +1,65 @@
+# Include java runtime classes
+
+-libraryjars <java.home>/lib/rt.jar
+
+-dontwarn
+-dontoptimize
+-dontobfuscate
+
+-optimizations !method/inlining/unique
+-optimizations !class/merging/*
+
+-keep public class ru.csm.**
+#-keep class ru.nanit.abstractmenus.Metrics{*;}
+#-keep class ru.nanit.abstractmenus.Metrics$*{*;}
+
+-keep class com.google.common.reflect.**{*;}
+-keep class ninja.leaping.modded.configurate.**{*;}
+-keep class ninja.leaping.modded.configurate.hocon.HoconConfigurationLoader{*;}
+-keep class com.mojang.authlib.properties.PropertyMap {*;}
+
+#-keepclassmembers public class ru.nanit.abstractmenus.AbstractMenus{
+#    private <fields>;
+#}
+
+#-keepclassmembernames public class ru.nanit.abstractmenus.AbstractMenus{
+#    private <fields>;
+#}
+
+-keepclassmembers public class ru.nanit.abstractmenus.events.RegionEvent{
+    public static org.bukkit.event.HandlerList getHandlerList();
+}
+
+-keepclassmembers class ** {
+    @org.bukkit.event.EventHandler
+    <fields>;
+    @org.bukkit.event.EventHandler
+    <methods>;
+}
+
+-keepattributes *Annotation*
+-keepattributes EventHandler
+-keepattributes LineNumberTable, Signature, Exceptions, InnerClasses, EnclosingMethod, CodeSource
+
+-keepclassmembernames class * {
+    java.lang.Class class$(java.lang.String);
+    java.lang.Class class$(java.lang.String, boolean);
+}
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}

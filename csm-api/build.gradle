@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compile files('lib/configurate-hocon-3.7.jar')
+
+    compileOnly 'com.google.guava:guava:13.0-rc1'
+    compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'commons-io:commons-io:2.4'
+    compile 'org.apache.commons:commons-lang3:3.0'
+}

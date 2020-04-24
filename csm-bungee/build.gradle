@@ -1,0 +1,9 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compileOnly project(":csm-api")
+    compileOnly files('lib/BungeeCord.jar')
+}
