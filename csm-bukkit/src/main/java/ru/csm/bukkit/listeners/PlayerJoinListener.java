@@ -13,16 +13,15 @@ import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.Row;
-import ru.csm.bukkit.Skins;
 import ru.csm.bukkit.player.BukkitSkinPlayer;
 
 import java.util.UUID;
 
 public class PlayerJoinListener implements Listener {
 
-    private Plugin plugin;
-    private Database db;
-    private SkinsAPI api;
+    private final Plugin plugin;
+    private final Database db;
+    private final SkinsAPI api;
 
     public PlayerJoinListener(Plugin plugin, Database db, SkinsAPI api) {
         this.plugin = plugin;
@@ -32,10 +31,9 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
-        SkinPlayer<Player> player = api.getPlayer(e.getPlayer().getUniqueId());
+        SkinPlayer<?> player = api.getPlayer(e.getPlayer().getUniqueId());
 
         if(player != null){
-            player.setPlayer(e.getPlayer());
             new BukkitRunnable(){
                 public void run(){
                     player.applySkin();
@@ -56,7 +54,7 @@ public class PlayerJoinListener implements Listener {
     }
 
     private void createPlayer(Player template){
-        SkinPlayer player = new BukkitSkinPlayer(template);
+        SkinPlayer<?> player = new BukkitSkinPlayer(template);
 
         UUID uuid = MojangAPI.getUUID(template.getName());
 
@@ -82,7 +80,7 @@ public class PlayerJoinListener implements Listener {
     }
 
     private void getPlayerFromRow(Player template, Row row){
-        SkinPlayer player = new BukkitSkinPlayer(template);
+        SkinPlayer<?> player = new BukkitSkinPlayer(template);
         Skin defaultSkin, customSkin;
 
         String defaultValue = row.getField("default_value").toString();

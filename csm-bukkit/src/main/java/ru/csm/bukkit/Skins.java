@@ -9,19 +9,22 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import org.spigotmc.SpigotConfig;
 import ru.csm.api.network.Channels;
+import ru.csm.api.player.Skin;
+import ru.csm.api.services.SkinHash;
+import ru.csm.api.storage.database.H2Database;
+import ru.csm.api.utils.Logger;
+import ru.csm.bukkit.commands.*;
+import ru.csm.bukkit.handler.SkinHandlers;
 import ru.csm.bukkit.serializers.ItemStackSerializer;
-import ru.csm.api.serializers.ProfileSerializer;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
-import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.MySQLDatabase;
 import ru.csm.api.storage.database.SQLiteDatabase;
 import ru.csm.api.upload.Profile;
-import ru.csm.bukkit.commands.CommandSkin;
-import ru.csm.bukkit.commands.CommandSkull;
 import ru.csm.bukkit.gui.managers.BungeeMenuManager;
 import ru.csm.bukkit.gui.managers.CustomMenuManager;
 import ru.csm.bukkit.gui.managers.MenuManager;
@@ -33,7 +36,9 @@ import ru.csm.bukkit.network.executors.SkinsRefreshExecutor;
 import ru.csm.bukkit.protocol.NPCService;
 import ru.csm.bukkit.protocol.listeners.NpcClickListener;
 import ru.csm.bukkit.util.BukkitTasks;
+import ru.csm.bukkit.util.FileUtil;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
@@ -44,51 +49,47 @@ public class Skins extends JavaPlugin {
     private MenuManager menuManager;
     private NPCService npcService;
 
-    private static int subVersion;
-    private static boolean isBungeeCord = false;
-    private static boolean isEnabledCitizens = false;
-
     @Override
     public void onEnable(){
         try{
+            Logger.set(getLogger());
+
             if(!checkDependencies()){
-                getServer().getPluginManager().disablePlugin(this);
+                getPluginLoader().disablePlugin(this);
                 return;
             }
 
+            String packageName = getServer().getClass().getPackage().getName();
+            String version = packageName.substring(packageName.lastIndexOf('.') + 1);
+
             BukkitTasks.setPlugin(this);
+            SkinHandlers.init(version);
 
             Configuration configuration = new Configuration("bukkit/config.conf", getDataFolder().toPath(), this);
             Configuration menuConf = new Configuration("bukkit/menu.conf", getDataFolder().toPath(), this);
             Language lang = new Language(this, Paths.get(getDataFolder().toPath().toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
             PluginMessageService pmService = new PluginMessageService(this);
 
-            isBungeeCord = configuration.get().getNode("bungeecord").getBoolean();
-            isEnabledCitizens = getServer().getPluginManager().isPluginEnabled("Citizens");
-
-            String packageName = getServer().getClass().getPackage().getName();
-            String ver = packageName.substring(packageName.lastIndexOf('.') + 1);
-            subVersion = Integer.parseInt(ver.split("_")[1]);
-
             registerSerializers();
 
             boolean isCustomMenu = menuConf.get().getNode("custom", "enable").getBoolean();
 
-            npcService = new NPCService(subVersion);
+            npcService = new NPCService();
 
-            if(!isBungeeCord){
+            if(!SpigotConfig.bungee){
                 try{
                     setupDatabase(configuration);
                 } catch (SQLException e){
                     getLogger().severe("Cannot connect to SQL database: " + e.getMessage());
-                    getServer().getPluginManager().disablePlugin(this);
+                    getPluginLoader().disablePlugin(this);
                     return;
                 }
 
+                SkinHash.startCleaner();
+
                 api = new SkinsAPI(database, configuration, lang);
                 menuManager = isCustomMenu ? new CustomMenuManager(menuConf, lang, api) : new MenuManager(menuConf, lang, api);
-                getCommand("csm").setExecutor(new CommandSkin(api, menuConf, lang, menuManager, npcService));
-                getCommand("csmskull").setExecutor(new CommandSkull(api, lang));
+                registerCommands();
             } else {
                 api = new BungeeSkinsAPI(database, configuration, lang, pmService);
                 menuManager = new BungeeMenuManager(menuConf, lang, api, pmService);
@@ -110,7 +111,7 @@ public class Skins extends JavaPlugin {
             database.closeConnection();
         }
 
-        api.stopCleaner();
+        SkinHash.stopCleaner();
     }
 
     private boolean checkDependencies(){
@@ -118,20 +119,28 @@ public class Skins extends JavaPlugin {
             getLogger().severe("ProtocolLib is not enabled! CSM disabled");
             return false;
         }
-
         return true;
     }
 
-    public static int getSubVersion() {
-        return subVersion;
-    }
+    private void registerCommands(){
+        Command commandSkin = new CommandSkin(api.getLang());
+        Command commandSkull = new CommandSkull();
 
-    public static boolean isEnabledCitizens(){
-        return isEnabledCitizens;
+        commandSkin.addSub(new CommandSkinPlayer(api), "player");
+        commandSkin.addSub(new CommandSkinUrl(api), "url");
+        commandSkin.addSub(new CommandSkinReset(api), "reset");
+        commandSkin.addSub(new CommandSkinTo(api), "to");
+        commandSkin.addSub(new CommandSkinPreview(api), "preview");
+
+        commandSkull.addSub(new CommandSkullPlayer(api), "player");
+        commandSkull.addSub(new CommandSkullUrl(api), "url");
+
+        getCommand("csm").setExecutor(commandSkin);
+        getCommand("csmskull").setExecutor(commandSkull);
     }
 
     private void registerListeners(){
-        if(!isBungeeCord){
+        if(!SpigotConfig.bungee){
             getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, database, api), this);
         }
 
@@ -141,7 +150,8 @@ public class Skins extends JavaPlugin {
     }
 
     private void registerSerializers(){
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Profile.class), new ProfileSerializer());
+        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Profile.class), new Profile.Serializer());
+        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Skin.class), new Skin.Serializer());
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(ItemStack.class), new ItemStackSerializer());
     }
 
@@ -157,55 +167,39 @@ public class Skins extends JavaPlugin {
         getServer().getMessenger().registerIncomingPluginChannel(this, Channels.SKINS_REFRESH, new SkinsRefreshExecutor());
     }
 
-    private void setupDatabase(Configuration configuration) throws SQLException {
-        boolean useRemote = configuration.get().getNode("remoteDatabase").getBoolean();
+    private void setupDatabase(Configuration conf) throws SQLException {
+        String type = conf.get().getNode("database", "type").getString("").toLowerCase();
 
-        if(useRemote){
-            String type = configuration.get().getNode("database", "type").getString();
-            String host = configuration.get().getNode("database", "host").getString();
-            String name = configuration.get().getNode("database", "database").getString();
-            String user = configuration.get().getNode("database", "user").getString();
-            String password = configuration.get().getNode("database", "password").getString();
-            int port = configuration.get().getNode("database", "port").getInt();
-
-            if(type.equalsIgnoreCase("mysql")){
-                database = new MySQLDatabase(host, port, name, user, password);
-
-                database.executeSQL("CREATE TABLE IF NOT EXISTS `"+Tables.SKINS+"` (\n" +
-                        "\t`id` INT NOT NULL AUTO_INCREMENT,\n" +
-                        "\t`uuid` varchar(38) NOT NULL,\n" +
-                        "\t`name` varchar(16) NOT NULL,\n" +
-                        "\t`default_value` varchar(512) NOT NULL,\n" +
-                        "\t`default_signature` varchar(1024) NOT NULL,\n" +
-                        "\t`custom_value` varchar(1024),\n" +
-                        "\t`custom_signature` varchar(1024),\n" +
-                        "\tPRIMARY KEY (`id`));");
-                return;
+        switch (type) {
+            case "h2": {
+                Path path = Paths.get(getDataFolder().getAbsolutePath(), "skins");
+                String user = conf.get().getNode("database", "user").getString();
+                String password = conf.get().getNode("database", "password").getString();
+                this.database = new H2Database(path, user, password);
+                break;
             }
-
-            if(type.equalsIgnoreCase("sqlite")){
-                createSQLiteDatabase(host, name, user, password);
-                return;
+            case "sqlite": {
+                String path = getDataFolder().getAbsolutePath();
+                String dbname = conf.get().getNode("database", "database").getString();
+                String user = conf.get().getNode("database", "user").getString();
+                String password = conf.get().getNode("database", "password").getString();
+                this.database = new SQLiteDatabase(path, dbname, user, password);
+                break;
             }
-
-            getLogger().warning("Not supported database type '" + type + "'");
-            return;
+            case "mysql": {
+                String host = conf.get().getNode("database", "host").getString();
+                int port = conf.get().getNode("database", "port").getInt(3306);
+                String dbname = conf.get().getNode("database", "database").getString();
+                String user = conf.get().getNode("database", "user").getString();
+                String password = conf.get().getNode("database", "password").getString();
+                this.database = new MySQLDatabase(host, port, dbname, user, password);
+                break;
+            }
+            default:
+                Logger.severe("Undefined database type: %s", type);
+                return;
         }
 
-        // Setup local SQLite database
-        createSQLiteDatabase(getDataFolder().toPath().toString(), Tables.SKINS, "user", "");
-    }
-
-    private void createSQLiteDatabase(String path, String dbName, String user, String password) throws SQLException{
-        database = new SQLiteDatabase(path, dbName, user, password);
-
-        database.executeSQL("CREATE TABLE IF NOT EXISTS `"+Tables.SKINS+"` (\n" +
-                "\t`id` IDENTITY PRIMARY KEY,\n" +
-                "\t`uuid` varchar(38) NOT NULL,\n" +
-                "\t`name` varchar(16) NOT NULL,\n" +
-                "\t`default_value` varchar(512) NOT NULL,\n" +
-                "\t`default_signature` varchar(1024) NOT NULL,\n" +
-                "\t`custom_value` varchar(1024),\n" +
-                "\t`custom_signature` varchar(1024));");
+        this.database.executeSQL(FileUtil.readResourceContent("/tables/" + type + "/skins.sql"));
     }
 }

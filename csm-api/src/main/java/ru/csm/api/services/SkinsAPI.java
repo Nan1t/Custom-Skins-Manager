@@ -11,6 +11,7 @@ import ru.csm.api.storage.database.Row;
 import ru.csm.api.upload.*;
 import ru.csm.api.utils.Logger;
 import ru.csm.api.utils.UuidUtil;
+import ru.csm.api.utils.Validator;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -65,8 +66,15 @@ public class SkinsAPI {
      * @param nickname Required premium nickname
      * @return true if exists and false otherwise
      */
-    public boolean isBlackList(String nickname){
-        return blacklist != null && blacklist.containsKey(nickname.toLowerCase());
+    public boolean isBlackList(String nickname, SkinPlayer<?> player){
+        if (blacklist == null) return false;
+
+        if (blacklist.containsKey(nickname.toLowerCase())){
+            String perm = blacklist.get(nickname.toLowerCase());
+            return perm == null || player.hasPermission(perm);
+        }
+
+        return false;
     }
 
     /**
@@ -74,8 +82,15 @@ public class SkinsAPI {
      * @param nickname Required premium nickname
      * @return true if exists and false otherwise
      */
-    public boolean isWhitelist(String nickname){
-        return whitelist.containsKey(nickname.toLowerCase());
+    public boolean isWhitelist(String nickname, SkinPlayer<?> player){
+        if (whitelist == null) return true;
+
+        if (whitelist.containsKey(nickname.toLowerCase())){
+            String perm = whitelist.get(nickname.toLowerCase());
+            return perm == null || player.hasPermission(perm);
+        }
+
+        return false;
     }
 
     /**
@@ -150,14 +165,18 @@ public class SkinsAPI {
     }
 
     /**
-     * Set skin from image url
+     * Set skin from image link
      * @param player SkinPlayer object
-     * @param imageUrl URL to .png image
+     * @param link Link to *.png image
      * @param model Model of the skin
      */
-    public void setSkinFromImage(SkinPlayer<?> player, String imageUrl, SkinModel model) {
-        // TODO validate url
-        imageQueue.push(player, imageUrl, model);
+    public void setSkinFromImage(SkinPlayer<?> player, String link, SkinModel model) {
+        if(!Validator.validateURL(link)){
+            player.sendMessage(lang.of("skin.image.invalid"));
+            return;
+        }
+
+        imageQueue.push(player, link, model);
         long seconds = imageQueue.getWaitSeconds();
         player.sendMessage(String.format(lang.of("skin.process"), seconds));
     }
@@ -168,7 +187,16 @@ public class SkinsAPI {
      * @param name Name of the target premium account
      */
     public void setSkinFromName(SkinPlayer<?> player, String name) {
-        // TODO validate name
+        if (!Validator.validateName(name)){
+            player.sendMessage(lang.of("skin.name.invalid"));
+            return;
+        }
+
+        if (isBlackList(name, player) || !isWhitelist(name, player)){
+            player.sendMessage(lang.of("skin.unallowed"));
+            return;
+        }
+
         nameQueue.push(player, name);
         long seconds = nameQueue.getWaitSeconds();
         player.sendMessage(String.format(lang.of("skin.process"), seconds));
@@ -213,7 +241,7 @@ public class SkinsAPI {
      * @return Head object if player exist or null otherwise
      */
     public Head getPlayerHead(String playerName){
-        SkinPlayer player = getPlayer(playerName);
+        SkinPlayer<?> player = getPlayer(playerName);
 
         if(player != null){
             Skin skin = player.getCustomSkin();
@@ -307,8 +335,6 @@ public class SkinsAPI {
             row.addField("name", player.getName());
             row.addField("default_value", player.getDefaultSkin().getValue());
             row.addField("default_signature", player.getDefaultSkin().getSignature());
-            row.addField("custom_value", null);
-            row.addField("custom_signature", null);
 
             if(player.hasCustomSkin()){
                 row.addField("custom_value", player.getCustomSkin().getValue());
@@ -351,7 +377,7 @@ public class SkinsAPI {
 
                 for (String elem : list){
                     String[] arr = elem.split(":");
-                    blacklist.put(arr[0], (arr.length == 2) ? arr[1] : null);
+                    blacklist.put(arr[0].toLowerCase(), (arr.length == 2) ? arr[1] : null);
                 }
             } catch (ObjectMappingException e){
                 Logger.severe("Cannot load skins blacklist: %s", e.getMessage());
@@ -370,7 +396,7 @@ public class SkinsAPI {
 
                 for (String elem : list){
                     String[] arr = elem.split(":");
-                    whitelist.put(arr[0], (arr.length == 2) ? arr[1] : null);
+                    whitelist.put(arr[0].toLowerCase(), (arr.length == 2) ? arr[1] : null);
                 }
             } catch (ObjectMappingException e){
                 Logger.severe("Cannot load skins whitelist: %s", e.getMessage());

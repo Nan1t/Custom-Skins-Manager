@@ -19,22 +19,19 @@ import java.util.UUID;
 
 public class PostLoginListener implements Listener {
 
-    private PluginMessageService pmService;
-    private Database db;
-    private SkinsAPI api;
+    private final Database db;
+    private final SkinsAPI api;
 
-    public PostLoginListener(Database db, SkinsAPI api, PluginMessageService pmService){
-        this.pmService = pmService;
+    public PostLoginListener(Database db, SkinsAPI api){
         this.db = db;
         this.api = api;
     }
 
     @EventHandler
     public void onPostLogin(PostLoginEvent e){
-        SkinPlayer<ProxiedPlayer> player = api.getPlayer(e.getPlayer().getUniqueId());
+        SkinPlayer<?> player = api.getPlayer(e.getPlayer().getUniqueId());
 
         if(player != null){
-            player.setPlayer(e.getPlayer());
             player.applySkin();
             return;
         }
@@ -50,7 +47,7 @@ public class PostLoginListener implements Listener {
     }
 
     private void createPlayer(ProxiedPlayer template){
-        SkinPlayer player = new BungeeSkinPlayer(template);
+        SkinPlayer<?> player = new BungeeSkinPlayer(template);
 
         UUID uuid = MojangAPI.getUUID(template.getName());
 
@@ -75,7 +72,7 @@ public class PostLoginListener implements Listener {
     }
 
     private void getPlayerFromRow(ProxiedPlayer template, Row row){
-        SkinPlayer player = new BungeeSkinPlayer(template);
+        SkinPlayer<?> player = new BungeeSkinPlayer(template);
         Skin defaultSkin, customSkin;
 
         String defaultValue = row.getField("default_value").toString();

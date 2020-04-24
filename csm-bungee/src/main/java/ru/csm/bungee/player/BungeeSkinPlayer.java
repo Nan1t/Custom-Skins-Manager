@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
 
-    private ProxiedPlayer player;
+    private final ProxiedPlayer player;
     private Skin defaultSkin;
     private Skin customSkin;
 
@@ -48,11 +48,6 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
     @Override
     public Skin getCustomSkin() {
         return customSkin;
-    }
-
-    @Override
-    public void setPlayer(ProxiedPlayer player){
-        this.player = player;
     }
 
     @Override
@@ -124,5 +119,10 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
     @Override
     public boolean hasDefaultSkin() {
         return defaultSkin != null && defaultSkin.getValue() != null && defaultSkin.getSignature() != null;
+    }
+
+    @Override
+    public boolean hasPermission(String permission) {
+        return player.hasPermission(permission);
     }
 }

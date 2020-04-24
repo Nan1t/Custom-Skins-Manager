@@ -30,7 +30,6 @@ allprojects {
             maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
             maven { url = 'http://repo.dmulloy2.net/nexus/repository/public' }
             maven { url = 'https://jitpack.io' }
-            maven { url = 'http://repo.citizensnpcs.co' }
         }
     }
 }

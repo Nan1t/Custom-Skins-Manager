@@ -7,20 +7,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import ru.csm.bukkit.Skins;
 
 import java.util.Random;
 
 public class Holo_1_8 implements Hologram {
 
-    private int id;
-    private Location location;
+    private final int id;
+    private final Location location;
     private String text;
 
-    private OldWrapperPlayServerSpawnEntityLiving entity;
-    private WrappedDataWatcher watcher;
-
-    private boolean isOldVersion = false;
+    private final OldWrapperPlayServerSpawnEntityLiving entity;
+    private final WrappedDataWatcher watcher;
 
     public int getEntityID(){
         return id;
@@ -37,8 +34,6 @@ public class Holo_1_8 implements Hologram {
     public Holo_1_8(Location location){
         this.location = location;
         this.id = new Random().nextInt(Integer.MAX_VALUE);
-
-        isOldVersion = Skins.getSubVersion() < 13;
 
         entity = new OldWrapperPlayServerSpawnEntityLiving();
         entity.setEntityID(id);

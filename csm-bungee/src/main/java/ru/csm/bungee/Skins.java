@@ -4,7 +4,7 @@ import com.google.common.reflect.TypeToken;
 import net.md_5.bungee.api.plugin.Plugin;
 import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializers;
 import ru.csm.api.network.Channels;
-import ru.csm.api.serializers.ProfileSerializer;
+import ru.csm.api.player.Skin;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
@@ -12,7 +12,6 @@ import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.MySQLDatabase;
 import ru.csm.api.upload.Profile;
-import ru.csm.bungee.commands.CommandSkin;
 import ru.csm.bungee.listeners.PostLoginListener;
 import ru.csm.bungee.network.PluginMessageService;
 import ru.csm.bungee.network.executors.*;
@@ -48,8 +47,7 @@ public class Skins extends Plugin {
 
             registerMessageExecutors();
             registerListeners();
-
-            getProxy().getPluginManager().registerCommand(this, new CommandSkin(this, api, lang));
+            registerCommands();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -60,13 +58,18 @@ public class Skins extends Plugin {
         database.closeConnection();
     }
 
+    private void registerCommands(){
+        // TODO register commands
+    }
+
     private void registerSerializers(){
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Profile.class), new ProfileSerializer());
+        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Profile.class), new Profile.Serializer());
+        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Skin.class), new Skin.Serializer());
     }
 
     private void registerListeners(){
         getProxy().getPluginManager().registerListener(this, pmService);
-        getProxy().getPluginManager().registerListener(this, new PostLoginListener(database, api, pmService));
+        getProxy().getPluginManager().registerListener(this, new PostLoginListener(database, api));
     }
 
     private void registerMessageExecutors(){

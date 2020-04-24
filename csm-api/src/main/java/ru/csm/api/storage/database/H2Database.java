@@ -13,6 +13,7 @@ public class H2Database implements Database {
 
     public H2Database(Path path, String user, String password) throws SQLException {
         pool = JdbcConnectionPool.create("jdbc:h2:file:" + path.toString(), user, password);
+        pool.getConnection().close(); // Just check connection
     }
 
     @Override

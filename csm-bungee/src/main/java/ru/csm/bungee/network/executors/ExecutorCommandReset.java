@@ -21,7 +21,7 @@ public class ExecutorCommandReset implements MessageExecutor {
     @Override
     public JsonMessage execute(JsonObject json) {
         UUID uuid = UUID.fromString(json.get("player").getAsString());
-        SkinPlayer<ProxiedPlayer> player = api.getPlayer(uuid);
+        SkinPlayer<?> player = api.getPlayer(uuid);
 
         if(player != null){
             api.resetSkin(player);

@@ -16,7 +16,7 @@ public class SQLiteDatabase implements Database {
             e.printStackTrace();
         }
 
-        connection = DriverManager.getConnection("jdbc:sqlite:" + url + File.separator + database+ ".db", user, password);
+        connection = DriverManager.getConnection("jdbc:sqlite:" + url + File.separator + database + ".db", user, password);
     }
 
     @Override

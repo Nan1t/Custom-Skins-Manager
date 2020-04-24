@@ -4,16 +4,7 @@
 /gradlew
 /gradlew.bat
 
-build/classes/
-*/build/classes/
-
-build/generated/
-*/build/generated/
-
-build/resources/
-*/build/resources/
-
-build/tmp/
-*/build/tmp/
+build/
+*/build/
 
 */out

@@ -24,7 +24,7 @@ public class ExecutorCommandUrl implements MessageExecutor {
         UUID uuid = UUID.fromString(json.get("player").getAsString());
         String url = json.get("url").getAsString();
         SkinModel model = SkinModel.fromName(json.get("model").getAsString());
-        SkinPlayer<ProxiedPlayer> player = api.getPlayer(uuid);
+        SkinPlayer<?> player = api.getPlayer(uuid);
 
         if(player != null){
             api.setSkinFromImage(player, url, model);

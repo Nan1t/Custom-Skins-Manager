@@ -9,10 +9,9 @@ import java.util.UUID;
 public class NPCService {
 
     private Map<UUID, NPC> npcs = new TreeMap<>();
-    private int version;
 
-    public NPCService(int version){
-        this.version = version;
+    public NPCService(){
+
     }
 
     public void addNPC(UUID viewer, NPC npc){
@@ -34,7 +33,7 @@ public class NPCService {
     }
 
     public NPC createNPC(UUID uuid, String name){
-        switch (version){
+        /*switch (version){
             default:
                 return new NPC_1_10(uuid, name);
             case 8:
@@ -47,6 +46,9 @@ public class NPCService {
                 return new NPC_1_14(uuid, name);
             case 15:
                 return new NPC_1_15(uuid, name);
-        }
+        }*/
+
+        //TODO
+        return null;
     }
 }
