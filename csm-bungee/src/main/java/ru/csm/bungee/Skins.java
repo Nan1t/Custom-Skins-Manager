@@ -11,7 +11,7 @@ import ru.csm.api.storage.Language;
 import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.MySQLDatabase;
-import ru.csm.api.upload.entity.Profile;
+import ru.csm.api.upload.data.Profile;
 import ru.csm.bungee.commands.CommandSkin;
 import ru.csm.bungee.listeners.PostLoginListener;
 import ru.csm.bungee.network.PluginMessageService;

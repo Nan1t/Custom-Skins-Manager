@@ -12,11 +12,13 @@ import java.util.Base64;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class MojangAPI {
+public final class MojangAPI {
 
     private static final Base64.Decoder BASE64_DECODER = Base64.getDecoder();
     private static final String UUID_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
     private static final String SKIN_URL = "https://sessionserver.mojang.com/session/minecraft/profile/%s?unsigned=false";
+
+    private MojangAPI(){}
 
     public static UUID getUUID(String name){
         try{
@@ -26,7 +28,6 @@ public class MojangAPI {
             if(!jsonString.isEmpty()){
                 JsonObject object = new JsonParser().parse(jsonString).getAsJsonObject();
                 String uuid = object.get("id").getAsString();
-
                 return UuidUtil.getUUID(uuid);
             }
         } catch (IOException e){
@@ -37,8 +38,6 @@ public class MojangAPI {
     }
 
     public static Skin getPremiumSkin(UUID uuid){
-        Skin skin = new Skin();
-
         try{
             URL url = new URL(String.format(SKIN_URL, clearUUID(uuid)));
             String jsonString = getLine(url.openStream());
@@ -48,12 +47,12 @@ public class MojangAPI {
 
                 if(object.has("properties")){
                     JsonObject properties = object.get("properties").getAsJsonArray().get(0).getAsJsonObject();
-
                     String value = properties.get("value").getAsString();
                     String signature = properties.get("signature").getAsString();
                     String skinUrl = getsSkinURL(value);
 
                     if(skinUrl != null){
+                        Skin skin = new Skin();
                         skin.setValue(value);
                         skin.setSignature(signature);
                         return skin;

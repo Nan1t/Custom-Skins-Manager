@@ -1,9 +1,7 @@
 package ru.csm.api.upload;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
 
 import ru.csm.api.http.HttpPost;
 import ru.csm.api.http.entity.HttpEntity;
@@ -14,7 +12,7 @@ import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
 import ru.csm.api.storage.database.Database;
-import ru.csm.api.upload.entity.Profile;
+import ru.csm.api.upload.data.Profile;
 import ru.csm.api.upload.entity.RequestImage;
 import ru.csm.api.upload.entity.SkinRequest;
 

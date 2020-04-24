@@ -3,17 +3,12 @@ package ru.csm.api.services;
 import ru.csm.api.WhiteListElement;
 import ru.csm.api.player.*;
 import ru.csm.api.storage.Language;
-import ru.csm.api.upload.QueueLicense;
-import ru.csm.api.upload.QueueMineSkin;
-import ru.csm.api.upload.QueueMojang;
-import ru.csm.api.upload.QueueService;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.Row;
-import ru.csm.api.upload.entity.RequestImage;
-import ru.csm.api.upload.entity.RequestLicense;
-import ru.csm.api.upload.entity.SkinRequest;
+import ru.csm.api.upload.data.ImageQueue;
+import ru.csm.api.upload.data.NameQueue;
 import ru.csm.api.utils.UuidUtil;
 
 import java.util.*;
@@ -40,8 +35,8 @@ public class SkinsAPI {
 
     private List<Skin> defaultSkin = new ArrayList<>();
 
-    private QueueService licenseSkinsQueue;
-    private QueueService imageSkinsQueue;
+    private NameQueue nameQueue;
+    private ImageQueue imageQueue;
 
     private Random random = new Random();
     private Timer cleanTimer = new Timer();
@@ -54,7 +49,8 @@ public class SkinsAPI {
         parseDefaultSkins();
         parseConstraints();
 
-        boolean enableMojang = conf.get().getNode("skins", "mojang", "enable").getBoolean();
+        /* TODO register queues
+            boolean enableMojang = conf.get().getNode("skins", "mojang", "enable").getBoolean();
         long licensePeriod = conf.get().getNode("skins", "license", "period").getInt()*1000;
 
         licenseSkinsQueue = new QueueLicense(this, lang, licensePeriod);
@@ -68,7 +64,7 @@ public class SkinsAPI {
         }
 
         licenseSkinsQueue.start();
-        imageSkinsQueue.start();
+        imageSkinsQueue.start();*/
 
         startCleaner();
     }
@@ -93,12 +89,12 @@ public class SkinsAPI {
         return urlWhitelist;
     }
 
-    public QueueService getLicenseSkinsQueue(){
-        return licenseSkinsQueue;
+    public NameQueue getNameQueue() {
+        return nameQueue;
     }
 
-    public QueueService getImageSkinsQueue(){
-        return imageSkinsQueue;
+    public ImageQueue getImageQueue() {
+        return imageQueue;
     }
 
     private void startCleaner(){
@@ -316,11 +312,10 @@ public class SkinsAPI {
      * @param imageUrl URL to .png image
      * @param model Model of the skin
      */
-    public void setSkinFromImage(SkinPlayer player, String imageUrl, SkinModel model) {
-        RequestImage request = new RequestImage(player, imageUrl, model);
-        imageSkinsQueue.addRequest(request);
-
-        long seconds = imageSkinsQueue.getWaitSeconds();
+    public void setSkinFromImage(SkinPlayer<?> player, String imageUrl, SkinModel model) {
+        // TODO validate url
+        imageQueue.push(player, imageUrl, model);
+        long seconds = imageQueue.getWaitSeconds();
         player.sendMessage(String.format(lang.of("skin.process"), seconds));
     }
 
@@ -330,10 +325,9 @@ public class SkinsAPI {
      * @param name Name of the target premium account
      */
     public void setSkinFromName(SkinPlayer player, String name) {
-        SkinRequest request = new RequestLicense(player, name);
-        licenseSkinsQueue.addRequest(request);
-
-        long seconds = licenseSkinsQueue.getWaitSeconds();
+        // TODO validate name
+        nameQueue.push(player, name);
+        long seconds = nameQueue.getWaitSeconds();
         player.sendMessage(String.format(lang.of("skin.process"), seconds));
     }
 
