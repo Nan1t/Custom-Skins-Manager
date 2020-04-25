@@ -1,6 +1,7 @@
 package ru.csm.bungee;
 
 import com.google.common.reflect.TypeToken;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializers;
 import ru.csm.api.network.Channels;
@@ -24,7 +25,7 @@ public class Skins extends Plugin {
 
     private PluginMessageService pmService;
     private Database database;
-    private SkinsAPI api;
+    private SkinsAPI<ProxiedPlayer> api;
 
     @Override
     public void onEnable(){
@@ -43,7 +44,7 @@ public class Skins extends Plugin {
             }
 
             pmService = new PluginMessageService();
-            api = new SkinsAPI(database, configuration, lang);
+            api = new BungeeSkinsAPI(database, configuration, lang);
 
             registerMessageExecutors();
             registerListeners();
@@ -69,7 +70,7 @@ public class Skins extends Plugin {
 
     private void registerListeners(){
         getProxy().getPluginManager().registerListener(this, pmService);
-        getProxy().getPluginManager().registerListener(this, new PostLoginListener(database, api));
+        getProxy().getPluginManager().registerListener(this, new PostLoginListener(api));
     }
 
     private void registerMessageExecutors(){

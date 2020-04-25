@@ -1,21 +1,14 @@
 package ru.csm.api.player;
 
-import com.google.gson.annotations.Expose;
-
 import java.util.List;
 import java.util.UUID;
 
 public class Head {
 
-    @Expose(serialize = false)
-    private UUID ownerUuid;
-    @Expose
-    private String ownerName;
-    @Expose
-    private Skin skin;
-    @Expose(serialize = false)
+    private final UUID ownerUuid;
+    private final String ownerName;
+    private final Skin skin;
     private List<String> lore;
-    @Expose(serialize = false)
     private String permission;
 
     public Head(UUID uuid, String name, Skin skin){

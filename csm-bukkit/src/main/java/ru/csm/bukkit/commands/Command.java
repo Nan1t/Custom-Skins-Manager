@@ -9,17 +9,12 @@ import java.util.*;
 public abstract class Command implements TabExecutor {
 
     private String permission;
-    private String[] usage;
     private final Map<String, Command> subCommands = new HashMap<>();
 
     public Command(){ }
 
     public Command(String permission){
         this.permission = permission;
-    }
-
-    public String[] getUsage(){
-        return usage;
     }
 
     public Set<String> getRegisteredSubKeys(){
@@ -47,14 +42,8 @@ public abstract class Command implements TabExecutor {
         return subCommands.get(arg);
     }
 
-    public Command setUsage(String... usage){
-        this.usage = usage;
-        return this;
-    }
-
     @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-        if(!checkPermission(sender, this)) return false;
         executeSubCommands(sender, this, args);
         return true;
     }
@@ -64,9 +53,11 @@ public abstract class Command implements TabExecutor {
             Command cmd = parent.getSub(arg);
             if (cmd != null){
                 executeSubCommands(sender, cmd, Arrays.copyOfRange(args, 1, args.length));
-                break;
+                return;
             }
         }
+
+        if(!checkPermission(sender, this)) return;
 
         parent.execute(sender, args);
     }

@@ -5,91 +5,43 @@ import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
-import ru.csm.api.services.MojangAPI;
 import ru.csm.api.services.SkinsAPI;
-import ru.csm.api.storage.Tables;
-import ru.csm.api.storage.database.Database;
-import ru.csm.api.storage.database.Row;
-import ru.csm.bungee.network.PluginMessageService;
-import ru.csm.bungee.player.BungeeSkinPlayer;
-
-import java.util.UUID;
 
 public class PostLoginListener implements Listener {
 
-    private final Database db;
-    private final SkinsAPI api;
+    private final SkinsAPI<ProxiedPlayer> api;
 
-    public PostLoginListener(Database db, SkinsAPI api){
-        this.db = db;
+    public PostLoginListener(SkinsAPI<ProxiedPlayer> api){
         this.api = api;
     }
 
     @EventHandler
     public void onPostLogin(PostLoginEvent e){
-        SkinPlayer<?> player = api.getPlayer(e.getPlayer().getUniqueId());
+        SkinPlayer<ProxiedPlayer> player = api.getPlayer(e.getPlayer().getUniqueId());
 
         if(player != null){
             player.applySkin();
             return;
         }
+        // Load player
 
-        Row row = db.getRow(Tables.SKINS, "uuid", e.getPlayer().getUniqueId().toString());
+        player = api.loadPlayer(e.getPlayer(), e.getPlayer().getUniqueId());
 
-        if(row != null){
-            getPlayerFromRow(e.getPlayer(), row);
+        if (player != null){
+            api.addPlayer(player);
+            updateSkin(player);
             return;
         }
 
-        createPlayer(e.getPlayer());
+        // Create player
+
+        player = api.buildPlayer(e.getPlayer());
+        api.createNewPlayer(player);
     }
 
-    private void createPlayer(ProxiedPlayer template){
-        SkinPlayer<?> player = new BungeeSkinPlayer(template);
-
-        UUID uuid = MojangAPI.getUUID(template.getName());
-
-        if(uuid != null){
-            Skin skin = MojangAPI.getPremiumSkin(uuid);
-
-            if(skin != null){
-                player.setDefaultSkin(skin);
-                player.applySkin();
-
-                api.addPlayer(player);
-                api.createPlayer(player);
-                return;
-            }
-        }
-
-        player.setDefaultSkin(api.getDefaultSkin());
+    private void updateSkin(SkinPlayer<?> player){
         player.applySkin();
-
-        api.addPlayer(player);
-        api.createPlayer(player);
-    }
-
-    private void getPlayerFromRow(ProxiedPlayer template, Row row){
-        SkinPlayer<?> player = new BungeeSkinPlayer(template);
-        Skin defaultSkin, customSkin;
-
-        String defaultValue = row.getField("default_value").toString();
-        String defaultSignature = row.getField("default_signature").toString();
-        defaultSkin = new Skin(defaultValue, defaultSignature);
-
-        Object customValue = row.getField("custom_value");
-        Object customSignature = row.getField("custom_signature");
-
-        if(customValue != null && customSignature != null){
-            customSkin = new Skin(customValue.toString(), customSignature.toString());
-            player.setCustomSkin(customSkin);
-        }
-
-        player.setDefaultSkin(defaultSkin);
-        player.applySkin();
-
-        api.addPlayer(player);
+        player.refreshSkin();
     }
 }

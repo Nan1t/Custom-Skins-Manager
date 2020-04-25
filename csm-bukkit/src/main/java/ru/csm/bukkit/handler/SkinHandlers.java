@@ -6,7 +6,7 @@ import java.lang.reflect.Constructor;
 
 public final class SkinHandlers {
 
-    private static final String HANDLER_TEMPLATE = "ru.csm.bukkit.handler.SkinHandler_%s";
+    private static final String HANDLER_TEMPLATE = "ru.csm.bukkit.handler.Handler_%s";
     private static SkinHandler handler;
 
     private SkinHandlers(){}

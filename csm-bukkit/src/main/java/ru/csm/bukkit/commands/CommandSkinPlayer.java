@@ -10,10 +10,10 @@ import java.util.List;
 
 public class CommandSkinPlayer extends Command {
 
-    private final SkinsAPI api;
+    private final SkinsAPI<Player> api;
     private final String usage;
 
-    public CommandSkinPlayer(SkinsAPI api){
+    public CommandSkinPlayer(SkinsAPI<Player> api){
         this.api = api;
         this.usage = String.format(api.getLang().of("command.usage"), "/skin player <player>");
     }
@@ -23,7 +23,7 @@ public class CommandSkinPlayer extends Command {
         if (!(sender instanceof Player)) return;
 
         if (args.length == 1){
-            SkinPlayer<?> player = api.getPlayer(sender.getName());
+            SkinPlayer<Player> player = api.getPlayer(sender.getName());
             if(player != null){
                 api.setSkinFromName(player, args[0]);
             }

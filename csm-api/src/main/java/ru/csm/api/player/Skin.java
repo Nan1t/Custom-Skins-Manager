@@ -3,32 +3,25 @@ package ru.csm.api.player;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.annotations.Expose;
 import ninja.leaping.modded.configurate.ConfigurationNode;
 import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializer;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Base64;
 
 public class Skin {
 
     private static final Base64.Decoder DECODER = Base64.getDecoder();
+    private static final JsonParser JSON_PARSER = new JsonParser();
 
-    @Expose
     private String value;
-    @Expose
     private String signature;
-    @Expose(serialize = false)
-    private SkinModel model;
 
     public Skin(){}
 
     public Skin(String value, String signature){
         this.value = value;
         this.signature = signature;
-        setModel(parseModel());
     }
 
     public String getValue() {
@@ -37,7 +30,6 @@ public class Skin {
 
     public void setValue(String value) {
         this.value = value;
-        setModel(parseModel());
     }
 
     public String getSignature() {
@@ -49,15 +41,11 @@ public class Skin {
     }
 
     public SkinModel getModel(){
-        return model;
-    }
-
-    public void setModel(SkinModel model){
-        this.model = model;
+        return parseModel();
     }
 
     /**
-     * @return Decoded skin url string, or null if skin value empty
+     * @return Decoded skin url if it exists, or null otherwise
      * */
     public String getURL(){
         JsonObject textures = getTextures();
@@ -74,7 +62,7 @@ public class Skin {
      * */
     public String getOwnerUUID(){
         String decoded = new String(DECODER.decode(value));
-        JsonObject json = new JsonParser().parse(decoded).getAsJsonObject();
+        JsonObject json = JSON_PARSER.parse(decoded).getAsJsonObject();
         return json.get("profileId").getAsString();
     }
 
@@ -83,7 +71,7 @@ public class Skin {
      * */
     public String getOwnerName(){
         String decoded = new String(DECODER.decode(value));
-        JsonObject json = new JsonParser().parse(decoded).getAsJsonObject();
+        JsonObject json = JSON_PARSER.parse(decoded).getAsJsonObject();
         return json.get("profileName").getAsString();
     }
 
@@ -105,7 +93,7 @@ public class Skin {
 
     private JsonObject getTextures(){
         String decoded = new String(DECODER.decode(value));
-        JsonObject json = new JsonParser().parse(decoded).getAsJsonObject();
+        JsonObject json = JSON_PARSER.parse(decoded).getAsJsonObject();
         return json.get("textures").getAsJsonObject();
     }
 

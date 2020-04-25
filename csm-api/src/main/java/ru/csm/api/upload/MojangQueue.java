@@ -50,7 +50,6 @@ public final class MojangQueue extends ImageQueue {
                     if(skin != null){
                         SkinHash.add(request.getUrl(), skin);
                         api.setCustomSkin(request.getPlayer(), skin);
-                        request.getPlayer().sendMessage(api.getLang().of("skin.image.success"));
                         return;
                     }
                     Logger.severe("Cannot get skin of premium profile %s", profile);

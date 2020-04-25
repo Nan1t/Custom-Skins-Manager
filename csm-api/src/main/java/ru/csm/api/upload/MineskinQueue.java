@@ -35,9 +35,7 @@ public final class MineskinQueue extends ImageQueue {
                 }
 
                 try{
-                    if (executeRequest(request)){
-                        request.getPlayer().sendMessage(api.getLang().of("skin.image.success"));
-                    } else {
+                    if (!executeRequest(request)) {
                         request.getPlayer().sendMessage(api.getLang().of("skin.image.error"));
                     }
                 } catch (IOException e){

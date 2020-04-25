@@ -5,7 +5,7 @@ public enum SkinModel {
     STEVE("steve"),
     ALEX("slim");
 
-    private String name;
+    private final String name;
 
     SkinModel(String name){
         this.name = name;

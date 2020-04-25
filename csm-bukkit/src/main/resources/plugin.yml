@@ -3,8 +3,6 @@ main: 'ru.csm.bukkit.Skins'
 version: '3.0'
 api-version: '1.13'
 author: '_Nanit_'
-depend:
-  - "ProtocolLib"
 commands:
   csm:
     description: 'Custom Skins Manager main command'
@@ -27,4 +25,4 @@ permissions:
   csm.admin:
     description: "Allow to use '/csm reload' command. More information see on spigotmc"
   csm.skulls:
-    description: "Allow to use '/skull <player>' command. More information see on spigotmc".
+    description: "Allow to use '/skull <player>' command. More information see on spigotmc"

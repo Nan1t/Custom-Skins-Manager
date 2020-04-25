@@ -12,10 +12,10 @@ import java.util.List;
 
 public class CommandSkinUrl extends Command {
 
-    private final SkinsAPI api;
+    private final SkinsAPI<Player> api;
     private final String usage;
 
-    public CommandSkinUrl(SkinsAPI api){
+    public CommandSkinUrl(SkinsAPI<Player> api){
         this.api = api;
         this.usage = String.format(api.getLang().of("command.usage"), "/skin url <player> [model]");
     }
@@ -24,7 +24,7 @@ public class CommandSkinUrl extends Command {
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return;
 
-        SkinPlayer<?> player = api.getPlayer(sender.getName());
+        SkinPlayer<Player> player = api.getPlayer(sender.getName());
         SkinModel model = SkinModel.STEVE;
 
         if(player != null){
@@ -41,7 +41,7 @@ public class CommandSkinUrl extends Command {
     @Override
     public List<String> onTab(CommandSender sender, String[] args) {
         if (args.length == 1){
-            Collections.singletonList("<url>");
+            return Collections.singletonList("<url>");
         } else if (args.length == 2){
             return Collections.singletonList("slim");
         }

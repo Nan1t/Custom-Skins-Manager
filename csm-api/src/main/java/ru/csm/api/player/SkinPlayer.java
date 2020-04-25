@@ -78,11 +78,6 @@ public interface SkinPlayer<T> {
     boolean hasCustomSkin();
 
     /**
-     * @return true if player have default (license) skin
-     * */
-    boolean hasDefaultSkin();
-
-    /**
      * @return true is player has specified permission
      */
     boolean hasPermission(String permission);

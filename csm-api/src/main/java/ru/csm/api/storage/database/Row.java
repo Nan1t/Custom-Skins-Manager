@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Row {
 
-    private Map<String, Object> fields = new HashMap<>();
+    private final Map<String, Object> fields = new HashMap<>();
 
     public void addField(String column, Object value) {
         fields.put(column.toLowerCase(), value);
@@ -17,6 +17,10 @@ public class Row {
 
     public Map<String, Object> getAllFields(){
         return fields;
+    }
+
+    public boolean hasField(String key){
+        return getField(key) != null;
     }
 
 }
