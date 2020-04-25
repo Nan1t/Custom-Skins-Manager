@@ -121,6 +121,12 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
+    public void setCustomSkin(ProxiedPlayer p, Skin skin) {
+        SkinPlayer<ProxiedPlayer> player = getPlayer(p.getUniqueId());
+        if (player != null) setCustomSkin(player, skin);
+    }
+
+    @Override
     public void setSkinFromImage(SkinPlayer<ProxiedPlayer> player, String link, SkinModel model) {
         if(!Validator.validateURL(link)){
             player.sendMessage(lang.of("skin.image.invalid"));

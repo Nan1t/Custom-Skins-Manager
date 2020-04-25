@@ -38,7 +38,7 @@ public class NpcPacketHandler extends ChannelDuplexHandler {
         if (packet.getClass().equals(packetClass)){
             if (handField != null){
                 Object hand = handField.get(packet);
-                if (hand != null && hand.toString().equals("MAIN_HAND")) return;
+                if (hand != null && !hand.toString().equals("MAIN_HAND")) return;
             }
 
             NPC npc = NpcManager.getPlayerNPC(player.getUniqueId());

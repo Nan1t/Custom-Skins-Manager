@@ -22,6 +22,7 @@ import ru.csm.api.storage.database.MySQLDatabase;
 import ru.csm.api.storage.database.SQLiteDatabase;
 import ru.csm.api.upload.Profile;
 import ru.csm.bukkit.hologram.Holograms;
+import ru.csm.bukkit.listeners.InventoryListener;
 import ru.csm.bukkit.listeners.NpcClickListener;
 import ru.csm.bukkit.listeners.PlayerJoinListener;
 import ru.csm.bukkit.npc.NpcPacketHandler;
@@ -53,8 +54,6 @@ public class Skins extends JavaPlugin {
             NpcPacketHandler.init(version);
             BukkitTasks.setPlugin(this);
 
-            getServer().getPluginManager().registerEvents(new NpcClickListener(), this);
-
             if(!SpigotConfig.bungee){
                 Configuration configuration = new Configuration("bukkit/config.conf", getDataFolder().toPath(), this);
                 Language lang = new Language(this, Paths.get(getDataFolder().toPath().toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
@@ -78,6 +77,9 @@ public class Skins extends JavaPlugin {
             } else {
                 getLogger().info("Using BungeeCord as skin manager");
             }
+
+            getServer().getPluginManager().registerEvents(new InventoryListener(), this);
+            getServer().getPluginManager().registerEvents(new NpcClickListener(api), this);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -101,6 +103,7 @@ public class Skins extends JavaPlugin {
         commandSkin.addSub(new CommandSkinReset(api), "reset");
         commandSkin.addSub(new CommandSkinTo(api), "to");
         commandSkin.addSub(new CommandSkinPreview(api), "preview");
+        commandSkin.addSub(new CommandSkinSet(api), "set");
 
         commandSkull.addSub(new CommandSkullPlayer(api), "player");
         commandSkull.addSub(new CommandSkullUrl(api), "url");

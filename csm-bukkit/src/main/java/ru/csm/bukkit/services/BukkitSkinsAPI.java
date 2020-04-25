@@ -122,6 +122,12 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
+    public void setCustomSkin(Player p, Skin skin) {
+        SkinPlayer<Player> player = getPlayer(p.getUniqueId());
+        if (player != null) setCustomSkin(player, skin);
+    }
+
+    @Override
     public void setSkinFromImage(SkinPlayer<Player> player, String link, SkinModel model) {
         if(!Validator.validateURL(link)){
             player.sendMessage(lang.of("skin.image.invalid"));

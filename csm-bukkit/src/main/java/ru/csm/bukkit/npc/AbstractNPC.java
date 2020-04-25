@@ -15,9 +15,10 @@ public abstract class AbstractNPC implements NPC {
     protected String name;
     protected Location location;
     protected Skin skin;
-    protected String permission;
-    protected List<String> displayName;
     protected Hologram hologram;
+
+    private String permission;
+    private boolean openMenu;
 
     @Override
     public int getId() {
@@ -69,9 +70,17 @@ public abstract class AbstractNPC implements NPC {
     }
 
     @Override
-    public void setDisplayName(List<String> name) {
-        this.displayName = name;
+    public boolean isOpenMenu() {
+        return openMenu;
+    }
 
+    @Override
+    public void setOpenMenu(boolean openMenu) {
+        this.openMenu = openMenu;
+    }
+
+    @Override
+    public void setDisplayName(List<String> name) {
         hologram = Holograms.create();
 
         if (hologram != null){

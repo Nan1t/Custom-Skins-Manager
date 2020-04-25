@@ -27,6 +27,10 @@ public interface NPC {
 
     void setPermission(String permission);
 
+    boolean isOpenMenu();
+
+    void setOpenMenu(boolean openMenu);
+
     void setDisplayName(List<String> name);
 
     void spawn(Player player);

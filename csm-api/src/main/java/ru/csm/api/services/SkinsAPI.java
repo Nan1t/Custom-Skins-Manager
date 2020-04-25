@@ -64,6 +64,13 @@ public interface SkinsAPI<Player> {
     void setCustomSkin(SkinPlayer<Player> player, Skin skin);
 
     /**
+     * Set custom skin for player
+     * @param player Native (Bukkit or BungeeCord) player object
+     * @param skin Skin object
+     */
+    void setCustomSkin(Player player, Skin skin);
+
+    /**
      * Set skin from image link
      * @param player SkinPlayer object
      * @param link Link to *.png image
