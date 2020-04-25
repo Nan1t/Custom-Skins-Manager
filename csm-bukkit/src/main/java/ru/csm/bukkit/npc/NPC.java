@@ -1,13 +1,23 @@
 package ru.csm.bukkit.npc;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import ru.csm.api.player.Skin;
+import ru.csm.bukkit.services.NpcManager;
 
 import java.util.List;
 
 public interface NPC {
 
     int getId();
+
+    String getName();
+
+    void setName(String name);
+
+    Location getLocation();
+
+    void setLocation(Location location);
 
     Skin getSkin();
 

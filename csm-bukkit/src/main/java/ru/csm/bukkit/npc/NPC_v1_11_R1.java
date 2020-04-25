@@ -2,13 +2,13 @@ package ru.csm.bukkit.npc;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import net.minecraft.server.v1_8_R3.*;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import net.minecraft.server.v1_11_R1.*;
+import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class NPC_v1_8_R3 extends AbstractNPC {
+public class NPC_v1_11_R1 extends AbstractNPC {
 
     private EntityPlayer npcEntity;
 
@@ -28,7 +28,7 @@ public class NPC_v1_8_R3 extends AbstractNPC {
         id = npcEntity.getId();
 
         npcEntity.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
-        npcEntity.getDataWatcher().watch(10, (byte) 127);
+        npcEntity.getDataWatcher().set(DataWatcherRegistry.a.a(10), (byte) 127);
 
         PacketPlayOutNamedEntitySpawn entitySpawn = new PacketPlayOutNamedEntitySpawn(npcEntity);
         PacketPlayOutPlayerInfo addInfo = new PacketPlayOutPlayerInfo(

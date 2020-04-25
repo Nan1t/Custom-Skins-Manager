@@ -21,7 +21,11 @@ import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.MySQLDatabase;
 import ru.csm.api.storage.database.SQLiteDatabase;
 import ru.csm.api.upload.Profile;
+import ru.csm.bukkit.hologram.Holograms;
+import ru.csm.bukkit.listeners.NpcClickListener;
 import ru.csm.bukkit.listeners.PlayerJoinListener;
+import ru.csm.bukkit.npc.NpcPacketHandler;
+import ru.csm.bukkit.npc.Npcs;
 import ru.csm.bukkit.services.BukkitSkinsAPI;
 import ru.csm.bukkit.util.BukkitTasks;
 import ru.csm.bukkit.util.FileUtil;
@@ -44,7 +48,12 @@ public class Skins extends JavaPlugin {
             String version = packageName.substring(packageName.lastIndexOf('.') + 1);
 
             SkinHandlers.init(version);
+            Npcs.init(version);
+            Holograms.init(version);
+            NpcPacketHandler.init(version);
             BukkitTasks.setPlugin(this);
+
+            getServer().getPluginManager().registerEvents(new NpcClickListener(), this);
 
             if(!SpigotConfig.bungee){
                 Configuration configuration = new Configuration("bukkit/config.conf", getDataFolder().toPath(), this);

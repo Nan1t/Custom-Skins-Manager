@@ -9,7 +9,7 @@
 -optimizations !method/inlining/unique
 -optimizations !class/merging/*
 
--keep public class ru.csm.**
+-keep public class ru.csm.**{*;}
 #-keep class ru.nanit.abstractmenus.Metrics{*;}
 #-keep class ru.nanit.abstractmenus.Metrics$*{*;}
 

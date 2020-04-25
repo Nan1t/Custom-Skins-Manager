@@ -88,12 +88,6 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
     }
 
     @Override
-    public boolean hasDefaultSkin() {
-        if(defaultSkin != null) return defaultSkin.getValue() != null && defaultSkin.getSignature() != null;
-        return false;
-    }
-
-    @Override
     public boolean hasPermission(String permission) {
         return player.hasPermission(permission);
     }

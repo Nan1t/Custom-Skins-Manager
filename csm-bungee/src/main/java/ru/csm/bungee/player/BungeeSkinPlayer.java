@@ -117,11 +117,6 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
     }
 
     @Override
-    public boolean hasDefaultSkin() {
-        return defaultSkin != null && defaultSkin.getValue() != null && defaultSkin.getSignature() != null;
-    }
-
-    @Override
     public boolean hasPermission(String permission) {
         return player.hasPermission(permission);
     }
