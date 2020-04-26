@@ -19,6 +19,11 @@ public class Skin {
 
     public Skin(){}
 
+    public Skin(Skin skin){
+        this.value = skin.getValue();
+        this.signature = skin.getSignature();
+    }
+
     public Skin(String value, String signature){
         this.value = value;
         this.signature = signature;

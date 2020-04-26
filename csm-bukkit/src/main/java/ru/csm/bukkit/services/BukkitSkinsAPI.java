@@ -2,8 +2,9 @@ package ru.csm.bukkit.services;
 
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import ru.csm.api.player.Head;
+import org.bukkit.util.Vector;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
@@ -11,10 +12,16 @@ import ru.csm.api.services.SkinHash;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
+import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
+import ru.csm.api.storage.database.Row;
 import ru.csm.api.upload.*;
 import ru.csm.api.utils.Logger;
 import ru.csm.api.utils.Validator;
+import ru.csm.bukkit.menu.PlayerHead;
+import ru.csm.bukkit.menu.SkinsMenu;
+import ru.csm.bukkit.npc.NPC;
+import ru.csm.bukkit.npc.Npcs;
 import ru.csm.bukkit.player.BukkitSkinPlayer;
 
 import java.util.*;
@@ -37,10 +44,13 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
     private NameQueue nameQueue;
     private ImageQueue imageQueue;
 
-    public BukkitSkinsAPI(Database database, Configuration conf, Language lang) {
+    private final MenuManager menuManager;
+
+    public BukkitSkinsAPI(Database database, Configuration conf, Language lang, MenuManager menuManager) {
         this.database = database;
         this.conf = conf;
         this.lang = lang;
+        this.menuManager = menuManager;
 
         loadDefaultSkins();
         loadBlacklist();
@@ -110,6 +120,31 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
     @Override
     public SkinPlayer<Player> getPlayer(String name){
         return playersByName.get(name.toLowerCase());
+    }
+
+    @Override
+    public void showPreview(Player player, Skin skin, boolean openMenu, String permission) {
+        NpcManager.removeNpc(player);
+
+        NPC npc = Npcs.create();
+
+        if (npc != null){
+            Location loc = player.getLocation().clone();
+            Vector modify = player.getLocation().getDirection().normalize().multiply(2);
+
+            loc.add(modify);
+            loc.setY(player.getLocation().getY());
+            loc.setPitch(0);
+            loc.setYaw(player.getLocation().getYaw()+180);
+
+            npc.setLocation(loc);
+            npc.setName("");
+            npc.setDisplayName(lang.ofList("npc.name"));
+            npc.setSkin(skin);
+            npc.setOpenMenu(openMenu);
+            npc.setPermission(permission);
+            npc.spawn(player);
+        }
     }
 
     @Override
@@ -185,15 +220,31 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
-    public Head getPlayerHead(SkinPlayer<Player> player){
-        if(player != null) {
-            Skin skin = player.getDefaultSkin();
-            if(player.hasCustomSkin()){
-                skin = player.getCustomSkin();
-            }
-            return new Head(player.getUUID(), player.getName(), skin);
+    public void openSkinsMenu(Player player, int page) {
+        if (page < 1) return;
+
+        int range = 45;
+        int offset = (page-1) * range;
+
+        String sql = "SELECT name,custom_value,custom_signature FROM %s WHERE custom_value IS NOT NULL LIMIT %s OFFSET %s";
+        Row[] rows = database.getRowsWithRequest(String.format(sql, Tables.SKINS, range, offset));
+
+        if (rows.length == 0) {
+            if (page == 1) player.sendMessage(lang.of("menu.empty"));
+            return;
         }
-        return null;
+
+        List<PlayerHead> heads = new ArrayList<>();
+
+        for (Row row : rows){
+            String name = row.getField("name").toString();
+            String texture = row.getField("custom_value").toString();
+            String signature = row.getField("custom_signature").toString();
+            heads.add(new PlayerHead(name, new Skin(texture, signature)));
+        }
+
+        SkinsMenu menu = menuManager.createMenu(this, heads, page);
+        menuManager.openMenu(player, menu);
     }
 
     @Override

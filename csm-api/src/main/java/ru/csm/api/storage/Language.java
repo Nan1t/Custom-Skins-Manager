@@ -1,10 +1,13 @@
 package ru.csm.api.storage;
 
+import com.google.common.reflect.TypeToken;
+import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
 import ru.csm.api.utils.Colors;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Language {
@@ -22,6 +25,16 @@ public class Language {
     public String of(String key) {
         return Colors.of(lang.get().getNode(key).getString(key));
     }
+
+    public List<String> ofList(String key) {
+        try{
+            List<String> list = lang.get().getNode(key).getList(TypeToken.of(String.class), Collections.singletonList(key));
+            return Colors.ofArr(list);
+        } catch (ObjectMappingException e){
+            return Collections.singletonList(key);
+        }
+    }
+
 
     public String[] ofArray(String key){
         try{

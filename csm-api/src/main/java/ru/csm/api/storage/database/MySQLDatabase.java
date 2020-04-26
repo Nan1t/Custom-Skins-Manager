@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MySQLDatabase implements Database {
 
-    private BasicDataSource dataSource;
+    private final BasicDataSource dataSource;
 
     public MySQLDatabase(String url, int port, String database, String user, String password) throws SQLException {
         dataSource = new BasicDataSource();
@@ -20,6 +20,7 @@ public class MySQLDatabase implements Database {
         dataSource.setMaxOpenPreparedStatements(100);
         dataSource.addConnectionProperty("autoReconnect", "true");
         dataSource.addConnectionProperty("characterEncoding", "UTF-8");
+        dataSource.addConnectionProperty("serverTimezone", "UTC");
 
         if(dataSource.getConnection() == null) throw new SQLException();
     }

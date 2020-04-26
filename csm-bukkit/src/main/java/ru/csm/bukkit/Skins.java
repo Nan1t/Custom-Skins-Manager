@@ -25,9 +25,11 @@ import ru.csm.bukkit.hologram.Holograms;
 import ru.csm.bukkit.listeners.InventoryListener;
 import ru.csm.bukkit.listeners.NpcClickListener;
 import ru.csm.bukkit.listeners.PlayerJoinListener;
+import ru.csm.bukkit.menu.item.Item;
 import ru.csm.bukkit.npc.NpcPacketHandler;
 import ru.csm.bukkit.npc.Npcs;
 import ru.csm.bukkit.services.BukkitSkinsAPI;
+import ru.csm.bukkit.services.MenuManager;
 import ru.csm.bukkit.util.BukkitTasks;
 import ru.csm.bukkit.util.FileUtil;
 
@@ -48,18 +50,19 @@ public class Skins extends JavaPlugin {
             String packageName = getServer().getClass().getPackage().getName();
             String version = packageName.substring(packageName.lastIndexOf('.') + 1);
 
+            registerSerializers();
+
             SkinHandlers.init(version);
             Npcs.init(version);
             Holograms.init(version);
             NpcPacketHandler.init(version);
             BukkitTasks.setPlugin(this);
 
+            Configuration configuration = new Configuration("bukkit/config.conf", getDataFolder().toPath(), this);
+            Language lang = new Language(this, Paths.get(getDataFolder().toPath().toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
+            MenuManager menuManager = new MenuManager(lang);
+
             if(!SpigotConfig.bungee){
-                Configuration configuration = new Configuration("bukkit/config.conf", getDataFolder().toPath(), this);
-                Language lang = new Language(this, Paths.get(getDataFolder().toPath().toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
-
-                registerSerializers();
-
                 try{
                     setupDatabase(configuration);
                 } catch (SQLException e){
@@ -68,7 +71,7 @@ public class Skins extends JavaPlugin {
                     return;
                 }
 
-                api = new BukkitSkinsAPI(database, configuration, lang);
+                api = new BukkitSkinsAPI(database, configuration, lang, menuManager);
                 SkinHash.startCleaner();
                 registerCommands();
 
@@ -79,7 +82,7 @@ public class Skins extends JavaPlugin {
             }
 
             getServer().getPluginManager().registerEvents(new InventoryListener(), this);
-            getServer().getPluginManager().registerEvents(new NpcClickListener(api), this);
+            getServer().getPluginManager().registerEvents(new NpcClickListener(api, menuManager), this);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -101,6 +104,7 @@ public class Skins extends JavaPlugin {
         commandSkin.addSub(new CommandSkinPlayer(api), "player");
         commandSkin.addSub(new CommandSkinUrl(api), "url");
         commandSkin.addSub(new CommandSkinReset(api), "reset");
+        commandSkin.addSub(new CommandSkinMenu(api), "menu");
         commandSkin.addSub(new CommandSkinTo(api), "to");
         commandSkin.addSub(new CommandSkinPreview(api), "preview");
         commandSkin.addSub(new CommandSkinSet(api), "set");
@@ -115,6 +119,7 @@ public class Skins extends JavaPlugin {
     private void registerSerializers(){
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Profile.class), new Profile.Serializer());
         TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Skin.class), new Skin.Serializer());
+        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Item.class), new Item.Serializer());
     }
 
     private void setupDatabase(Configuration conf) throws SQLException {

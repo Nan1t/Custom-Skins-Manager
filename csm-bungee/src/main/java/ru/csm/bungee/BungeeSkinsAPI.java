@@ -3,7 +3,6 @@ package ru.csm.bungee;
 import com.google.common.reflect.TypeToken;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
-import ru.csm.api.player.Head;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
@@ -112,6 +111,11 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
+    public void showPreview(ProxiedPlayer player, Skin skin, boolean openMenu, String permission) {
+
+    }
+
+    @Override
     public void setCustomSkin(SkinPlayer<ProxiedPlayer> player, Skin skin){
         player.setCustomSkin(skin);
         player.applySkin();
@@ -170,15 +174,8 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
-    public Head getPlayerHead(SkinPlayer<ProxiedPlayer> player){
-        if(player != null) {
-            Skin skin = player.getDefaultSkin();
-            if(player.hasCustomSkin()){
-                skin = player.getCustomSkin();
-            }
-            return new Head(player.getUUID(), player.getName(), skin);
-        }
-        return null;
+    public void openSkinsMenu(ProxiedPlayer player, int page) {
+
     }
 
     @Override

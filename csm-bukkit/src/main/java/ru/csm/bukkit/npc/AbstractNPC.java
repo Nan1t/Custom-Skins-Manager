@@ -97,9 +97,4 @@ public abstract class AbstractNPC implements NPC {
     public void spawn(Player player) {
         NpcManager.addNpc(player, this);
     }
-
-    @Override
-    public void destroy(Player player) {
-        NpcManager.removeNpc(player);
-    }
 }

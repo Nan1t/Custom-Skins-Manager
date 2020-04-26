@@ -27,6 +27,7 @@ public final class NpcManager {
     }
 
     public static void removeNpc(Player player){
-        NPC_MAP.remove(player.getUniqueId());
+        NPC npc = NPC_MAP.remove(player.getUniqueId());
+        if (npc != null) npc.destroy(player);
     }
 }

@@ -7,7 +7,6 @@ import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.Row;
 import ru.csm.api.upload.*;
-import ru.csm.api.utils.UuidUtil;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -56,6 +55,16 @@ public interface SkinsAPI<Player> {
      */
     SkinPlayer<Player> getPlayer(String name);
 
+    default void showPreview(Player player, Skin skin){
+        showPreview(player, skin, true, null);
+    }
+
+    default void showPreview(Player player, Skin skin, boolean openMenu){
+        showPreview(player, skin, openMenu, null);
+    }
+
+    void showPreview(Player player, Skin skin, boolean openMenu, String permission);
+
     /**
      * Set custom skin for player
      * @param player SkinPlayer object
@@ -91,101 +100,16 @@ public interface SkinsAPI<Player> {
      */
     void resetSkin(SkinPlayer<Player> player);
 
-    /**
-     * Get player head with her current skin (custom or default)
-     * @param player Object of SkinPlayer
-     * @return Head object if player exist or null otherwise
-     */
-    Head getPlayerHead(SkinPlayer<Player> player);
-
-    /**
-     * Get player head by name with her current skin (custom or default)
-     * @param playerName Name of the player
-     * @return Head object if player exist or null otherwise
-     */
-    default Head getPlayerHead(String playerName){
-        SkinPlayer<Player> player = getPlayer(playerName);
-
-        if(player != null){
-            Skin skin = player.getCustomSkin();
-
-            if(skin == null){
-                skin = player.getDefaultSkin();
-            }
-
-            return new Head(player.getUUID(), player.getName(), skin);
-        }
-
-        Row row = getDatabase().getRow(Tables.SKINS, "name", playerName);
-
-        if(row != null){
-            UUID uuid = UuidUtil.getUUID(row.getField("uuid").toString());
-            Skin skin = new Skin();
-
-            if(row.getField("custom_value") != null){
-                skin.setValue(row.getField("custom_value").toString());
-                skin.setSignature(row.getField("custom_signature").toString());
-            } else{
-                skin.setValue(row.getField("default_value").toString());
-                skin.setSignature(row.getField("default_signature").toString());
-            }
-
-            return new Head(uuid, playerName, skin);
-        }
-
-        return null;
+    default void resetSkin(UUID uuid){
+        SkinPlayer<Player> p = getPlayer(uuid);
+        if (p != null) resetSkin(p);
     }
 
-    /**
-     * Get pages count of the skins menu
-     * @return Count of the menu pages
-     */
-    default int getMenuSize(){
-        Row[] rows = getDatabase().getRowsWithRequest("SELECT * FROM " + Tables.SKINS + " WHERE custom_value IS NOT NULL");
-        return rows.length;
+    default void openSkinsMenu(Player player){
+        openSkinsMenu(player, 1);
     }
 
-    /**
-     * Get list of heads with player skins for menu
-     * @param page Number of page in menu. Current menu size you can get use getMenuSize()
-     * @return List of players heads or empty list if required page not exist. Maximum list size - 44
-     */
-    default Map<UUID, Head> getHeads(int menuSize, int page){
-        int count = 21;
-
-        int remain = menuSize%count;
-        int pages = menuSize/count;
-        int startPoint = (page-1)*count;
-
-        if(menuSize <= count){
-            remain = 0;
-            pages = 1;
-            startPoint = 0;
-        }
-
-        if(remain > 0){
-            pages += 1;
-            remain = 0;
-        }
-
-        if(page > pages && remain != 0){
-            return null;
-        }
-
-        Row[] rows = getDatabase().getRowsWithRequest("SELECT * FROM " + Tables.SKINS + " WHERE custom_value IS NOT NULL ORDER BY -id LIMIT " + startPoint + "," + count);
-        Map<UUID, Head> heads = new HashMap<>();
-
-        for(Row row : rows){
-            UUID uuid = UUID.fromString(row.getField("uuid").toString());
-            String name = row.getField("name").toString();
-            String value = row.getField("custom_value").toString();
-            String signature = row.getField("custom_signature").toString();
-            Skin skin = new Skin(value, signature);
-            heads.put(uuid, new Head(uuid, name, skin));
-        }
-
-        return heads;
-    }
+    void openSkinsMenu(Player player, int page);
     
     SkinPlayer<Player> buildPlayer(Player player);
 
@@ -243,11 +167,8 @@ public interface SkinsAPI<Player> {
             row.addField("name", player.getName());
             row.addField("default_value", player.getDefaultSkin().getValue());
             row.addField("default_signature", player.getDefaultSkin().getSignature());
-
-            if(player.hasCustomSkin()){
-                row.addField("custom_value", player.getCustomSkin().getValue());
-                row.addField("custom_signature", player.getCustomSkin().getSignature());
-            }
+            row.addField("custom_value", player.hasCustomSkin() ? player.getCustomSkin().getValue() : null);
+            row.addField("custom_signature", player.hasCustomSkin() ? player.getCustomSkin().getSignature() : null);
 
             boolean exists = getDatabase().existsRow(Tables.SKINS, "uuid", player.getUUID().toString());
 

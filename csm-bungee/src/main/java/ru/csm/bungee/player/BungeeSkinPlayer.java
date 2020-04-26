@@ -8,9 +8,6 @@ import net.md_5.bungee.connection.LoginResult;
 import ru.csm.api.network.Channels;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
-import ru.csm.bungee.Skins;
-import ru.csm.bungee.network.JsonMessage;
-import ru.csm.bungee.network.PluginMessageService;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
@@ -88,10 +85,7 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
 
     @Override
     public void refreshSkin() {
-        JsonObject json = new JsonObject();
-        json.addProperty("player", player.getUniqueId().toString());
-        JsonMessage message = new JsonMessage(Channels.SKINS_REFRESH, player, json);
-        PluginMessageService.sendMessage(message);
+
     }
 
     @Override

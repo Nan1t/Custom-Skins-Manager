@@ -63,6 +63,6 @@ public class NPC_v1_12_R1 extends AbstractNPC {
         if (hologram != null){
             hologram.destroy(player);
         }
-        super.destroy(player);
+        ;
     }
 }

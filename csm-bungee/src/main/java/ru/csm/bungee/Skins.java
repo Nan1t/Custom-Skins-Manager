@@ -4,7 +4,6 @@ import com.google.common.reflect.TypeToken;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializers;
-import ru.csm.api.network.Channels;
 import ru.csm.api.player.Skin;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
@@ -14,8 +13,6 @@ import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.MySQLDatabase;
 import ru.csm.api.upload.Profile;
 import ru.csm.bungee.listeners.PostLoginListener;
-import ru.csm.bungee.network.PluginMessageService;
-import ru.csm.bungee.network.executors.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,7 +20,6 @@ import java.sql.SQLException;
 
 public class Skins extends Plugin {
 
-    private PluginMessageService pmService;
     private Database database;
     private SkinsAPI<ProxiedPlayer> api;
 
@@ -43,10 +39,8 @@ public class Skins extends Plugin {
                 return;
             }
 
-            pmService = new PluginMessageService();
             api = new BungeeSkinsAPI(database, configuration, lang);
 
-            registerMessageExecutors();
             registerListeners();
             registerCommands();
         } catch (Exception e){
@@ -69,18 +63,8 @@ public class Skins extends Plugin {
     }
 
     private void registerListeners(){
-        getProxy().getPluginManager().registerListener(this, pmService);
         getProxy().getPluginManager().registerListener(this, new PostLoginListener(api));
     }
-
-    private void registerMessageExecutors(){
-        pmService.registerExecutor(Channels.SKINS_PLAYER, new ExecutorCommandPlayer(api));
-        pmService.registerExecutor(Channels.SKINS_URL, new ExecutorCommandUrl(api));
-        pmService.registerExecutor(Channels.SKINS_RESET, new ExecutorCommandReset(api));
-        pmService.registerExecutor(Channels.SKINS_MENU, new ExecutorSkinsMenu(api));
-        pmService.registerExecutor(Channels.SKINS_APPLY, new ExecutorSkinsApply(api));
-    }
-
 
     private void setupDatabase(Configuration configuration) throws SQLException {
         String type = configuration.get().getNode("database", "type").getString();
