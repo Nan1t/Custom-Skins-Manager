@@ -25,9 +25,9 @@ public class NpcClickListener implements Listener {
         NPC npc = event.getNpc();
 
         if (event.getAction().equals(ClickAction.ATTACK)){
+            NpcManager.removeNpc(event.getPlayer());
             if (npc.isOpenMenu()){
                 menuManager.getOpenedMenu(event.getPlayer()).ifPresent((menu)->{
-                    NpcManager.removeNpc(event.getPlayer());
                     menu.open(event.getPlayer());
                 });
                 return;

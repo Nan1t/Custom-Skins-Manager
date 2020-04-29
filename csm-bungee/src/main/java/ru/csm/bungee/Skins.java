@@ -8,11 +8,15 @@ import ru.csm.api.player.Skin;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
-import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
+import ru.csm.api.storage.database.H2Database;
 import ru.csm.api.storage.database.MySQLDatabase;
 import ru.csm.api.upload.Profile;
-import ru.csm.bungee.listeners.PostLoginListener;
+import ru.csm.api.utils.FileUtil;
+import ru.csm.bungee.command.CommandExecutor;
+import ru.csm.bungee.command.SubCommand;
+import ru.csm.bungee.commands.*;
+import ru.csm.bungee.listeners.PlayerListeners;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -54,7 +58,39 @@ public class Skins extends Plugin {
     }
 
     private void registerCommands(){
-        // TODO register commands
+        CommandExecutor skinCommand = new CommandSkin(api.getLang());
+        CommandExecutor skullCommand = new CommandSkin(api.getLang());
+
+        SubCommand skinPlayer = new CommandSkinPlayer(api);
+        SubCommand skinUrl = new CommandSkinUrl(api);
+        SubCommand skinReset = new CommandSkinReset(api);
+        SubCommand skinMenu = new CommandSkinMenu(api);
+        SubCommand skinTo = new CommandSkinTo(api);
+        SubCommand skinPreview = new CommandSkinPreview(api);
+        SubCommand skullPlayer = new CommandSkullPlayer(api);
+        SubCommand skullUrl = new CommandSkullUrl(api);
+        SubCommand skullTo = new CommandSkullTo(api);
+
+        skinPlayer.setPermission("csm.skin.player");
+        skinUrl.setPermission("csm.skin.url");
+        skinReset.setPermission("csm.skin.reset");
+        skinMenu.setPermission("csm.skin.menu");
+        skinTo.setPermission("csm.skin.to");
+        skinPreview.setPermission("csm.skin.preview");
+        skullPlayer.setPermission("csm.skull.player");
+        skullUrl.setPermission("csm.skull.player");
+        skullTo.setPermission("csm.skull.player");
+
+        skinCommand.addSub(skinPlayer, "player");
+        skinCommand.addSub(skinUrl, "url");
+        skinCommand.addSub(skinReset, "reset");
+        skinCommand.addSub(skinMenu, "menu");
+        skinCommand.addSub(skinTo, "to");
+        skinCommand.addSub(skinPreview, "preview");
+
+        skullCommand.addSub(skullPlayer, "player");
+        skullCommand.addSub(skullUrl, "url");
+        skullCommand.addSub(skullTo, "to");
     }
 
     private void registerSerializers(){
@@ -63,29 +99,33 @@ public class Skins extends Plugin {
     }
 
     private void registerListeners(){
-        getProxy().getPluginManager().registerListener(this, new PostLoginListener(api));
+        getProxy().getPluginManager().registerListener(this, new PlayerListeners(api));
     }
 
-    private void setupDatabase(Configuration configuration) throws SQLException {
-        String type = configuration.get().getNode("database", "type").getString();
-        String host = configuration.get().getNode("database", "host").getString();
-        String name = configuration.get().getNode("database", "database").getString();
-        String user = configuration.get().getNode("database", "user").getString();
-        String password = configuration.get().getNode("database", "password").getString();
-        int port = configuration.get().getNode("database", "port").getInt();
+    private void setupDatabase(Configuration conf) throws SQLException {
+        String type = conf.get().getNode("database", "type").getString("").toLowerCase();
 
-        if(type.equalsIgnoreCase("mysql")){
-            database = new MySQLDatabase(host, port, name, user, password);
-
-            database.executeSQL("CREATE TABLE IF NOT EXISTS `"+ Tables.SKINS+"` (\n" +
-                    "\t`id` INT NOT NULL AUTO_INCREMENT,\n" +
-                    "\t`uuid` varchar(38) NOT NULL,\n" +
-                    "\t`name` varchar(16) NOT NULL,\n" +
-                    "\t`default_value` varchar(512) NOT NULL,\n" +
-                    "\t`default_signature` varchar(1024) NOT NULL,\n" +
-                    "\t`custom_value` varchar(1024),\n" +
-                    "\t`custom_signature` varchar(1024),\n" +
-                    "\tPRIMARY KEY (`id`));");
+        switch (type) {
+            case "h2": {
+                Path path = Paths.get(getDataFolder().getAbsolutePath(), "skins");
+                String user = conf.get().getNode("database", "user").getString();
+                String password = conf.get().getNode("database", "password").getString();
+                this.database = new H2Database(path, user, password);
+                break;
+            }
+            case "mysql": {
+                String host = conf.get().getNode("database", "host").getString();
+                int port = conf.get().getNode("database", "port").getInt(3306);
+                String dbname = conf.get().getNode("database", "database").getString();
+                String user = conf.get().getNode("database", "user").getString();
+                String password = conf.get().getNode("database", "password").getString();
+                this.database = new MySQLDatabase(host, port, dbname, user, password);
+                break;
+            }
+            default:
+                throw new SQLException("Undefined database type: " + type);
         }
+
+        this.database.executeSQL(FileUtil.readResourceContent("/tables/" + type + "/skins.sql"));
     }
 }

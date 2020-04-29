@@ -1,11 +1,9 @@
 package ru.csm.bungee.player;
 
-import com.google.gson.JsonObject;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.connection.InitialHandler;
 import net.md_5.bungee.connection.LoginResult;
-import ru.csm.api.network.Channels;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
 
@@ -59,11 +57,7 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
 
     @Override
     public void applySkin() {
-        Skin skin = defaultSkin;
-
-        if(hasCustomSkin()){
-            skin = customSkin;
-        }
+        Skin skin = hasCustomSkin() ? customSkin : defaultSkin;
 
         try{
             InitialHandler handler = (InitialHandler) player.getPendingConnection();
@@ -85,7 +79,7 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
 
     @Override
     public void refreshSkin() {
-
+        // TODO send refresh message
     }
 
     @Override

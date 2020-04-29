@@ -31,7 +31,7 @@ import ru.csm.bukkit.npc.Npcs;
 import ru.csm.bukkit.services.BukkitSkinsAPI;
 import ru.csm.bukkit.services.MenuManager;
 import ru.csm.bukkit.util.BukkitTasks;
-import ru.csm.bukkit.util.FileUtil;
+import ru.csm.api.utils.FileUtil;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -99,18 +99,18 @@ public class Skins extends JavaPlugin {
 
     private void registerCommands(){
         Command commandSkin = new CommandSkin(api.getLang());
-        Command commandSkull = new CommandSkull();
+        Command commandSkull = new CommandSkull(api.getLang());
 
-        commandSkin.addSub(new CommandSkinPlayer(api), "player");
-        commandSkin.addSub(new CommandSkinUrl(api), "url");
-        commandSkin.addSub(new CommandSkinReset(api), "reset");
-        commandSkin.addSub(new CommandSkinMenu(api), "menu");
-        commandSkin.addSub(new CommandSkinTo(api), "to");
-        commandSkin.addSub(new CommandSkinPreview(api), "preview");
-        commandSkin.addSub(new CommandSkinSet(api), "set");
+        commandSkin.addSub(new CommandSkinPlayer(api).setPermission("csm.skin.player"), "player");
+        commandSkin.addSub(new CommandSkinUrl(api).setPermission("csm.skin.url"), "url");
+        commandSkin.addSub(new CommandSkinReset(api).setPermission("csm.skin.reset"), "reset");
+        commandSkin.addSub(new CommandSkinMenu(api).setPermission("csm.skin.menu"), "menu");
+        commandSkin.addSub(new CommandSkinTo(api).setPermission("csm.skin.to"), "to");
+        commandSkin.addSub(new CommandSkinPreview(api).setPermission("csm.skin.preview"), "preview");
 
-        commandSkull.addSub(new CommandSkullPlayer(api), "player");
-        commandSkull.addSub(new CommandSkullUrl(api), "url");
+        commandSkull.addSub(new CommandSkullPlayer(api).setPermission("csm.skull.player"), "player");
+        commandSkull.addSub(new CommandSkullUrl(api).setPermission("csm.skull.url"), "url");
+        commandSkull.addSub(new CommandSkullTo(api).setPermission("csm.skull.to"), "to");
 
         getCommand("csm").setExecutor(commandSkin);
         getCommand("csmskull").setExecutor(commandSkull);
@@ -151,8 +151,7 @@ public class Skins extends JavaPlugin {
                 break;
             }
             default:
-                Logger.severe("Undefined database type: %s", type);
-                return;
+                throw new SQLException("Undefined database type: " + type);
         }
 
         this.database.executeSQL(FileUtil.readResourceContent("/tables/" + type + "/skins.sql"));

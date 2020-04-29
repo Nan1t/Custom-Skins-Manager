@@ -19,6 +19,7 @@ public class MySQLDatabase implements Database {
         dataSource.setMaxIdle(10);
         dataSource.setMaxOpenPreparedStatements(100);
         dataSource.addConnectionProperty("autoReconnect", "true");
+        dataSource.addConnectionProperty("useSSL", "false");
         dataSource.addConnectionProperty("characterEncoding", "UTF-8");
         dataSource.addConnectionProperty("serverTimezone", "UTC");
 

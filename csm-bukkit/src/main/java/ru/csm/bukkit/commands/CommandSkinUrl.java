@@ -17,7 +17,7 @@ public class CommandSkinUrl extends Command {
 
     public CommandSkinUrl(SkinsAPI<Player> api){
         this.api = api;
-        this.usage = String.format(api.getLang().of("command.usage"), "/skin url <player> [model]");
+        this.usage = String.format(api.getLang().of("command.usage"), "/skin url <url> [slim]");
     }
 
     @Override

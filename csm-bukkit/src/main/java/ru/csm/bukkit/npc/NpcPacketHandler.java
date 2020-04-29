@@ -3,12 +3,12 @@ package ru.csm.bukkit.npc;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
-import net.minecraft.server.v1_15_R1.PacketPlayInUseEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import ru.csm.api.utils.Logger;
 import ru.csm.bukkit.event.NpcClickEvent;
 import ru.csm.bukkit.services.NpcManager;
+import ru.csm.bukkit.util.BukkitTasks;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -17,7 +17,6 @@ import java.lang.reflect.Field;
 public class NpcPacketHandler extends ChannelDuplexHandler {
 
     private static Class<?> packetClass;
-    private static Field idField;
     private static Field actionField;
     private static Field handField;
 
@@ -45,7 +44,9 @@ public class NpcPacketHandler extends ChannelDuplexHandler {
 
             if (npc != null){
                 ClickAction clickAction = ClickAction.valueOf(actionField.get(packet).toString());
-                Bukkit.getServer().getPluginManager().callEvent(new NpcClickEvent(player, npc, clickAction));
+                BukkitTasks.runTask(()->{
+                    Bukkit.getServer().getPluginManager().callEvent(new NpcClickEvent(player, npc, clickAction));
+                });
             }
         }
         super.channelRead(context, packet);
@@ -69,8 +70,6 @@ public class NpcPacketHandler extends ChannelDuplexHandler {
     public static void init(String version){
         try{
             packetClass = Class.forName(String.format("net.minecraft.server.%s.PacketPlayInUseEntity", version));
-            idField = packetClass.getDeclaredField("a");
-            idField.setAccessible(true);
             actionField = packetClass.getDeclaredField("action");
             actionField.setAccessible(true);
 

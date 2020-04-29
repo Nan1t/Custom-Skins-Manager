@@ -55,6 +55,8 @@ public interface SkinsAPI<Player> {
      */
     SkinPlayer<Player> getPlayer(String name);
 
+    Head getPlayerHead(String name);
+
     default void showPreview(Player player, Skin skin){
         showPreview(player, skin, true, null);
     }

@@ -1,4 +1,4 @@
-package ru.csm.bukkit.util;
+package ru.csm.api.utils;
 
 import java.io.InputStream;
 import java.util.Scanner;

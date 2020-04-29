@@ -24,6 +24,7 @@ public class Hologram_v1_14_R1 extends AbstractHologram {
             armorStand.setInvulnerable(true);
 
             player.playerConnection.sendPacket(new PacketPlayOutSpawnEntityLiving(armorStand));
+            player.playerConnection.sendPacket(new PacketPlayOutEntityMetadata(armorStand.getId(), armorStand.getDataWatcher(), false));
             line.setId(armorStand.getId());
         }
     }

@@ -3,13 +3,16 @@ package ru.csm.bungee;
 import com.google.common.reflect.TypeToken;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
+import ru.csm.api.player.Head;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
+import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
+import ru.csm.api.storage.database.Row;
 import ru.csm.api.upload.*;
 import ru.csm.api.utils.Logger;
 import ru.csm.api.utils.Validator;
@@ -111,8 +114,28 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
-    public void showPreview(ProxiedPlayer player, Skin skin, boolean openMenu, String permission) {
+    public Head getPlayerHead(String name) {
+        Row row = database.getRow(Tables.SKINS, "name", name);
 
+        if (row != null){
+            String owner = row.getField("name").toString();
+            Skin skin = new Skin();
+
+            if (row.hasField("custom_value")){
+                skin.setValue(row.getField("custom_value").toString());
+            } else {
+                skin.setValue(row.getField("default_value").toString());
+            }
+
+            return new Head(owner, skin.getURL());
+        }
+
+        return null;
+    }
+
+    @Override
+    public void showPreview(ProxiedPlayer player, Skin skin, boolean openMenu, String permission) {
+        // TODO send data to spigot
     }
 
     @Override
@@ -175,7 +198,7 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
 
     @Override
     public void openSkinsMenu(ProxiedPlayer player, int page) {
-
+        // TODO send data to spigot
     }
 
     @Override

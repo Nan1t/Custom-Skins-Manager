@@ -58,7 +58,10 @@ public final class MenuManager {
         Item resetBtn = Item.builder()
                 .material(Material.BARRIER)
                 .displayName(lang.of("menu.btn.reset.name"))
-                .action((player, item)->api.resetSkin(player.getUniqueId()))
+                .action((player, item)->{
+                    player.closeInventory();
+                    api.resetSkin(player.getUniqueId());
+                })
                 .build();
 
         Item prevBtn = Item.builder()

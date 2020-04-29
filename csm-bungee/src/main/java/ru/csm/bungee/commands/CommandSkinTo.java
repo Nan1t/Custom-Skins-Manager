@@ -1,25 +1,25 @@
-package ru.csm.bukkit.commands;
+package ru.csm.bungee.commands;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
-import java.util.List;
+import ru.csm.bungee.command.SubCommand;
 
-public class CommandSkinTo extends Command {
+public class CommandSkinTo extends SubCommand {
 
-    private final SkinsAPI<Player> api;
+    private final SkinsAPI<ProxiedPlayer> api;
 
-    public CommandSkinTo(SkinsAPI<Player> api){
+    public CommandSkinTo(SkinsAPI<ProxiedPlayer> api){
         this.api = api;
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length >= 2){
-            SkinPlayer<Player> target = api.getPlayer(args[0]);
+            SkinPlayer<ProxiedPlayer> target = api.getPlayer(args[0]);
 
             if (target == null){
                 sender.sendMessage(String.format("Player %s does not exist or offline", args[0]));
@@ -57,10 +57,5 @@ public class CommandSkinTo extends Command {
         }
 
         sender.sendMessage("Wrong admin command format! Check the manual on SpigotMC plugin page");
-    }
-
-    @Override
-    public List<String> onTab(CommandSender sender, String[] args) {
-        return null;
     }
 }

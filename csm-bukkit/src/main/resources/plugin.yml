@@ -7,10 +7,12 @@ commands:
   csm:
     description: 'Custom Skins Manager main command'
     aliases: ["skin", "skins"]
+    permission-message: "You don't have permission to do that"
   csmskull:
     permission: 'csm.skulls'
     description: 'Custom Skins Manager skull command'
     aliases: ["skull"]
+    permission-message: "You don't have permission to do that"
 permissions:
   csm.skin.player:
     description: "Allow to setup skin from license name"

@@ -34,6 +34,7 @@ public class PlayerJoinListener implements Listener {
 
             player = api.buildPlayer(e.getPlayer());
             api.createNewPlayer(player);
+            api.addPlayer(player);
             updateSkin(player);
         });
     }

@@ -44,20 +44,23 @@ public abstract class Command implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-        executeSubCommands(sender, this, args);
+        executeSubCommands(sender, this, args, cmd.getPermissionMessage());
         return true;
     }
 
-    private void executeSubCommands(CommandSender sender, Command parent, String[] args){
+    private void executeSubCommands(CommandSender sender, Command parent, String[] args, String noPermMessage){
         for (String arg : args){
             Command cmd = parent.getSub(arg);
             if (cmd != null){
-                executeSubCommands(sender, cmd, Arrays.copyOfRange(args, 1, args.length));
+                executeSubCommands(sender, cmd, Arrays.copyOfRange(args, 1, args.length), noPermMessage);
                 return;
             }
         }
 
-        if(!checkPermission(sender, this)) return;
+        if(!checkPermission(sender, parent)){
+            sender.sendMessage(noPermMessage);
+            return;
+        }
 
         parent.execute(sender, args);
     }
@@ -76,22 +79,26 @@ public abstract class Command implements TabExecutor {
             }
         }
 
-        if (args.length > 0){
-            Set<String> keys = command.getRegisteredSubKeys();
+        if (checkPermission(sender, command)){
+            if (args.length > 0){
+                Set<String> keys = command.getRegisteredSubKeys();
 
-            if (keys != null && !keys.isEmpty()){
-                List<String> result = new ArrayList<>();
-                String lastArg = args[args.length-1];
+                if (keys != null && !keys.isEmpty()){
+                    List<String> result = new ArrayList<>();
+                    String lastArg = args[args.length-1];
 
-                for (String str : keys){
-                    if (str.startsWith(lastArg)) result.add(str);
+                    for (String str : keys){
+                        if (str.startsWith(lastArg)) result.add(str);
+                    }
+
+                    return result;
                 }
-
-                return result;
             }
+
+            return command.onTab(sender, args);
         }
 
-        return command.onTab(sender, args);
+        return null;
     }
 
     private boolean checkPermission(CommandSender sender, Command command){

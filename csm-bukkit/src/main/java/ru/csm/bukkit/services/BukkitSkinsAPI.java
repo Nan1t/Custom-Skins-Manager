@@ -5,6 +5,7 @@ import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+import ru.csm.api.player.Head;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
@@ -123,6 +124,26 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
+    public Head getPlayerHead(String name) {
+        Row row = database.getRow(Tables.SKINS, "name", name);
+
+        if (row != null){
+            String owner = row.getField("name").toString();
+            Skin skin = new Skin();
+
+            if (row.hasField("custom_value")){
+                skin.setValue(row.getField("custom_value").toString());
+            } else {
+                skin.setValue(row.getField("default_value").toString());
+            }
+
+            return new Head(owner, skin.getURL());
+        }
+
+        return null;
+    }
+
+    @Override
     public void showPreview(Player player, Skin skin, boolean openMenu, String permission) {
         NpcManager.removeNpc(player);
 
@@ -144,6 +165,8 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
             npc.setOpenMenu(openMenu);
             npc.setPermission(permission);
             npc.spawn(player);
+
+            //BukkitTasks.runTaskLaterAsync(()->npc.destroy(player), 400);
         }
     }
 

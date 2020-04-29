@@ -23,7 +23,11 @@ public class GeneratedSkinsMenu implements SkinsMenu {
 
     @Override
     public Item getItem(int slot) {
-        return items[slot];
+        try{
+            return items[slot];
+        } catch (IndexOutOfBoundsException e){
+            return null;
+        }
     }
 
     @Override
@@ -37,6 +41,7 @@ public class GeneratedSkinsMenu implements SkinsMenu {
         int slot = 0;
 
         while (iterator.hasNext()){
+            if (slot >= SIZE) break;
             this.items[slot] = iterator.next();
             slot++;
         }

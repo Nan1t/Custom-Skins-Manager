@@ -37,4 +37,14 @@ public class TestDatabase {
         }
     }
 
+    @Test
+    public void test(){
+        int length = 68000;
+        int parts = (int) Math.ceil(length/63000f);
+        int lastPart = length % 63000;
+
+        System.out.println(parts);
+        System.out.println(lastPart);
+    }
+
 }

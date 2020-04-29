@@ -28,9 +28,10 @@ public class NPC_v1_14_R1 extends AbstractNPC {
         id = npcEntity.getId();
 
         npcEntity.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
-        npcEntity.getDataWatcher().set(DataWatcherRegistry.a.a(13), (byte) 127);
+        npcEntity.getDataWatcher().set(DataWatcherRegistry.a.a(15), (byte) 127);
 
         PacketPlayOutNamedEntitySpawn entitySpawn = new PacketPlayOutNamedEntitySpawn(npcEntity);
+        PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(id, npcEntity.getDataWatcher(), false);
         PacketPlayOutPlayerInfo addInfo = new PacketPlayOutPlayerInfo(
                 PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
                 npcEntity
@@ -40,6 +41,7 @@ public class NPC_v1_14_R1 extends AbstractNPC {
         player.playerConnection.sendPacket(addInfo);
         player.playerConnection.sendPacket(entitySpawn);
         player.playerConnection.sendPacket(rotation);
+        player.playerConnection.sendPacket(metadata);
 
         hologram.spawn(p);
         super.spawn(p);
