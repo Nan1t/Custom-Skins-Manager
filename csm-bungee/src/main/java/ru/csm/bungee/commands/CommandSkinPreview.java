@@ -18,7 +18,7 @@ public class CommandSkinPreview extends SubCommand {
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void exec(CommandSender sender, String[] args) {
         if (args.length >= 3){
             ProxiedPlayer player = ProxyServer.getInstance().getPlayer(args[0]);
             String texture = args[1];

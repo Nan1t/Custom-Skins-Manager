@@ -14,7 +14,7 @@ public class CommandSkull extends CommandExecutor {
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
-        // TODO send usage
+    public void exec(CommandSender sender, String[] args) {
+        sender.sendMessages(usage);
     }
 }

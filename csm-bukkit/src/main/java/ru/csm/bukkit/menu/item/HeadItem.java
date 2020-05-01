@@ -1,13 +1,13 @@
-package ru.csm.bukkit.menu;
+package ru.csm.bukkit.menu.item;
 
 import ru.csm.api.player.Skin;
 
-public class PlayerHead {
+public class HeadItem {
 
     private final String name;
     private final Skin skin;
 
-    public PlayerHead(String name, Skin skin) {
+    public HeadItem(String name, Skin skin) {
         this.name = name;
         this.skin = skin;
     }

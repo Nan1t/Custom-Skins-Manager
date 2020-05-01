@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class MessageSender<Player> {
 
-    private static final int PACKET_SIZE = 65536;
+    private static final int PACKET_SIZE = 32767;
     private static final int MAX_PACKET_SIZE = PACKET_SIZE * Short.MAX_VALUE;
     private static final int PART_HEADER_SIZE = 8;
     private static final int PART_DATA_SIZE = PACKET_SIZE - PART_HEADER_SIZE;

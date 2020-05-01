@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import ru.csm.bukkit.menu.SkinsMenu;
 import ru.csm.bukkit.menu.item.Item;
 
@@ -24,6 +25,11 @@ public class InventoryListener implements Listener {
 
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event){
+
     }
 
 }

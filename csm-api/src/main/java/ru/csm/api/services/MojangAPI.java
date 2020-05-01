@@ -1,5 +1,6 @@
 package ru.csm.api.services;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import ru.csm.api.player.Skin;
@@ -48,16 +49,20 @@ public final class MojangAPI {
                 JsonObject object = JSON_PARSER.parse(jsonString).getAsJsonObject();
 
                 if(object.has("properties")){
-                    JsonObject properties = object.get("properties").getAsJsonArray().get(0).getAsJsonObject();
-                    String value = properties.get("value").getAsString();
-                    String signature = properties.get("signature").getAsString();
-                    String skinUrl = getsSkinURL(value);
+                    JsonArray propArr = object.get("properties").getAsJsonArray();
 
-                    if(skinUrl != null){
-                        Skin skin = new Skin();
-                        skin.setValue(value);
-                        skin.setSignature(signature);
-                        return skin;
+                    if (propArr.size() > 0){
+                        JsonObject properties = object.get("properties").getAsJsonArray().get(0).getAsJsonObject();
+                        String value = properties.get("value").getAsString();
+                        String signature = properties.get("signature").getAsString();
+                        String skinUrl = getsSkinURL(value);
+
+                        if(skinUrl != null){
+                            Skin skin = new Skin();
+                            skin.setValue(value);
+                            skin.setSignature(signature);
+                            return skin;
+                        }
                     }
                 }
             }

@@ -1,12 +1,13 @@
 package ru.csm.bungee;
 
 import com.google.common.reflect.TypeToken;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
-import ru.csm.api.player.Head;
-import ru.csm.api.player.Skin;
-import ru.csm.api.player.SkinModel;
-import ru.csm.api.player.SkinPlayer;
+import ru.csm.api.network.Channels;
+import ru.csm.api.network.MessageSender;
+import ru.csm.api.player.*;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
@@ -38,10 +39,13 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     private NameQueue nameQueue;
     private ImageQueue imageQueue;
 
-    public BungeeSkinsAPI(Database database, Configuration conf, Language lang) {
+    private final MessageSender<ProxiedPlayer> messageSender;
+
+    public BungeeSkinsAPI(Database database, Configuration conf, Language lang, MessageSender<ProxiedPlayer> messageSender) {
         this.database = database;
         this.conf = conf;
         this.lang = lang;
+        this.messageSender = messageSender;
 
         loadDefaultSkins();
         loadBlacklist();
@@ -135,7 +139,13 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
 
     @Override
     public void showPreview(ProxiedPlayer player, Skin skin, boolean openMenu, String permission) {
-        // TODO send data to spigot
+        JsonObject message = new JsonObject();
+        message.addProperty("player", player.getName());
+        message.addProperty("skin_value", skin.getValue());
+        message.addProperty("skin_signature", skin.getSignature());
+        message.addProperty("open_menu", openMenu);
+        message.addProperty("permission", permission);
+        messageSender.sendMessage(player, Channels.PREVIEW, message);
     }
 
     @Override
@@ -198,12 +208,46 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
 
     @Override
     public void openSkinsMenu(ProxiedPlayer player, int page) {
-        // TODO send data to spigot
+        if (page < 1) return;
+
+        int range = 45;
+        int offset = (page-1) * range;
+
+        String sql = "SELECT name,custom_value,custom_signature FROM %s WHERE custom_value IS NOT NULL LIMIT %s OFFSET %s";
+        Row[] rows = database.getRowsWithRequest(String.format(sql, Tables.SKINS, range, offset));
+
+        if (rows.length == 0) {
+            if (page == 1) player.sendMessage(lang.of("menu.empty"));
+            return;
+        }
+
+        JsonObject message = new JsonObject();
+        JsonArray heads = new JsonArray();
+
+        for (Row row : rows){
+            JsonObject head = new JsonObject();
+
+            String name = row.getField("name").toString();
+            String texture = row.getField("custom_value").toString();
+            String signature = row.getField("custom_signature").toString();
+
+            head.addProperty("name", name);
+            head.addProperty("texture", texture);
+            head.addProperty("signature", signature);
+
+            heads.add(head);
+        }
+
+        message.addProperty("player", player.getName());
+        message.addProperty("page", page);
+        message.add("heads", heads);
+
+        messageSender.sendMessage(player, Channels.MENU, message);
     }
 
     @Override
     public SkinPlayer<ProxiedPlayer> buildPlayer(ProxiedPlayer player) {
-        return new BungeeSkinPlayer(player);
+        return new BungeeSkinPlayer(player, messageSender);
     }
 
     @Override

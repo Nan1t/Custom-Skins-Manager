@@ -17,7 +17,7 @@ public class CommandSkinPlayer extends SubCommand {
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void exec(CommandSender sender, String[] args) {
         if (!(sender instanceof ProxiedPlayer)) return;
 
         if (args.length == 1){

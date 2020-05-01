@@ -7,7 +7,7 @@ import ru.csm.api.utils.NumUtil;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class MessageReceiver {
+public abstract class MessageReceiver {
 
     private static final int PART_HEADER_SIZE = 8;
     private static final JsonParser JSON_PARSER = new JsonParser();
@@ -27,13 +27,21 @@ public final class MessageReceiver {
             short partsCount = NumUtil.shortFromBytes(data[4], data[5]);
             short partId = NumUtil.shortFromBytes(data[6], data[7]);
             byte[] clearData = new byte[data.length - PART_HEADER_SIZE];
-            Packet packet = packets.computeIfAbsent(packetId, (id)->new Packet(id, partsCount));
 
             System.arraycopy(data, PART_HEADER_SIZE, clearData, 0, clearData.length);
+
+            if (partsCount == 1){
+                JsonObject result = JSON_PARSER.parse(new String(clearData)).getAsJsonObject();
+                handler.execute(result);
+                return;
+            }
+
+            Packet packet = packets.computeIfAbsent(packetId, (id)->new Packet(id, partsCount));
 
             packet.addPart(partId, new String(clearData));
 
             if (packet.isAllReceived()){
+                packets.remove(packetId);
                 JsonObject result = JSON_PARSER.parse(packet.buildParts()).getAsJsonObject();
                 handler.execute(result);
             }

@@ -17,7 +17,7 @@ public class CommandSkinReset extends SubCommand {
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void exec(CommandSender sender, String[] args) {
         if (args.length > 0){
             sender.sendMessage(usage);
             return;

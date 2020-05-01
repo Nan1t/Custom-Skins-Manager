@@ -17,6 +17,7 @@ import java.lang.reflect.Field;
 public class NpcPacketHandler extends ChannelDuplexHandler {
 
     private static Class<?> packetClass;
+    private static Field idField;
     private static Field actionField;
     private static Field handField;
 
@@ -40,9 +41,10 @@ public class NpcPacketHandler extends ChannelDuplexHandler {
                 if (hand != null && !hand.toString().equals("MAIN_HAND")) return;
             }
 
+            int id = (Integer) idField.get(packet);
             NPC npc = NpcManager.getPlayerNPC(player.getUniqueId());
 
-            if (npc != null){
+            if (npc != null && npc.getId() == id){
                 ClickAction clickAction = ClickAction.valueOf(actionField.get(packet).toString());
                 BukkitTasks.runTask(()->{
                     Bukkit.getServer().getPluginManager().callEvent(new NpcClickEvent(player, npc, clickAction));
@@ -70,6 +72,8 @@ public class NpcPacketHandler extends ChannelDuplexHandler {
     public static void init(String version){
         try{
             packetClass = Class.forName(String.format("net.minecraft.server.%s.PacketPlayInUseEntity", version));
+            idField = packetClass.getDeclaredField("a");
+            idField.setAccessible(true);
             actionField = packetClass.getDeclaredField("action");
             actionField.setAccessible(true);
 

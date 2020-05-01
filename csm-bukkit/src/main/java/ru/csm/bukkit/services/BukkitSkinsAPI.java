@@ -19,7 +19,7 @@ import ru.csm.api.storage.database.Row;
 import ru.csm.api.upload.*;
 import ru.csm.api.utils.Logger;
 import ru.csm.api.utils.Validator;
-import ru.csm.bukkit.menu.PlayerHead;
+import ru.csm.bukkit.menu.item.HeadItem;
 import ru.csm.bukkit.menu.SkinsMenu;
 import ru.csm.bukkit.npc.NPC;
 import ru.csm.bukkit.npc.Npcs;
@@ -165,8 +165,6 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
             npc.setOpenMenu(openMenu);
             npc.setPermission(permission);
             npc.spawn(player);
-
-            //BukkitTasks.runTaskLaterAsync(()->npc.destroy(player), 400);
         }
     }
 
@@ -257,13 +255,13 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
             return;
         }
 
-        List<PlayerHead> heads = new ArrayList<>();
+        List<HeadItem> heads = new ArrayList<>();
 
         for (Row row : rows){
             String name = row.getField("name").toString();
             String texture = row.getField("custom_value").toString();
             String signature = row.getField("custom_signature").toString();
-            heads.add(new PlayerHead(name, new Skin(texture, signature)));
+            heads.add(new HeadItem(name, new Skin(texture, signature)));
         }
 
         SkinsMenu menu = menuManager.createMenu(this, heads, page);

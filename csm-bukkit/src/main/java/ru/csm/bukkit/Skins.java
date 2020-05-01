@@ -8,6 +8,7 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import org.spigotmc.SpigotConfig;
+import ru.csm.api.network.Channels;
 import ru.csm.api.player.Skin;
 import ru.csm.api.services.SkinHash;
 import ru.csm.api.storage.database.H2Database;
@@ -25,9 +26,17 @@ import ru.csm.bukkit.hologram.Holograms;
 import ru.csm.bukkit.listeners.InventoryListener;
 import ru.csm.bukkit.listeners.NpcClickListener;
 import ru.csm.bukkit.listeners.PlayerJoinListener;
+import ru.csm.bukkit.listeners.PlayerListener;
 import ru.csm.bukkit.menu.item.Item;
+import ru.csm.bukkit.messages.PluginMessageReceiver;
+import ru.csm.bukkit.messages.PluginMessageSender;
+import ru.csm.bukkit.messages.handlers.HandlerMenu;
+import ru.csm.bukkit.messages.handlers.HandlerPreview;
+import ru.csm.bukkit.messages.handlers.HandlerSkin;
+import ru.csm.bukkit.messages.handlers.HandlerSkull;
 import ru.csm.bukkit.npc.NpcPacketHandler;
 import ru.csm.bukkit.npc.Npcs;
+import ru.csm.bukkit.services.BukkitBungeeSkinsAPI;
 import ru.csm.bukkit.services.BukkitSkinsAPI;
 import ru.csm.bukkit.services.MenuManager;
 import ru.csm.bukkit.util.BukkitTasks;
@@ -75,12 +84,33 @@ public class Skins extends JavaPlugin {
                 SkinHash.startCleaner();
                 registerCommands();
 
-                getServer().getPluginManager().registerEvents(new PlayerJoinListener(api), this);
+                getServer().getPluginManager().registerEvents(new PlayerListener(api), this);
                 getServer().getServicesManager().register(SkinsAPI.class, api, this, ServicePriority.Normal);
             } else {
                 getLogger().info("Using BungeeCord as skin manager");
+
+                PluginMessageSender sender = new PluginMessageSender(this);
+                PluginMessageReceiver receiver = new PluginMessageReceiver();
+
+                api = new BukkitBungeeSkinsAPI(lang, sender);
+
+                receiver.registerHandler(Channels.SKINS, new HandlerSkin());
+                receiver.registerHandler(Channels.SKULLS, new HandlerSkull());
+                receiver.registerHandler(Channels.MENU, new HandlerMenu(api, menuManager));
+                receiver.registerHandler(Channels.PREVIEW, new HandlerPreview(api));
+
+                getServer().getMessenger().registerIncomingPluginChannel(this, Channels.SKINS, receiver);
+                getServer().getMessenger().registerIncomingPluginChannel(this, Channels.SKULLS, receiver);
+                getServer().getMessenger().registerIncomingPluginChannel(this, Channels.MENU, receiver);
+                getServer().getMessenger().registerIncomingPluginChannel(this, Channels.PREVIEW, receiver);
+
+                getServer().getMessenger().registerOutgoingPluginChannel(this, Channels.SKINS);
+                getServer().getMessenger().registerOutgoingPluginChannel(this, Channels.SKULLS);
+                getServer().getMessenger().registerOutgoingPluginChannel(this, Channels.MENU);
+                getServer().getMessenger().registerOutgoingPluginChannel(this, Channels.PREVIEW);
             }
 
+            getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
             getServer().getPluginManager().registerEvents(new InventoryListener(), this);
             getServer().getPluginManager().registerEvents(new NpcClickListener(api, menuManager), this);
         } catch (Exception e){

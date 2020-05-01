@@ -16,7 +16,7 @@ public interface CommandHandler {
 
     CommandHandler getSub(String arg);
 
-    void execute(CommandSender sender, String[] args);
+    void exec(CommandSender sender, String[] args);
 
     default boolean checkPermission(CommandSender sender, CommandHandler command){
         return (command.getPermission() == null) || sender.hasPermission(command.getPermission());

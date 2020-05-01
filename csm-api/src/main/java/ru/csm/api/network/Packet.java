@@ -6,7 +6,7 @@ public class Packet {
 
     private final int id;
     private final String[] parts;
-    private AtomicInteger received;
+    private final AtomicInteger received;
 
     public Packet(int id, int parts){
         this.id = id;

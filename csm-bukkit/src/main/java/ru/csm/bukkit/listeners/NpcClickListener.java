@@ -36,7 +36,6 @@ public class NpcClickListener implements Listener {
 
         if (event.getAction().equals(ClickAction.INTERACT)){
             if (npc.getPermission() != null && !event.getPlayer().hasPermission(npc.getPermission())) return;
-
             skinsAPI.setCustomSkin(event.getPlayer(), npc.getSkin());
             npc.destroy(event.getPlayer());
         }

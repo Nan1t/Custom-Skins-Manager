@@ -10,29 +10,8 @@ import java.nio.file.Paths;
 
 public class MathTest {
 
-    private static final MessageSender<Object> SENDER = new Sender();
-    private static final MessageReceiver RECEIVER = new MessageReceiver();
-
     @Test
-    public void testMessage(){
-        RECEIVER.registerHandler("test", (result)->{
-            System.out.println("Received: " + result.toString().length());
-            System.out.println(result.toString());
-        });
-
-        JsonObject json = getJson();
-
-        System.out.println("Sent " + json.toString().length());
-
-        SENDER.sendMessage(null, "test", json);
-    }
-
-    private static class Sender extends MessageSender<Object> {
-
-        @Override
-        public void send(Object o, String channel, byte[] data) {
-            RECEIVER.receive(channel, data);
-        }
+    public void test(){
 
     }
 

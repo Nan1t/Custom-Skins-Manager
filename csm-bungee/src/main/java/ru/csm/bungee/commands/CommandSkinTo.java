@@ -17,7 +17,7 @@ public class CommandSkinTo extends SubCommand {
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void exec(CommandSender sender, String[] args) {
         if (args.length >= 2){
             SkinPlayer<ProxiedPlayer> target = api.getPlayer(args[0]);
 

@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Language;
 import ru.csm.bukkit.menu.GeneratedSkinsMenu;
-import ru.csm.bukkit.menu.PlayerHead;
+import ru.csm.bukkit.menu.item.HeadItem;
 import ru.csm.bukkit.menu.SkinsMenu;
 import ru.csm.bukkit.menu.item.Item;
 
@@ -37,11 +37,11 @@ public final class MenuManager {
         openedMenus.remove(player.getUniqueId());
     }
 
-    public SkinsMenu createMenu(SkinsAPI<Player> api, List<PlayerHead> heads, int page){
+    public SkinsMenu createMenu(SkinsAPI<Player> api, List<HeadItem> heads, int page){
         SkinsMenu menu = new GeneratedSkinsMenu(lang.of("menu.title"));
         List<Item> headItems = new ArrayList<>();
 
-        for (PlayerHead head : heads){
+        for (HeadItem head : heads){
             Item item = Item.builder()
                     .texture(head.getSkin().getURL())
                     .displayName(lang.of("menu.btn.head.name").replace("%player%", head.getName()))

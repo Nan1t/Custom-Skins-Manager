@@ -3,6 +3,8 @@ main: 'ru.csm.bukkit.Skins'
 version: '3.0'
 api-version: '1.13'
 author: '_Nanit_'
+softdepend:
+  - "PlaceholderAPI"
 commands:
   csm:
     description: 'Custom Skins Manager main command'
@@ -24,7 +26,9 @@ permissions:
     description: "Allow to reset skin to default"
   csm.skin.to:
     description: "Allow to setup skins for any player"
-  csm.admin:
-    description: "Allow to use '/csm reload' command. More information see on spigotmc"
-  csm.skulls:
-    description: "Allow to use '/skull <player>' command. More information see on spigotmc"
+  csm.skull.player:
+    description: "/skull player command"
+  csm.skull.url:
+    description: "/skull url command"
+  csm.skull.to:
+    description: "/skull to command"

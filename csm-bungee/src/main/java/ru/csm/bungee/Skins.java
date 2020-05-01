@@ -4,7 +4,10 @@ import com.google.common.reflect.TypeToken;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializers;
+import ru.csm.api.network.Channels;
+import ru.csm.api.network.MessageSender;
 import ru.csm.api.player.Skin;
+import ru.csm.api.services.SkinHash;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
@@ -13,10 +16,17 @@ import ru.csm.api.storage.database.H2Database;
 import ru.csm.api.storage.database.MySQLDatabase;
 import ru.csm.api.upload.Profile;
 import ru.csm.api.utils.FileUtil;
+import ru.csm.api.utils.Logger;
 import ru.csm.bungee.command.CommandExecutor;
 import ru.csm.bungee.command.SubCommand;
 import ru.csm.bungee.commands.*;
 import ru.csm.bungee.listeners.PlayerListeners;
+import ru.csm.bungee.message.PluginMessageReceiver;
+import ru.csm.bungee.message.PluginMessageSender;
+import ru.csm.bungee.message.handlers.HandlerMenu;
+import ru.csm.bungee.message.handlers.HandlerPreview;
+import ru.csm.bungee.message.handlers.HandlerSkin;
+import ru.csm.bungee.message.handlers.HandlerSkull;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,6 +40,8 @@ public class Skins extends Plugin {
     @Override
     public void onEnable(){
         try {
+            Logger.set(getLogger());
+
             registerSerializers();
 
             Path pluginFolder = this.getDataFolder().toPath();
@@ -43,10 +55,27 @@ public class Skins extends Plugin {
                 return;
             }
 
-            api = new BungeeSkinsAPI(database, configuration, lang);
+            MessageSender<ProxiedPlayer> sender = new PluginMessageSender();
+            PluginMessageReceiver receiver = new PluginMessageReceiver();
+
+            api = new BungeeSkinsAPI(database, configuration, lang, sender);
+
+            receiver.registerHandler(Channels.SKINS, new HandlerSkin(api));
+            receiver.registerHandler(Channels.SKULLS, new HandlerSkull());
+            receiver.registerHandler(Channels.MENU, new HandlerMenu(api));
+            receiver.registerHandler(Channels.PREVIEW, new HandlerPreview());
+
+            getProxy().registerChannel(Channels.SKINS);
+            getProxy().registerChannel(Channels.SKULLS);
+            getProxy().registerChannel(Channels.PREVIEW);
+            getProxy().registerChannel(Channels.MENU);
+
+            getProxy().getPluginManager().registerListener(this, receiver);
 
             registerListeners();
-            registerCommands();
+            registerCommands(sender);
+
+            SkinHash.startCleaner();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -57,9 +86,9 @@ public class Skins extends Plugin {
         database.closeConnection();
     }
 
-    private void registerCommands(){
+    private void registerCommands(MessageSender<ProxiedPlayer> sender){
         CommandExecutor skinCommand = new CommandSkin(api.getLang());
-        CommandExecutor skullCommand = new CommandSkin(api.getLang());
+        CommandExecutor skullCommand = new CommandSkull(api.getLang());
 
         SubCommand skinPlayer = new CommandSkinPlayer(api);
         SubCommand skinUrl = new CommandSkinUrl(api);
@@ -67,9 +96,9 @@ public class Skins extends Plugin {
         SubCommand skinMenu = new CommandSkinMenu(api);
         SubCommand skinTo = new CommandSkinTo(api);
         SubCommand skinPreview = new CommandSkinPreview(api);
-        SubCommand skullPlayer = new CommandSkullPlayer(api);
-        SubCommand skullUrl = new CommandSkullUrl(api);
-        SubCommand skullTo = new CommandSkullTo(api);
+        SubCommand skullPlayer = new CommandSkullPlayer(api, sender);
+        SubCommand skullUrl = new CommandSkullUrl(api, sender);
+        SubCommand skullTo = new CommandSkullTo(api, sender);
 
         skinPlayer.setPermission("csm.skin.player");
         skinUrl.setPermission("csm.skin.url");
@@ -78,8 +107,8 @@ public class Skins extends Plugin {
         skinTo.setPermission("csm.skin.to");
         skinPreview.setPermission("csm.skin.preview");
         skullPlayer.setPermission("csm.skull.player");
-        skullUrl.setPermission("csm.skull.player");
-        skullTo.setPermission("csm.skull.player");
+        skullUrl.setPermission("csm.skull.url");
+        skullTo.setPermission("csm.skull.to");
 
         skinCommand.addSub(skinPlayer, "player");
         skinCommand.addSub(skinUrl, "url");
@@ -91,6 +120,9 @@ public class Skins extends Plugin {
         skullCommand.addSub(skullPlayer, "player");
         skullCommand.addSub(skullUrl, "url");
         skullCommand.addSub(skullTo, "to");
+
+        getProxy().getPluginManager().registerCommand(this, skinCommand);
+        getProxy().getPluginManager().registerCommand(this, skullCommand);
     }
 
     private void registerSerializers(){
@@ -100,6 +132,7 @@ public class Skins extends Plugin {
 
     private void registerListeners(){
         getProxy().getPluginManager().registerListener(this, new PlayerListeners(api));
+        getProxy().getPluginManager().registerListener(this, new PluginMessageReceiver());
     }
 
     private void setupDatabase(Configuration conf) throws SQLException {

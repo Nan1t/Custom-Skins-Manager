@@ -1,11 +1,15 @@
 package ru.csm.bungee.player;
 
+import com.google.gson.JsonObject;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.connection.InitialHandler;
 import net.md_5.bungee.connection.LoginResult;
+import ru.csm.api.network.Channels;
+import ru.csm.api.network.MessageSender;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
+import ru.csm.api.utils.Logger;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
@@ -16,8 +20,22 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
     private Skin defaultSkin;
     private Skin customSkin;
 
-    public BungeeSkinPlayer(ProxiedPlayer player){
+    private final MessageSender<ProxiedPlayer> messageSender;
+
+    private static Field loginProfileField;
+
+    static {
+        try{
+            loginProfileField = InitialHandler.class.getDeclaredField("loginProfile");
+            loginProfileField.setAccessible(true);
+        } catch (ReflectiveOperationException e){
+            Logger.severe("Cannot find loginProfile field in InitialHandler class");
+        }
+    }
+
+    public BungeeSkinPlayer(ProxiedPlayer player, MessageSender<ProxiedPlayer> messageSender){
         this.player = player;
+        this.messageSender = messageSender;
     }
 
     @Override
@@ -65,21 +83,25 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
             LoginResult profile = new LoginResult(player.getUniqueId().toString(), "textures", new LoginResult.Property[] { texture });
 
             profile.getProperties()[0].setName("textures");
-            profile.getProperties()[0].setName("textures");
             profile.getProperties()[0].setValue(skin.getValue());
             profile.getProperties()[0].setSignature(skin.getSignature());
 
-            Field field = InitialHandler.class.getDeclaredField("loginProfile");
-            field.setAccessible(true);
-            field.set(handler, profile);
+            loginProfileField.set(handler, profile);
         } catch (Exception e){
-            System.out.println("Error while apply skin: " + e.getMessage());
+            Logger.severe("Error while apply skin: %s", e.getMessage());
         }
     }
 
     @Override
     public void refreshSkin() {
-        // TODO send refresh message
+        Skin skin = hasCustomSkin() ? customSkin : defaultSkin;
+        JsonObject message = new JsonObject();
+
+        message.addProperty("player", player.getName());
+        message.addProperty("skin_value", skin.getValue());
+        message.addProperty("skin_signature", skin.getSignature());
+
+        messageSender.sendMessage(player, Channels.SKINS, message);
     }
 
     @Override

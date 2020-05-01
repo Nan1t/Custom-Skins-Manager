@@ -58,11 +58,10 @@ public abstract class CommandExecutor extends Command implements CommandHandler 
         }
 
         if(!checkPermission(sender, parent)){
-            // TODO send no permission message
             sender.sendMessage(TextComponent.fromLegacyText("You don't have permission to that"));
             return;
         }
 
-        parent.execute(sender, args);
+        parent.exec(sender, args);
     }
 }
