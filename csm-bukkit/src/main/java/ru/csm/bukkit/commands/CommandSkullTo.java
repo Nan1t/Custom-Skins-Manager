@@ -34,7 +34,10 @@ public class CommandSkullTo extends Command {
                 if (head != null){
                     ItemStack item = Skull.getCustomSkull(head.getUrl());
                     target.getInventory().addItem(item);
+                    return;
                 }
+
+                sender.sendMessage(String.format(api.getLang().of("player.missing"), args[0]));
                 return;
             } else if (args[1].equalsIgnoreCase("url")){
                 ItemStack item = Skull.getCustomSkull(args[2]);

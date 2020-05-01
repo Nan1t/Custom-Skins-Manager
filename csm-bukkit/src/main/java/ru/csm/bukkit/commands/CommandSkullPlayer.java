@@ -28,9 +28,12 @@ public class CommandSkullPlayer extends Command {
 
                 if (head != null){
                     ItemStack item = Skull.getCustomSkull(head.getUrl());
-                    player.getInventory().addItem(item);player.sendMessage(api.getLang().of("player.skull.received"));
-
+                    player.getInventory().addItem(item);
+                    player.sendMessage(api.getLang().of("player.skull.received"));
+                    return;
                 }
+
+                player.sendMessage(String.format(api.getLang().of("player.missing"), args[0]));
             }
 
             return;

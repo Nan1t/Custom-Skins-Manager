@@ -19,30 +19,42 @@ public final class MineskinQueue extends ImageQueue {
     private static final JsonParser JSON_PARSER = new JsonParser();
     private final SkinsAPI api;
 
+    private long nextRequest;
+
     public MineskinQueue(SkinsAPI api) {
         this.api = api;
     }
 
     @Override
+    public int getWaitSeconds(){
+        return ((int) Math.abs(nextRequest - System.currentTimeMillis()) / 1000) + super.getWaitSeconds();
+    }
+
+    @Override
     public void run() {
-        pop().ifPresent((request)->{
-            if (request.getPlayer().isOnline()){
-                Optional<Skin> hashed = SkinHash.get(request.getUrl());
+        if (System.currentTimeMillis() >= nextRequest){
 
-                if (hashed.isPresent()){
-                    api.setCustomSkin(request.getPlayer(), hashed.get());
-                    return;
-                }
+            nextRequest = System.currentTimeMillis();
 
-                try{
-                    if (!executeRequest(request)) {
-                        request.getPlayer().sendMessage(api.getLang().of("skin.image.error"));
+            pop().ifPresent((request)->{
+                if (request.getPlayer().isOnline()){
+                    Optional<Skin> hashed = SkinHash.get(request.getUrl());
+
+                    if (hashed.isPresent()){
+                        api.setCustomSkin(request.getPlayer(), hashed.get());
+                        return;
                     }
-                } catch (IOException e){
-                    Logger.severe("Cannot execute request to mineskin.org: %s", e.getMessage());
+
+                    try{
+                        if (!executeRequest(request)) {
+                            request.getPlayer().sendMessage(api.getLang().of("skin.image.error"));
+                        }
+                    } catch (IOException e){
+                        Logger.severe("Cannot execute request to mineskin.org: %s", e.getMessage());
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private boolean executeRequest(Request request) throws IOException {
@@ -76,10 +88,13 @@ public final class MineskinQueue extends ImageQueue {
         if(responseJson != null && !responseJson.isEmpty()){
             JsonObject json = JSON_PARSER.parse(responseJson).getAsJsonObject();
 
+            nextRequest = System.currentTimeMillis() + json.get("nextRequest").getAsInt() * 1000;
+
             if(json.has("data")){
                 JsonObject texture = json.get("data").getAsJsonObject().get("texture").getAsJsonObject();
                 String value = texture.get("value").getAsString();
                 String signature = texture.get("signature").getAsString();
+
                 return new Skin(value, signature);
             }
         }

@@ -337,7 +337,7 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
     private void loadQueues() {
         try{
             boolean enableMojang = conf.get().getNode("mojang", "enable").getBoolean();
-            int imagePeriod = 6;
+            int imagePeriod = 1;
 
             if (enableMojang){
                 imagePeriod = conf.get().getNode("mojang", "period").getInt();

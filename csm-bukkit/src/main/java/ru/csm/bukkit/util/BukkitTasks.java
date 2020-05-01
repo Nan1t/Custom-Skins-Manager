@@ -14,51 +14,44 @@ public final class BukkitTasks {
     }
 
     public static void runTask(Runnable runnable){
-        new BukkitRunnable(){
-            public void run(){
-                runnable.run();
-            }
-        }.runTask(plugin);
+        getRunnable(runnable).runTask(plugin);
     }
 
     public static void runTaskAsync(Runnable runnable){
-        new BukkitRunnable(){
-            public void run(){
-                runnable.run();
-            }
-        }.runTaskAsynchronously(plugin);
+        getRunnable(runnable).runTaskAsynchronously(plugin);
     }
 
     public static void runTaskLater(Runnable runnable, long delay){
-        new BukkitRunnable(){
-            public void run(){
-                runnable.run();
-            }
-        }.runTaskLater(plugin, delay);
+        getRunnable(runnable).runTaskLater(plugin, delay);
     }
 
     public static void runTaskLaterAsync(Runnable runnable, long delay){
-        new BukkitRunnable(){
-            public void run(){
-                runnable.run();
-            }
-        }.runTaskLaterAsynchronously(plugin, delay);
+        getRunnable(runnable).runTaskLaterAsynchronously(plugin, delay);
     }
 
     public static void runTaskTimer(Runnable runnable, long delay, long period){
-        new BukkitRunnable(){
-            public void run(){
-                runnable.run();
-            }
-        }.runTaskTimer(plugin, delay, period);
+        getRunnable(runnable).runTaskTimer(plugin, delay, period);
     }
 
     public static void runTaskTimerAsync(Runnable runnable, long delay, long period){
-        new BukkitRunnable(){
-            public void run(){
-                runnable.run();
-            }
-        }.runTaskTimerAsynchronously(plugin, delay, period);
+        getRunnable(runnable).runTaskTimerAsynchronously(plugin, delay, period);
     }
 
+    private static BukkitRunnable getRunnable(Runnable runnable){
+        return new BTask(runnable);
+    }
+
+    public static class BTask extends BukkitRunnable {
+
+        private final Runnable runnable;
+
+        public BTask(Runnable runnable){
+            this.runnable = runnable;
+        }
+
+        @Override
+        public void run() {
+            runnable.run();
+        }
+    }
 }

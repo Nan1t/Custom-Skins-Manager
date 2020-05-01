@@ -27,15 +27,20 @@ import ru.csm.bungee.message.handlers.HandlerMenu;
 import ru.csm.bungee.message.handlers.HandlerPreview;
 import ru.csm.bungee.message.handlers.HandlerSkin;
 import ru.csm.bungee.message.handlers.HandlerSkull;
+import ru.csm.bungee.services.BungeeSkinsAPI;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
-public class Skins extends Plugin {
+public class BungeeSkinsManager extends Plugin {
 
     private Database database;
     private SkinsAPI<ProxiedPlayer> api;
+
+    public SkinsAPI<ProxiedPlayer> getApi(){
+        return api;
+    }
 
     @Override
     public void onEnable(){
@@ -83,7 +88,16 @@ public class Skins extends Plugin {
 
     @Override
     public void onDisable(){
-        database.closeConnection();
+        if (api != null){
+            api.getNameQueue().stop();
+            api.getImageQueue().stop();
+        }
+
+        if (database != null){
+            database.closeConnection();
+        }
+
+        SkinHash.stopCleaner();
     }
 
     private void registerCommands(MessageSender<ProxiedPlayer> sender){

@@ -1,6 +1,7 @@
 package ru.csm.bukkit;
 
 import com.google.common.reflect.TypeToken;
+import me.clip.placeholderapi.PlaceholderAPI;
 import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializers;
 
 import org.bukkit.entity.Player;
@@ -36,6 +37,7 @@ import ru.csm.bukkit.messages.handlers.HandlerSkin;
 import ru.csm.bukkit.messages.handlers.HandlerSkull;
 import ru.csm.bukkit.npc.NpcPacketHandler;
 import ru.csm.bukkit.npc.Npcs;
+import ru.csm.bukkit.placeholders.Placeholders;
 import ru.csm.bukkit.services.BukkitBungeeSkinsAPI;
 import ru.csm.bukkit.services.BukkitSkinsAPI;
 import ru.csm.bukkit.services.MenuManager;
@@ -46,20 +48,28 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
-public class Skins extends JavaPlugin {
+public class SpigotSkinsManager extends JavaPlugin {
+
+    private Metrics metrics;
 
     private Database database;
     private SkinsAPI<Player> api;
+
+    public Metrics getMetrics(){
+        return metrics;
+    }
 
     @Override
     public void onEnable(){
         try{
             Logger.set(getLogger());
 
-            String packageName = getServer().getClass().getPackage().getName();
-            String version = packageName.substring(packageName.lastIndexOf('.') + 1);
+            metrics = new Metrics(this, 7375);
 
             registerSerializers();
+
+            String packageName = getServer().getClass().getPackage().getName();
+            String version = packageName.substring(packageName.lastIndexOf('.') + 1);
 
             SkinHandlers.init(version);
             Npcs.init(version);
@@ -113,13 +123,24 @@ public class Skins extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
             getServer().getPluginManager().registerEvents(new InventoryListener(), this);
             getServer().getPluginManager().registerEvents(new NpcClickListener(api, menuManager), this);
+
+            getServer().getServicesManager().register(SkinsAPI.class, api, this, ServicePriority.Normal);
+
+            if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")){
+                Placeholders.init();
+            }
         } catch (Exception e){
-            e.printStackTrace();
+            Logger.severe("Cannot enable plugin: " + e.getMessage());
         }
     }
 
     @Override
     public void onDisable(){
+        if (api != null){
+            if (api.getImageQueue() != null) api.getImageQueue().stop();
+            if (api.getNameQueue() != null) api.getNameQueue().stop();
+        }
+
         if(database != null){
             database.closeConnection();
         }

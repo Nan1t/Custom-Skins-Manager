@@ -38,7 +38,10 @@ public class CommandSkullTo extends SubCommand {
                     message.addProperty("player", target.getName());
                     message.addProperty("url", head.getUrl());
                     this.sender.sendMessage(target, Channels.SKULLS, message);
+                    return;
                 }
+
+                sender.sendMessage(String.format(api.getLang().of("player.missing"), args[0]));
                 return;
             } else if (args[1].equalsIgnoreCase("url")){
                 JsonObject message = new JsonObject();

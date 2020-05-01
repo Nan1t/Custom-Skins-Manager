@@ -29,6 +29,10 @@ public final class MojangQueue extends ImageQueue {
         this.api = api;
         this.profiles = profiles;
         this.profileIterator = profiles.iterator();
+
+        for (Profile profile : profiles){
+            authenticate(profile);
+        }
     }
 
     private Profile getAvailableProfile(){
@@ -43,6 +47,10 @@ public final class MojangQueue extends ImageQueue {
                 Profile profile = getAvailableProfile();
 
                 Logger.info("Using profile %s", profile.toString());
+
+                if (!validate(profile)){
+                    refresh(profile);
+                }
 
                 if(changeSkin(profile, request)){
                     Skin skin = MojangAPI.getPremiumSkin(profile.getUUID());

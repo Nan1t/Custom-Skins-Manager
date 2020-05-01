@@ -34,7 +34,10 @@ public class CommandSkullPlayer extends SubCommand {
                     message.addProperty("player", player.getName());
                     message.addProperty("url", head.getUrl());
                     this.sender.sendMessage(player, Channels.SKULLS, message);
+                    return;
                 }
+
+                sender.sendMessage(String.format(api.getLang().of("player.missing"), args[0]));
             }
 
             return;

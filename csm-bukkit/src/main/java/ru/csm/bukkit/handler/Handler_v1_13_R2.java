@@ -9,6 +9,7 @@ import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import ru.csm.api.player.Skin;
+import ru.csm.bukkit.util.BukkitTasks;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -71,6 +72,7 @@ public final class Handler_v1_13_R2 implements SkinHandler {
         ep.playerConnection.sendPacket(slot);
 
         updateData(player);
+        BukkitTasks.runTask(ep::updateAbilities);
 
         for (Player p : Bukkit.getOnlinePlayers()){
             if (!p.equals(player)){

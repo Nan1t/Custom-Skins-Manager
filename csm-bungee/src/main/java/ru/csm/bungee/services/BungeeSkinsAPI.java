@@ -1,4 +1,4 @@
-package ru.csm.bungee;
+package ru.csm.bungee.services;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonArray;
@@ -8,6 +8,7 @@ import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
 import ru.csm.api.network.Channels;
 import ru.csm.api.network.MessageSender;
 import ru.csm.api.player.*;
+import ru.csm.api.services.SkinHash;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Configuration;
 import ru.csm.api.storage.Language;
@@ -170,6 +171,13 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
             return;
         }
 
+        Optional<Skin> hashed = SkinHash.get(link);
+
+        if (hashed.isPresent()){
+            setCustomSkin(player, hashed.get());
+            return;
+        }
+
         imageQueue.push(player, link, model);
         long seconds = imageQueue.getWaitSeconds();
         player.sendMessage(String.format(lang.of("skin.process"), seconds));
@@ -184,6 +192,13 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
 
         if (isBlackList(name, player) || !isWhitelist(name, player)){
             player.sendMessage(lang.of("skin.unallowed"));
+            return;
+        }
+
+        Optional<Skin> hashed = SkinHash.get(name);
+
+        if (hashed.isPresent()){
+            setCustomSkin(player, hashed.get());
             return;
         }
 
@@ -314,7 +329,7 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     private void loadQueues() {
         try{
             boolean enableMojang = conf.get().getNode("mojang", "enable").getBoolean();
-            int imagePeriod = 6;
+            int imagePeriod = 1;
 
             if (enableMojang){
                 imagePeriod = conf.get().getNode("mojang", "period").getInt();

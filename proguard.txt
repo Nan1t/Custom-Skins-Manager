@@ -13,20 +13,17 @@
 #-keep class ru.nanit.abstractmenus.Metrics{*;}
 #-keep class ru.nanit.abstractmenus.Metrics$*{*;}
 
+-keep class ru.csm.bukkit.util.BTask{*;}
 -keep class com.google.common.reflect.**{*;}
 -keep class ninja.leaping.modded.configurate.**{*;}
 -keep class ninja.leaping.modded.configurate.hocon.HoconConfigurationLoader{*;}
 -keep class com.mojang.authlib.properties.PropertyMap {*;}
 
-#-keepclassmembers public class ru.nanit.abstractmenus.AbstractMenus{
-#    private <fields>;
-#}
+-keepclassmembers class ru.csm.bukkit.util.BTask {
+    public void run();
+}
 
-#-keepclassmembernames public class ru.nanit.abstractmenus.AbstractMenus{
-#    private <fields>;
-#}
-
--keepclassmembers public class ru.nanit.abstractmenus.events.RegionEvent{
+-keepclassmembers class ru.csm.bukkit.event.NpcClickEvent{
     public static org.bukkit.event.HandlerList getHandlerList();
 }
 

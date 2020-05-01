@@ -21,6 +21,10 @@ public abstract class ImageQueue implements Runnable {
         return Optional.ofNullable(queue.poll());
     }
 
+    public int getSize(){
+        return queue.size();
+    }
+
     public int getWaitSeconds(){
         return queue.size() * period;
     }

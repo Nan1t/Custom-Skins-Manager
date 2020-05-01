@@ -2,9 +2,17 @@ plugins {
     id 'java'
 }
 
+repositories {
+    maven {
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
     compileOnly project(":csm-api")
     compileOnly fileTree('lib/')
+
+    compileOnly 'me.clip:placeholderapi:2.10.5'
 }

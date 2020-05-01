@@ -1,5 +1,5 @@
 name: 'CustomSkinsManager'
-main: 'ru.csm.bukkit.Skins'
+main: 'ru.csm.bukkit.SpigotSkinsManager'
 version: '3.0'
 api-version: '1.13'
 author: '_Nanit_'
@@ -26,6 +26,8 @@ permissions:
     description: "Allow to reset skin to default"
   csm.skin.to:
     description: "Allow to setup skins for any player"
+  csm.skin.preview:
+    description: "Allow to show skin preview via NPC"
   csm.skull.player:
     description: "/skull player command"
   csm.skull.url:
