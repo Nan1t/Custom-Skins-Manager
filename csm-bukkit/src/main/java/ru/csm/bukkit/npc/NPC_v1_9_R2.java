@@ -28,7 +28,7 @@ public class NPC_v1_9_R2 extends AbstractNPC {
         id = npcEntity.getId();
 
         npcEntity.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
-        npcEntity.getDataWatcher().set(DataWatcherRegistry.a.a(10), (byte) 127);
+        npcEntity.getDataWatcher().set(DataWatcherRegistry.a.a(12), (byte) 127);
 
         PacketPlayOutNamedEntitySpawn entitySpawn = new PacketPlayOutNamedEntitySpawn(npcEntity);
         PacketPlayOutPlayerInfo addInfo = new PacketPlayOutPlayerInfo(

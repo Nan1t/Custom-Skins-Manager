@@ -64,6 +64,11 @@ public final class Handler_v1_14_R1 implements SkinHandler {
         );
         PacketPlayOutHeldItemSlot slot = new PacketPlayOutHeldItemSlot(player.getInventory().getHeldItemSlot());
 
+        DataWatcher watcher = ep.getDataWatcher();
+        watcher.set(DataWatcherRegistry.a.a(15), (byte) 127);
+
+        PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(ep.getId(), watcher, false);
+
         ep.playerConnection.sendPacket(removeInfo);
         ep.playerConnection.sendPacket(addInfo);
         ep.playerConnection.sendPacket(respawn);
@@ -82,6 +87,7 @@ public final class Handler_v1_14_R1 implements SkinHandler {
                     connection.sendPacket(removeInfo);
                     connection.sendPacket(addInfo);
                     connection.sendPacket(entitySpawn);
+                    connection.sendPacket(metadata);
                     continue;
                 }
 
