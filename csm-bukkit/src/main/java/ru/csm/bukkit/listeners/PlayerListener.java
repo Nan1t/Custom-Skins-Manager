@@ -24,26 +24,19 @@ public class PlayerListener implements Listener {
         BukkitTasks.runTaskAsync(()->{
             SkinPlayer<Player> player = api.loadPlayer(e.getPlayer(), e.getPlayer().getUniqueId());
 
-            if (player != null){
-                api.addPlayer(player);
-                updateSkin(player);
-                return;
+            if (player == null){
+                player = api.buildPlayer(e.getPlayer());
+                api.createNewPlayer(player);
             }
 
-            player = api.buildPlayer(e.getPlayer());
-            api.createNewPlayer(player);
             api.addPlayer(player);
-            updateSkin(player);
+            player.applySkin();
+            player.refreshSkin();
         });
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event){
         api.removePlayer(event.getPlayer().getUniqueId());
-    }
-
-    private void updateSkin(SkinPlayer<?> player){
-        player.applySkin();
-        player.refreshSkin();
     }
 }

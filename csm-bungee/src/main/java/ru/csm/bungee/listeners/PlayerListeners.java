@@ -9,6 +9,8 @@ import net.md_5.bungee.event.EventHandler;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
 
+import java.util.concurrent.CompletableFuture;
+
 public class PlayerListeners implements Listener {
 
     private final SkinsAPI<ProxiedPlayer> api;
@@ -19,23 +21,20 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent e){
-        SkinPlayer<ProxiedPlayer> player = api.loadPlayer(e.getPlayer(), e.getPlayer().getUniqueId());
+        CompletableFuture.supplyAsync(()->{
+            SkinPlayer<ProxiedPlayer> player = api.loadPlayer(e.getPlayer(), e.getPlayer().getUniqueId());
 
-        if (player != null){
+            if (player == null){
+                player = api.buildPlayer(e.getPlayer());
+                api.createNewPlayer(player);
+            }
+
             api.addPlayer(player);
-            updateSkin(player);
-            return;
-        }
-
-        player = api.buildPlayer(e.getPlayer());
-        api.createNewPlayer(player);
-        api.addPlayer(player);
-        updateSkin(player);
-    }
-
-    private void updateSkin(SkinPlayer<?> player){
-        player.applySkin();
-        player.refreshSkin();
+            return player;
+        }).thenAccept((player)->{
+            player.applySkin();
+            player.refreshSkin();
+        });
     }
 
     @EventHandler

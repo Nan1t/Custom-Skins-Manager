@@ -1,9 +1,8 @@
 package ru.csm.api.services;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import ru.csm.api.player.Skin;
+import ru.csm.api.utils.Logger;
 import ru.csm.api.utils.UuidUtil;
 
 import java.io.IOException;
@@ -34,7 +33,7 @@ public final class MojangAPI {
                 return UuidUtil.getUUID(uuid);
             }
         } catch (IOException e){
-            e.printStackTrace();
+            Logger.warning("Cannot get uuid of player %s: %s", name, e.getMessage());
         }
 
         return null;
@@ -66,14 +65,14 @@ public final class MojangAPI {
                     }
                 }
             }
-        } catch (IOException e){
-            e.printStackTrace();
+        } catch (Exception e){
+            Logger.warning("Cannot fetch premium skin of %s: %s", uuid, e.getMessage());
         }
 
         return null;
     }
 
-    public static String getsSkinURL(String base64String){
+    public static String getsSkinURL(String base64String) throws JsonParseException {
         String encoded = new String(BASE64_DECODER.decode(base64String));
         JsonObject json = JSON_PARSER.parse(encoded).getAsJsonObject();
         JsonObject textures = json.get("textures").getAsJsonObject();
