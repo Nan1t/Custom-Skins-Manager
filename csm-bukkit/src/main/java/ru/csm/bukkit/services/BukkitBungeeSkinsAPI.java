@@ -68,6 +68,16 @@ public class BukkitBungeeSkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
+    public boolean isEnabledSkinRestoring() {
+        return false;
+    }
+
+    @Override
+    public boolean isUpdateDefaultSkin() {
+        return false;
+    }
+
+    @Override
     public Skin getDefaultSkin() {
         return null;
     }

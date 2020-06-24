@@ -42,11 +42,17 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
 
     private final MessageSender<ProxiedPlayer> messageSender;
 
+    private final boolean enabledSkinRestoring;
+    private final boolean updateDefaultSkin;
+
     public BungeeSkinsAPI(Database database, Configuration conf, Language lang, MessageSender<ProxiedPlayer> messageSender) {
         this.database = database;
         this.conf = conf;
         this.lang = lang;
         this.messageSender = messageSender;
+
+        enabledSkinRestoring = conf.get().getNode("restoreSkins").getBoolean(true);
+        updateDefaultSkin = conf.get().getNode("updateDefaultSkin").getBoolean(false);
 
         loadDefaultSkins();
         loadBlacklist();
@@ -101,6 +107,16 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean isEnabledSkinRestoring() {
+        return enabledSkinRestoring;
+    }
+
+    @Override
+    public boolean isUpdateDefaultSkin() {
+        return updateDefaultSkin;
     }
 
     @Override

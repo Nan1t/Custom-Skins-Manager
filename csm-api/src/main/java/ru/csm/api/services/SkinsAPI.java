@@ -37,6 +37,10 @@ public interface SkinsAPI<Player> {
      */
     boolean isWhitelist(String nickname, SkinPlayer<Player> player);
 
+    boolean isEnabledSkinRestoring();
+
+    boolean isUpdateDefaultSkin();
+
     /**
      * @return Get random default skin, defined in config
      *
@@ -121,15 +125,21 @@ public interface SkinsAPI<Player> {
 
     default void createNewPlayer(SkinPlayer<Player> player){
         Skin defaultSkin = getDefaultSkin();
-        UUID uuid =  MojangAPI.getUUID(player.getName());
 
-        if (uuid != null){
-            Skin skin = MojangAPI.getPremiumSkin(uuid);
-            if (skin != null) defaultSkin = skin;
+        if (isEnabledSkinRestoring()){
+            Optional<Skin> skin = getDefaultSkin(player.getName());
+            if (skin.isPresent()) defaultSkin = skin.get();
         }
 
         player.setDefaultSkin(defaultSkin);
         savePlayer(player);
+    }
+
+    default Optional<Skin> getDefaultSkin(String username){
+        Skin skin = null;
+        UUID uuid = MojangAPI.getUUID(username);
+        if (uuid != null) skin = MojangAPI.getPremiumSkin(uuid);
+        return Optional.ofNullable(skin);
     }
 
     default SkinPlayer<Player> loadPlayer(Player p, UUID uuid){
@@ -139,9 +149,19 @@ public interface SkinsAPI<Player> {
             SkinPlayer<Player> player = buildPlayer(p);
             Skin defaultSkin = new Skin();
             Skin customSkin = null;
+            boolean savePlayer = false;
 
             defaultSkin.setValue(row.getField("default_value").toString());
             defaultSkin.setSignature(row.getField("default_signature").toString());
+
+            if (isUpdateDefaultSkin()){
+                Optional<Skin> skinOpt = getDefaultSkin(player.getName());
+
+                if (skinOpt.isPresent() && !skinOpt.get().equals(defaultSkin)){
+                    defaultSkin = skinOpt.get();
+                    savePlayer = true;
+                }
+            }
 
             if (row.hasField("custom_value") && row.hasField("custom_signature")){
                 customSkin = new Skin();
@@ -151,6 +171,8 @@ public interface SkinsAPI<Player> {
 
             player.setDefaultSkin(defaultSkin);
             player.setCustomSkin(customSkin);
+
+            if (savePlayer) savePlayer(player);
 
             return player;
         }

@@ -47,11 +47,17 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
 
     private final MenuManager menuManager;
 
+    private final boolean enabledSkinRestoring;
+    private final boolean updateDefaultSkin;
+
     public BukkitSkinsAPI(Database database, Configuration conf, Language lang, MenuManager menuManager) {
         this.database = database;
         this.conf = conf;
         this.lang = lang;
         this.menuManager = menuManager;
+
+        enabledSkinRestoring = conf.get().getNode("restoreSkins").getBoolean(true);
+        updateDefaultSkin = conf.get().getNode("updateDefaultSkin").getBoolean(false);
 
         loadDefaultSkins();
         loadBlacklist();
@@ -106,6 +112,16 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean isEnabledSkinRestoring() {
+        return enabledSkinRestoring;
+    }
+
+    @Override
+    public boolean isUpdateDefaultSkin() {
+        return updateDefaultSkin;
     }
 
     @Override

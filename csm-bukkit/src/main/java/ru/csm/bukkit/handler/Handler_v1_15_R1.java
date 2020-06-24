@@ -44,8 +44,8 @@ public final class Handler_v1_15_R1 implements SkinHandler {
                 PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, ep);
         PacketPlayOutPlayerInfo addInfo = new PacketPlayOutPlayerInfo(
                 PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, ep);
-        PacketPlayOutEntityDestroy entityDestroy = new PacketPlayOutEntityDestroy(cp.getEntityId());
-        PacketPlayOutNamedEntitySpawn entitySpawn = new PacketPlayOutNamedEntitySpawn(cp.getHandle());
+        PacketPlayOutEntityDestroy entityDestroy = new PacketPlayOutEntityDestroy(ep.getId());
+        PacketPlayOutNamedEntitySpawn entitySpawn = new PacketPlayOutNamedEntitySpawn(ep);
 
         WorldServer worldServer = ep.getWorldServer();
         DimensionManager dm = worldServer.worldProvider.getDimensionManager();

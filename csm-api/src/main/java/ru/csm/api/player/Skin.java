@@ -102,6 +102,16 @@ public class Skin {
         return json.get("textures").getAsJsonObject();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Skin){
+            Skin skin = (Skin) obj;
+            if (skin.getValue() == null || skin.getSignature() == null) return false;
+            return skin.getValue().equals(this.value) && skin.getSignature().equals(this.signature);
+        }
+        return false;
+    }
+
     public static class Serializer implements TypeSerializer<Skin> {
 
         @Override

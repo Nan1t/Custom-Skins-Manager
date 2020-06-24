@@ -1,7 +1,6 @@
 package ru.csm.bukkit;
 
 import com.google.common.reflect.TypeToken;
-import me.clip.placeholderapi.PlaceholderAPI;
 import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializers;
 
 import org.bukkit.entity.Player;
@@ -26,7 +25,6 @@ import ru.csm.api.upload.Profile;
 import ru.csm.bukkit.hologram.Holograms;
 import ru.csm.bukkit.listeners.InventoryListener;
 import ru.csm.bukkit.listeners.NpcClickListener;
-import ru.csm.bukkit.listeners.PlayerJoinListener;
 import ru.csm.bukkit.listeners.PlayerListener;
 import ru.csm.bukkit.menu.item.Item;
 import ru.csm.bukkit.messages.PluginMessageReceiver;
@@ -120,7 +118,6 @@ public class SpigotSkinsManager extends JavaPlugin {
                 getServer().getMessenger().registerOutgoingPluginChannel(this, Channels.PREVIEW);
             }
 
-            getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
             getServer().getPluginManager().registerEvents(new InventoryListener(), this);
             getServer().getPluginManager().registerEvents(new NpcClickListener(api, menuManager), this);
 
