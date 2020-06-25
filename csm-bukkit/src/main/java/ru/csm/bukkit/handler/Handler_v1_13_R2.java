@@ -70,16 +70,24 @@ public final class Handler_v1_13_R2 implements SkinHandler {
 
         PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(ep.getId(), watcher, false);
 
-        ep.playerConnection.sendPacket(removeInfo);
-        ep.playerConnection.sendPacket(addInfo);
-        ep.playerConnection.sendPacket(respawn);
-        ep.playerConnection.sendPacket(position);
-        ep.playerConnection.sendPacket(slot);
+        BukkitTasks.runTask(()->{
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                p.hidePlayer(player);
+                p.showPlayer(player);
+            }
 
-        updateData(player);
-        BukkitTasks.runTask(ep::updateAbilities);
+            ep.playerConnection.sendPacket(removeInfo);
+            ep.playerConnection.sendPacket(addInfo);
+            ep.playerConnection.sendPacket(metadata);
+            ep.playerConnection.sendPacket(respawn);
+            ep.playerConnection.sendPacket(position);
+            ep.playerConnection.sendPacket(slot);
 
-        for (Player p : Bukkit.getOnlinePlayers()){
+            ep.updateAbilities();
+            updateData(player);
+        });
+
+        /*for (Player p : Bukkit.getOnlinePlayers()){
             if (!p.equals(player)){
                 PlayerConnection connection = ((CraftPlayer)p).getHandle().playerConnection;
 
@@ -95,6 +103,6 @@ public final class Handler_v1_13_R2 implements SkinHandler {
                 connection.sendPacket(removeInfo);
                 connection.sendPacket(addInfo);
             }
-        }
+        }*/
     }
 }

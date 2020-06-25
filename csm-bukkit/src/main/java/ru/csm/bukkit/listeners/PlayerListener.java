@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.player.SkinPlayer;
@@ -22,7 +23,8 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         NpcPacketHandler.inject(event.getPlayer());
-        BukkitTasks.runTaskLater(()->{
+
+        BukkitTasks.runTaskAsync(()->{
             SkinPlayer<Player> player = api.loadPlayer(event.getPlayer(), event.getPlayer().getUniqueId());
 
             if (player == null){
@@ -33,7 +35,7 @@ public class PlayerListener implements Listener {
             api.addPlayer(player);
             player.applySkin();
             player.refreshSkin();
-        }, 20);
+        });
     }
 
     @EventHandler
