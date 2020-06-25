@@ -35,6 +35,7 @@ import java.sql.SQLException;
 
 public class BungeeSkinsManager extends Plugin {
 
+    private Metrics metrics;
     private Database database;
     private SkinsAPI<ProxiedPlayer> api;
 
@@ -42,9 +43,15 @@ public class BungeeSkinsManager extends Plugin {
         return api;
     }
 
+    public Metrics getMetrics(){
+        return metrics;
+    }
+
     @Override
     public void onEnable(){
         try {
+            metrics = new Metrics(this, 7375);
+
             Logger.set(getLogger());
 
             registerSerializers();

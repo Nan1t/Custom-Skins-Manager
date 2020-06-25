@@ -23,7 +23,7 @@ public class PlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent event){
         NpcPacketHandler.inject(event.getPlayer());
 
-        BukkitTasks.runTaskLaterAsync(()->{
+        BukkitTasks.runTaskLater(()->{
             SkinPlayer<Player> player = api.loadPlayer(event.getPlayer(), event.getPlayer().getUniqueId());
 
             if (player == null){

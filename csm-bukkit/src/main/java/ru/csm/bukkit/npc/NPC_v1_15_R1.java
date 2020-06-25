@@ -63,6 +63,5 @@ public class NPC_v1_15_R1 extends AbstractNPC {
         connection.sendPacket(remInfo);
 
         hologram.destroy(player);
-        ;
     }
 }
