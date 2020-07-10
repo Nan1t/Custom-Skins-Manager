@@ -2,7 +2,7 @@ package ru.csm.api.services;
 
 import com.google.gson.*;
 import ru.csm.api.player.Skin;
-import ru.csm.api.utils.Logger;
+import ru.csm.api.logging.Logger;
 import ru.csm.api.utils.UuidUtil;
 
 import java.io.IOException;

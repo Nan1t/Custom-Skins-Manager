@@ -8,11 +8,12 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import org.spigotmc.SpigotConfig;
+import ru.csm.api.logging.JULHandler;
 import ru.csm.api.network.Channels;
 import ru.csm.api.player.Skin;
 import ru.csm.api.services.SkinHash;
 import ru.csm.api.storage.database.H2Database;
-import ru.csm.api.utils.Logger;
+import ru.csm.api.logging.Logger;
 import ru.csm.bukkit.commands.*;
 import ru.csm.bukkit.handler.SkinHandlers;
 import ru.csm.api.services.SkinsAPI;
@@ -36,7 +37,7 @@ import ru.csm.bukkit.messages.handlers.HandlerSkull;
 import ru.csm.bukkit.npc.NpcPacketHandler;
 import ru.csm.bukkit.npc.Npcs;
 import ru.csm.bukkit.placeholders.Placeholders;
-import ru.csm.bukkit.services.BukkitBungeeSkinsAPI;
+import ru.csm.bukkit.services.ProxySkinsAPI;
 import ru.csm.bukkit.services.BukkitSkinsAPI;
 import ru.csm.bukkit.services.MenuManager;
 import ru.csm.bukkit.util.BukkitTasks;
@@ -60,7 +61,7 @@ public class SpigotSkinsManager extends JavaPlugin {
     @Override
     public void onEnable(){
         try{
-            Logger.set(getLogger());
+            Logger.set(new JULHandler(getLogger()));
 
             metrics = new Metrics(this, 7375);
 
@@ -100,7 +101,7 @@ public class SpigotSkinsManager extends JavaPlugin {
                 PluginMessageSender sender = new PluginMessageSender(this);
                 PluginMessageReceiver receiver = new PluginMessageReceiver();
 
-                api = new BukkitBungeeSkinsAPI(lang, sender);
+                api = new ProxySkinsAPI(lang, sender);
 
                 receiver.registerHandler(Channels.SKINS, new HandlerSkin());
                 receiver.registerHandler(Channels.SKULLS, new HandlerSkull());

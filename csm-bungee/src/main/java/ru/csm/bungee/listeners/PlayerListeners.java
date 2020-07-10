@@ -22,10 +22,10 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onPostLogin(PostLoginEvent e){
         CompletableFuture.supplyAsync(()->{
-            SkinPlayer<ProxiedPlayer> player = api.loadPlayer(e.getPlayer(), e.getPlayer().getUniqueId());
+            SkinPlayer player = api.loadPlayer(e.getPlayer().getUniqueId(), e.getPlayer().getName());
 
             if (player == null){
-                player = api.buildPlayer(e.getPlayer());
+                player = api.buildPlayer(e.getPlayer().getUniqueId(), e.getPlayer().getName());
                 api.createNewPlayer(player);
             }
 

@@ -10,8 +10,6 @@
 -optimizations !class/merging/*
 
 -keep public class ru.csm.**{*;}
-#-keep class ru.nanit.abstractmenus.Metrics{*;}
-#-keep class ru.nanit.abstractmenus.Metrics$*{*;}
 
 -keep class ru.csm.bukkit.util.BTask{*;}
 -keep class com.google.common.reflect.**{*;}

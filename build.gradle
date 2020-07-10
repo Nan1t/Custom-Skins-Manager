@@ -20,7 +20,7 @@ plugins {
 allprojects {
     plugins.withType(JavaPlugin) {
         group 'ru.nanit'
-        version '3.2'
+        version '3.3'
         sourceCompatibility = 1.8
 
         repositories {
@@ -37,6 +37,7 @@ dependencies {
     compile project(":csm-api")
     compile project(":csm-bukkit")
     compile project(":csm-bungee")
+    compile project(":csm-velocity")
 }
 
 def jarNameWithoutExtension = jar.archiveName.with { it.take(it.lastIndexOf(".")) }

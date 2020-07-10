@@ -21,7 +21,7 @@ public class CommandSkinPlayer extends SubCommand {
         if (!(sender instanceof ProxiedPlayer)) return;
 
         if (args.length == 1){
-            SkinPlayer<ProxiedPlayer> player = api.getPlayer(sender.getName());
+            SkinPlayer player = api.getPlayer(sender.getName());
             if(player != null){
                 api.setSkinFromName(player, args[0]);
             }

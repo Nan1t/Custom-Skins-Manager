@@ -19,7 +19,7 @@ public class CommandSkinTo extends SubCommand {
     @Override
     public void exec(CommandSender sender, String[] args) {
         if (args.length >= 2){
-            SkinPlayer<ProxiedPlayer> target = api.getPlayer(args[0]);
+            SkinPlayer target = api.getPlayer(args[0]);
 
             if (target == null){
                 sender.sendMessage(String.format("Player %s does not exist or offline", args[0]));

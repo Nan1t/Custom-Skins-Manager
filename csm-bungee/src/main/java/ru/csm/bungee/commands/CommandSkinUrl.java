@@ -21,7 +21,7 @@ public class CommandSkinUrl extends SubCommand {
     public void exec(CommandSender sender, String[] args) {
         if (!(sender instanceof ProxiedPlayer)) return;
 
-        SkinPlayer<ProxiedPlayer> player = api.getPlayer(sender.getName());
+        SkinPlayer player = api.getPlayer(sender.getName());
         SkinModel model = SkinModel.STEVE;
 
         if(player != null){

@@ -22,12 +22,12 @@ import ru.csm.bukkit.npc.Npcs;
 
 import java.util.UUID;
 
-public class BukkitBungeeSkinsAPI implements SkinsAPI<Player> {
+public class ProxySkinsAPI implements SkinsAPI<Player> {
 
     private final Language lang;
     private final MessageSender<Player> messageSender;
 
-    public BukkitBungeeSkinsAPI(Language lang, MessageSender<Player> messageSender){
+    public ProxySkinsAPI(Language lang, MessageSender<Player> messageSender){
         this.lang = lang;
         this.messageSender = messageSender;
     }
@@ -58,12 +58,12 @@ public class BukkitBungeeSkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
-    public boolean isBlackList(String nickname, SkinPlayer<Player> player) {
+    public boolean isBlackList(String nickname, SkinPlayer player) {
         return false;
     }
 
     @Override
-    public boolean isWhitelist(String nickname, SkinPlayer<Player> player) {
+    public boolean isWhitelist(String nickname, SkinPlayer player) {
         return false;
     }
 
@@ -83,12 +83,12 @@ public class BukkitBungeeSkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
-    public SkinPlayer<Player> getPlayer(UUID uuid) {
+    public SkinPlayer getPlayer(UUID uuid) {
         return null;
     }
 
     @Override
-    public SkinPlayer<Player> getPlayer(String name) {
+    public SkinPlayer getPlayer(String name) {
         return null;
     }
 
@@ -123,8 +123,9 @@ public class BukkitBungeeSkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
-    public void setCustomSkin(SkinPlayer<Player> player, Skin skin) {
-        setCustomSkin(player.getPlayer(), skin);
+    public void setCustomSkin(SkinPlayer player, Skin skin) {
+        Player bukkitPlayer = Bukkit.getPlayer(player.getUUID());
+        if (bukkitPlayer != null) setCustomSkin(bukkitPlayer, skin);
     }
 
     @Override
@@ -140,26 +141,34 @@ public class BukkitBungeeSkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
-    public void setSkinFromImage(SkinPlayer<Player> player, String link, SkinModel model) {
-        JsonObject message = new JsonObject();
+    public void setSkinFromImage(SkinPlayer player, String link, SkinModel model) {
+        Player bukkitPlayer = Bukkit.getPlayer(player.getUUID());
 
-        message.addProperty("action", "image");
-        message.addProperty("player", player.getName());
-        message.addProperty("url", link);
-        message.addProperty("model", model.toString());
+        if (bukkitPlayer != null){
+            JsonObject message = new JsonObject();
 
-        messageSender.sendMessage(player.getPlayer(), Channels.SKINS, message);
+            message.addProperty("action", "image");
+            message.addProperty("player", player.getName());
+            message.addProperty("url", link);
+            message.addProperty("model", model.toString());
+
+            messageSender.sendMessage(bukkitPlayer, Channels.SKINS, message);
+        }
     }
 
     @Override
-    public void setSkinFromName(SkinPlayer<Player> player, String name) {
-        JsonObject message = new JsonObject();
+    public void setSkinFromName(SkinPlayer player, String name) {
+        Player bukkitPlayer = Bukkit.getPlayer(player.getUUID());
 
-        message.addProperty("action", "name");
-        message.addProperty("player", player.getName());
-        message.addProperty("name", name);
+        if (bukkitPlayer != null){
+            JsonObject message = new JsonObject();
 
-        messageSender.sendMessage(player.getPlayer(), Channels.SKINS, message);
+            message.addProperty("action", "name");
+            message.addProperty("player", player.getName());
+            message.addProperty("name", name);
+
+            messageSender.sendMessage(bukkitPlayer, Channels.SKINS, message);
+        }
     }
 
     @Override
@@ -177,13 +186,17 @@ public class BukkitBungeeSkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
-    public void resetSkin(SkinPlayer<Player> player) {
-        JsonObject message = new JsonObject();
+    public void resetSkin(SkinPlayer player) {
+        Player bukkitPlayer = Bukkit.getPlayer(player.getUUID());
 
-        message.addProperty("action", "reset");
-        message.addProperty("player", player.getName());
+        if (bukkitPlayer != null){
+            JsonObject message = new JsonObject();
 
-        messageSender.sendMessage(player.getPlayer(), Channels.SKINS, message);
+            message.addProperty("action", "reset");
+            message.addProperty("player", player.getName());
+
+            messageSender.sendMessage(bukkitPlayer, Channels.SKINS, message);
+        }
     }
 
     @Override
@@ -195,12 +208,12 @@ public class BukkitBungeeSkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
-    public SkinPlayer<Player> buildPlayer(Player player) {
+    public SkinPlayer buildPlayer(UUID uuid, String name) {
         return null;
     }
 
     @Override
-    public void addPlayer(SkinPlayer<Player> player) {
+    public void addPlayer(SkinPlayer player) {
 
     }
 

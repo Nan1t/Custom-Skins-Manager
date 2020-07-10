@@ -23,7 +23,7 @@ public class CommandSkinPlayer extends Command {
         if (!(sender instanceof Player)) return;
 
         if (args.length == 1){
-            SkinPlayer<Player> player = api.getPlayer(sender.getName());
+            SkinPlayer player = api.getPlayer(sender.getName());
             if(player != null){
                 api.setSkinFromName(player, args[0]);
             }

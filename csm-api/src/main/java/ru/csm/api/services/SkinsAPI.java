@@ -28,14 +28,14 @@ public interface SkinsAPI<Player> {
      * @param nickname Required premium nickname
      * @return true if exists and false otherwise
      */
-    boolean isBlackList(String nickname, SkinPlayer<Player> player);
+    boolean isBlackList(String nickname, SkinPlayer player);
 
     /**
      * Check is premium nickname exist in whitelist
      * @param nickname Required premium nickname
      * @return true if exists and false otherwise
      */
-    boolean isWhitelist(String nickname, SkinPlayer<Player> player);
+    boolean isWhitelist(String nickname, SkinPlayer player);
 
     boolean isEnabledSkinRestoring();
 
@@ -51,13 +51,13 @@ public interface SkinsAPI<Player> {
      * Get skinned player by UUID
      * @param uuid - UUID of the player
      */
-    SkinPlayer<Player> getPlayer(UUID uuid);
+    SkinPlayer getPlayer(UUID uuid);
 
     /**
      * Get skinned player by name
      * @param name - Name of the player
      */
-    SkinPlayer<Player> getPlayer(String name);
+    SkinPlayer getPlayer(String name);
 
     Head getPlayerHead(String name);
 
@@ -76,7 +76,7 @@ public interface SkinsAPI<Player> {
      * @param player SkinPlayer object
      * @param skin Skin object
      */
-    void setCustomSkin(SkinPlayer<Player> player, Skin skin);
+    void setCustomSkin(SkinPlayer player, Skin skin);
 
     /**
      * Set custom skin for player
@@ -91,23 +91,23 @@ public interface SkinsAPI<Player> {
      * @param link Link to *.png image
      * @param model Model of the skin
      */
-    void setSkinFromImage(SkinPlayer<Player> player, String link, SkinModel model);
+    void setSkinFromImage(SkinPlayer player, String link, SkinModel model);
 
     /**
      * Set skin from premium account
      * @param player SkinPlayer object
      * @param name Name of the target premium account
      */
-    void setSkinFromName(SkinPlayer<Player> player, String name);
+    void setSkinFromName(SkinPlayer player, String name);
 
     /**
      * Reset player skin to default
      * @param player SkinPlayer object
      */
-    void resetSkin(SkinPlayer<Player> player);
+    void resetSkin(SkinPlayer player);
 
     default void resetSkin(UUID uuid){
-        SkinPlayer<Player> p = getPlayer(uuid);
+        SkinPlayer p = getPlayer(uuid);
         if (p != null) resetSkin(p);
     }
 
@@ -116,14 +116,14 @@ public interface SkinsAPI<Player> {
     }
 
     void openSkinsMenu(Player player, int page);
-    
-    SkinPlayer<Player> buildPlayer(Player player);
 
-    void addPlayer(SkinPlayer<Player> player);
+    SkinPlayer buildPlayer(UUID uuid, String name);
+
+    void addPlayer(SkinPlayer player);
 
     void removePlayer(UUID uuid);
 
-    default void createNewPlayer(SkinPlayer<Player> player){
+    default void createNewPlayer(SkinPlayer player){
         Skin defaultSkin = getDefaultSkin();
 
         if (isEnabledSkinRestoring()){
@@ -142,11 +142,11 @@ public interface SkinsAPI<Player> {
         return Optional.ofNullable(skin);
     }
 
-    default SkinPlayer<Player> loadPlayer(Player p, UUID uuid){
+    default SkinPlayer loadPlayer(UUID uuid, String name){
         Row row = getDatabase().getRow(Tables.SKINS, "uuid", uuid.toString());
 
         if (row != null){
-            SkinPlayer<Player> player = buildPlayer(p);
+            SkinPlayer player = buildPlayer(uuid, name);
             Skin defaultSkin = new Skin();
             Skin customSkin = null;
             boolean savePlayer = false;
@@ -184,7 +184,7 @@ public interface SkinsAPI<Player> {
      * Save the player data into current storage (local or remote database)
      * @param player - Object of a player
      * */
-    default void savePlayer(SkinPlayer<Player> player){
+    default void savePlayer(SkinPlayer player){
         CompletableFuture.runAsync(()->{
             Row row = new Row();
 

@@ -2,13 +2,7 @@ package ru.csm.api.player;
 
 import java.util.UUID;
 
-public interface SkinPlayer<T> {
-
-    /**
-     * Get native platform player object (Bungee or Spigot)
-     * @return Player object
-     * */
-    T getPlayer();
+public interface SkinPlayer {
 
     /**
      * Get player UUID

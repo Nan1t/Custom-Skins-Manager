@@ -4,6 +4,7 @@ import com.google.common.reflect.TypeToken;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializers;
+import ru.csm.api.logging.JULHandler;
 import ru.csm.api.network.Channels;
 import ru.csm.api.network.MessageSender;
 import ru.csm.api.player.Skin;
@@ -16,7 +17,7 @@ import ru.csm.api.storage.database.H2Database;
 import ru.csm.api.storage.database.MySQLDatabase;
 import ru.csm.api.upload.Profile;
 import ru.csm.api.utils.FileUtil;
-import ru.csm.api.utils.Logger;
+import ru.csm.api.logging.Logger;
 import ru.csm.bungee.command.CommandExecutor;
 import ru.csm.bungee.command.SubCommand;
 import ru.csm.bungee.commands.*;
@@ -52,7 +53,7 @@ public class BungeeSkinsManager extends Plugin {
         try {
             metrics = new Metrics(this, 7375);
 
-            Logger.set(getLogger());
+            Logger.set(new JULHandler(getLogger()));
 
             registerSerializers();
 

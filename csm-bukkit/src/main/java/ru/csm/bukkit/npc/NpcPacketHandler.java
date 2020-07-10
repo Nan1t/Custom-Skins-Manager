@@ -5,7 +5,7 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import ru.csm.api.utils.Logger;
+import ru.csm.api.logging.Logger;
 import ru.csm.bukkit.event.NpcClickEvent;
 import ru.csm.bukkit.services.NpcManager;
 import ru.csm.bukkit.util.BukkitTasks;

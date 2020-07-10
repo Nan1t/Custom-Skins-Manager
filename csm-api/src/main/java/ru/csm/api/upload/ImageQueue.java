@@ -29,7 +29,7 @@ public abstract class ImageQueue implements Runnable {
         return queue.size() * period;
     }
 
-    public void push(SkinPlayer<?> player, String url, SkinModel model){
+    public void push(SkinPlayer player, String url, SkinModel model){
         queue.offer(new Request(player, url, model));
     }
 
@@ -45,17 +45,17 @@ public abstract class ImageQueue implements Runnable {
 
     static class Request {
 
-        private final SkinPlayer<?> player;
+        private final SkinPlayer player;
         private final String url;
         private final SkinModel model;
 
-        public Request(SkinPlayer<?> player, String url, SkinModel model){
+        public Request(SkinPlayer player, String url, SkinModel model){
             this.player = player;
             this.url = url;
             this.model = model;
         }
 
-        public SkinPlayer<?> getPlayer() {
+        public SkinPlayer getPlayer() {
             return player;
         }
 

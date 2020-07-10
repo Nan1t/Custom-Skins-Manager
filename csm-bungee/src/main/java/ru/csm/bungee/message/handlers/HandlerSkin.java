@@ -18,7 +18,7 @@ public class HandlerSkin implements MessageHandler {
 
     @Override
     public void execute(JsonObject json) {
-        SkinPlayer<ProxiedPlayer> player = api.getPlayer(json.get("player").getAsString());
+        SkinPlayer player = api.getPlayer(json.get("player").getAsString());
 
         if (player != null){
             String action = json.get("action").getAsString();

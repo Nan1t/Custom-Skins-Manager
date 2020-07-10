@@ -24,7 +24,7 @@ public class CommandSkinUrl extends Command {
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return;
 
-        SkinPlayer<Player> player = api.getPlayer(sender.getName());
+        SkinPlayer player = api.getPlayer(sender.getName());
         SkinModel model = SkinModel.STEVE;
 
         if(player != null){

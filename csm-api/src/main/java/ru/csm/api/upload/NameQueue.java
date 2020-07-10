@@ -16,14 +16,14 @@ import java.util.concurrent.TimeUnit;
 
 public final class NameQueue implements Runnable {
 
-    private final SkinsAPI api;
+    private final SkinsAPI<?> api;
     private final Queue<Request> queue = new ConcurrentLinkedQueue<>();
     private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
 
     private ScheduledFuture<?> task;
     private int period;
 
-    public NameQueue(SkinsAPI api){
+    public NameQueue(SkinsAPI<?> api){
         this.api = api;
     }
 
@@ -35,7 +35,7 @@ public final class NameQueue implements Runnable {
         return queue.size() * period;
     }
 
-    public void push(SkinPlayer<?> player, String name){
+    public void push(SkinPlayer player, String name){
         queue.offer(new Request(player, name));
     }
 
@@ -79,15 +79,15 @@ public final class NameQueue implements Runnable {
 
     private static class Request {
 
-        private final SkinPlayer<?> player;
+        private final SkinPlayer player;
         private final String name;
 
-        public Request(SkinPlayer<?> player, String name){
+        public Request(SkinPlayer player, String name){
             this.player = player;
             this.name = name;
         }
 
-        public SkinPlayer<?> getPlayer() {
+        public SkinPlayer getPlayer() {
             return player;
         }
 

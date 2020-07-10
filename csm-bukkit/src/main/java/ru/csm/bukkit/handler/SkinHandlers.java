@@ -1,6 +1,6 @@
 package ru.csm.bukkit.handler;
 
-import ru.csm.api.utils.Logger;
+import ru.csm.api.logging.Logger;
 
 import java.lang.reflect.Constructor;
 

@@ -24,7 +24,7 @@ public class CommandSkinReset extends Command {
             return;
         }
 
-        SkinPlayer<Player> player = api.getPlayer(sender.getName());
+        SkinPlayer player = api.getPlayer(sender.getName());
 
         if(player != null){
             api.resetSkin(player);

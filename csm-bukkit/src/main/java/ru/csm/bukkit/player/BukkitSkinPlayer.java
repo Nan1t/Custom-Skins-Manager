@@ -1,5 +1,6 @@
 package ru.csm.bukkit.player;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import ru.csm.api.player.Skin;
@@ -9,32 +10,33 @@ import ru.csm.bukkit.handler.SkinHandlers;
 
 import java.util.UUID;
 
-public class BukkitSkinPlayer implements SkinPlayer<Player> {
+public class BukkitSkinPlayer implements SkinPlayer {
 
-    private final Player player;
+    private final UUID uuid;
+    private final String name;
     private final SkinHandler handler;
 
     private Skin defaultSkin;
     private Skin customSkin;
 
-    public BukkitSkinPlayer(Player player){
-        this.player = player;
+    public BukkitSkinPlayer(UUID uuid, String name){
+        this.uuid = uuid;
+        this.name = name;
         this.handler = SkinHandlers.getHandler();
     }
 
-    @Override
-    public Player getPlayer() {
-        return player;
+    private Player getPlayer() {
+        return Bukkit.getPlayer(uuid);
     }
 
     @Override
     public UUID getUUID() {
-        return player.getUniqueId();
+        return uuid;
     }
 
     @Override
     public String getName() {
-        return player.getName();
+        return name;
     }
 
     @Override
@@ -59,12 +61,12 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
 
     @Override
     public void applySkin() {
-        handler.applySkin(player, hasCustomSkin() ? customSkin : defaultSkin);
+        handler.applySkin(getPlayer(), hasCustomSkin() ? customSkin : defaultSkin);
     }
 
     @Override
     public void refreshSkin() {
-        handler.updateSkin(player);
+        handler.updateSkin(getPlayer());
     }
 
     @Override
@@ -74,12 +76,12 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
 
     @Override
     public void sendMessage(String... message){
-        player.sendMessage(message);
+        getPlayer().sendMessage(message);
     }
 
     @Override
     public boolean isOnline(){
-        return this.player.isOnline();
+        return getPlayer().isOnline();
     }
 
     @Override
@@ -89,6 +91,6 @@ public class BukkitSkinPlayer implements SkinPlayer<Player> {
 
     @Override
     public boolean hasPermission(String permission) {
-        return player.hasPermission(permission);
+        return getPlayer().hasPermission(permission);
     }
 }

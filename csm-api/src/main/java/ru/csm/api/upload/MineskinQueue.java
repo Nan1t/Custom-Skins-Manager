@@ -8,7 +8,7 @@ import ru.csm.api.http.entity.HttpResponse;
 import ru.csm.api.player.Skin;
 import ru.csm.api.services.SkinHash;
 import ru.csm.api.services.SkinsAPI;
-import ru.csm.api.utils.Logger;
+import ru.csm.api.logging.Logger;
 
 import java.io.IOException;
 import java.util.Optional;

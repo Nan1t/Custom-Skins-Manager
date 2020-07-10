@@ -3,10 +3,12 @@ package ru.csm.bukkit.listeners;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.bukkit.event.NpcClickEvent;
 import ru.csm.bukkit.npc.ClickAction;
 import ru.csm.bukkit.npc.NPC;
+import ru.csm.bukkit.npc.NpcPacketHandler;
 import ru.csm.bukkit.services.MenuManager;
 import ru.csm.bukkit.services.NpcManager;
 
@@ -18,6 +20,11 @@ public class NpcClickListener implements Listener {
     public NpcClickListener(SkinsAPI<Player> skinsAPI, MenuManager menuManager){
         this.skinsAPI = skinsAPI;
         this.menuManager = menuManager;
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event){
+        NpcPacketHandler.inject(event.getPlayer());
     }
 
     @EventHandler

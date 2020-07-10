@@ -1,6 +1,7 @@
 package ru.csm.bungee.player;
 
 import com.google.gson.JsonObject;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.connection.InitialHandler;
@@ -9,14 +10,16 @@ import ru.csm.api.network.Channels;
 import ru.csm.api.network.MessageSender;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
-import ru.csm.api.utils.Logger;
+import ru.csm.api.logging.Logger;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
 
-public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
+public class BungeeSkinPlayer implements SkinPlayer {
 
-    private final ProxiedPlayer player;
+    private final UUID uuid;
+    private final String name;
+
     private Skin defaultSkin;
     private Skin customSkin;
 
@@ -33,24 +36,24 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
         }
     }
 
-    public BungeeSkinPlayer(ProxiedPlayer player, MessageSender<ProxiedPlayer> messageSender){
-        this.player = player;
+    public BungeeSkinPlayer(UUID uuid, String name, MessageSender<ProxiedPlayer> messageSender){
+        this.uuid = uuid;
+        this.name = name;
         this.messageSender = messageSender;
     }
 
-    @Override
-    public ProxiedPlayer getPlayer() {
-        return player;
+    private ProxiedPlayer getPlayer() {
+        return ProxyServer.getInstance().getPlayer(uuid);
     }
 
     @Override
     public UUID getUUID() {
-        return player.getUniqueId();
+        return uuid;
     }
 
     @Override
     public String getName() {
-        return player.getName();
+        return name;
     }
 
     @Override
@@ -78,9 +81,9 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
         Skin skin = hasCustomSkin() ? customSkin : defaultSkin;
 
         try{
-            InitialHandler handler = (InitialHandler) player.getPendingConnection();
+            InitialHandler handler = (InitialHandler) getPlayer().getPendingConnection();
             LoginResult.Property texture = new LoginResult.Property("textures", skin.getValue(), skin.getSignature());
-            LoginResult profile = new LoginResult(player.getUniqueId().toString(), "textures", new LoginResult.Property[] { texture });
+            LoginResult profile = new LoginResult(uuid.toString(), "textures", new LoginResult.Property[] { texture });
 
             profile.getProperties()[0].setName("textures");
             profile.getProperties()[0].setValue(skin.getValue());
@@ -97,11 +100,11 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
         Skin skin = hasCustomSkin() ? customSkin : defaultSkin;
         JsonObject message = new JsonObject();
 
-        message.addProperty("player", player.getName());
+        message.addProperty("player", name);
         message.addProperty("skin_value", skin.getValue());
         message.addProperty("skin_signature", skin.getSignature());
 
-        messageSender.sendMessage(player, Channels.SKINS, message);
+        messageSender.sendMessage(getPlayer(), Channels.SKINS, message);
     }
 
     @Override
@@ -111,6 +114,7 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
 
     @Override
     public void sendMessage(String... message) {
+        ProxiedPlayer player = getPlayer();
         for (String line : message){
             player.sendMessage(TextComponent.fromLegacyText(line));
         }
@@ -118,7 +122,7 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
 
     @Override
     public boolean isOnline() {
-        return player.isConnected();
+        return getPlayer().isConnected();
     }
 
     @Override
@@ -128,6 +132,6 @@ public class BungeeSkinPlayer implements SkinPlayer<ProxiedPlayer> {
 
     @Override
     public boolean hasPermission(String permission) {
-        return player.hasPermission(permission);
+        return getPlayer().hasPermission(permission);
     }
 }

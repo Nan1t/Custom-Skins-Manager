@@ -1,6 +1,6 @@
 package ru.csm.bukkit.hologram;
 
-import ru.csm.api.utils.Logger;
+import ru.csm.api.logging.Logger;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;

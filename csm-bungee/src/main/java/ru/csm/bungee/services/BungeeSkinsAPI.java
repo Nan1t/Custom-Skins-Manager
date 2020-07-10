@@ -16,7 +16,7 @@ import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.database.Database;
 import ru.csm.api.storage.database.Row;
 import ru.csm.api.upload.*;
-import ru.csm.api.utils.Logger;
+import ru.csm.api.logging.Logger;
 import ru.csm.api.utils.Validator;
 import ru.csm.bungee.player.BungeeSkinPlayer;
 
@@ -29,8 +29,8 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     private final Database database;
     private final Language lang;
 
-    private final Map<UUID, SkinPlayer<ProxiedPlayer>> playersByUUID = new TreeMap<>();
-    private final Map<String, SkinPlayer<ProxiedPlayer>> playersByName = new TreeMap<>();
+    private final Map<UUID, SkinPlayer> playersByUUID = new HashMap<>();
+    private final Map<String, SkinPlayer> playersByName = new HashMap<>();
 
     private Map<String, String> blacklist;
     private Map<String, String> whitelist;
@@ -86,7 +86,7 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
-    public boolean isBlackList(String nickname, SkinPlayer<ProxiedPlayer> player){
+    public boolean isBlackList(String nickname, SkinPlayer player){
         if (blacklist == null) return false;
 
         if (blacklist.containsKey(nickname.toLowerCase())){
@@ -98,7 +98,7 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
-    public boolean isWhitelist(String nickname, SkinPlayer<ProxiedPlayer> player){
+    public boolean isWhitelist(String nickname, SkinPlayer player){
         if (whitelist == null) return true;
 
         if (whitelist.containsKey(nickname.toLowerCase())){
@@ -125,12 +125,12 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
-    public SkinPlayer<ProxiedPlayer> getPlayer(UUID uuid){
+    public SkinPlayer getPlayer(UUID uuid){
         return playersByUUID.get(uuid);
     }
 
     @Override
-    public SkinPlayer<ProxiedPlayer> getPlayer(String name){
+    public SkinPlayer getPlayer(String name){
         return playersByName.get(name.toLowerCase());
     }
 
@@ -166,7 +166,7 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
-    public void setCustomSkin(SkinPlayer<ProxiedPlayer> player, Skin skin){
+    public void setCustomSkin(SkinPlayer player, Skin skin){
         player.setCustomSkin(skin);
         player.applySkin();
         player.refreshSkin();
@@ -176,12 +176,12 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
 
     @Override
     public void setCustomSkin(ProxiedPlayer p, Skin skin) {
-        SkinPlayer<ProxiedPlayer> player = getPlayer(p.getUniqueId());
+        SkinPlayer player = getPlayer(p.getUniqueId());
         if (player != null) setCustomSkin(player, skin);
     }
 
     @Override
-    public void setSkinFromImage(SkinPlayer<ProxiedPlayer> player, String link, SkinModel model) {
+    public void setSkinFromImage(SkinPlayer player, String link, SkinModel model) {
         if(!Validator.validateURL(link)){
             player.sendMessage(lang.of("skin.image.invalid"));
             return;
@@ -200,7 +200,7 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
-    public void setSkinFromName(SkinPlayer<ProxiedPlayer> player, String name) {
+    public void setSkinFromName(SkinPlayer player, String name) {
         if (!Validator.validateName(name)){
             player.sendMessage(lang.of("skin.name.invalid"));
             return;
@@ -224,7 +224,7 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
-    public void resetSkin(SkinPlayer<ProxiedPlayer> player) {
+    public void resetSkin(SkinPlayer player) {
         if(!player.hasCustomSkin()){
             player.sendMessage(lang.of("skin.reset.empty"));
             return;
@@ -277,19 +277,19 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
-    public SkinPlayer<ProxiedPlayer> buildPlayer(ProxiedPlayer player) {
-        return new BungeeSkinPlayer(player, messageSender);
+    public SkinPlayer buildPlayer(UUID uuid, String name) {
+        return new BungeeSkinPlayer(uuid, name, messageSender);
     }
 
     @Override
-    public void addPlayer(SkinPlayer<ProxiedPlayer> player) {
+    public void addPlayer(SkinPlayer player) {
         playersByName.put(player.getName().toLowerCase(), player);
         playersByUUID.put(player.getUUID(), player);
     }
 
     @Override
     public void removePlayer(UUID uuid) {
-        SkinPlayer<ProxiedPlayer> player = getPlayer(uuid);
+        SkinPlayer player = getPlayer(uuid);
         if (player != null){
             playersByName.remove(player.getName().toLowerCase());
             playersByUUID.remove(uuid);
