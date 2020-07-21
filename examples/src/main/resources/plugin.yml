@@ -1,0 +1,8 @@
+name: "CSM_Example"
+version: "1.0"
+main: "ru.csm.plugin.example.ExamplePlugin"
+depend:
+  - "CustomSkinsManager"
+commands:
+  skintest:
+    description: "Skins API test command"

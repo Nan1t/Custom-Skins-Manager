@@ -3,3 +3,5 @@ include 'csm-api'
 include 'csm-bukkit'
 include 'csm-bungee'
 include 'csm-velocity'
+include 'examples'
+
