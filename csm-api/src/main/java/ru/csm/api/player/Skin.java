@@ -130,6 +130,11 @@ public class Skin {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Skin{texture:%s, signature: %s}", value, signature);
+    }
+
     public static class Serializer implements TypeSerializer<Skin> {
 
         @Override

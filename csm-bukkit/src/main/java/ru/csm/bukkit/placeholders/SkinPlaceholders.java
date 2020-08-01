@@ -18,38 +18,50 @@
 
 package ru.csm.bukkit.placeholders;
 
-import me.clip.placeholderapi.PlaceholderHook;
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import ru.csm.api.player.Skin;
 import ru.csm.bukkit.handler.SkinHandlers;
 
-public class SkinPlaceholders extends PlaceholderHook {
+public class SkinPlaceholders extends PlaceholderExpansion {
 
     @Override
-    public String onPlaceholderRequest(Player p, String params) {
-        switch (params){
-            case "skin_url":{
-                Skin skin = SkinHandlers.getHandler().getSkin(p);
-                if (skin != null){
-                    return skin.getURL();
+    public String getIdentifier() {
+        return "csm";
+    }
+
+    @Override
+    public String getAuthor() {
+        return "Nanit";
+    }
+
+    @Override
+    public String getVersion() {
+        return "1.0";
+    }
+
+    @Override
+    public String onRequest(OfflinePlayer p, String params) {
+        if (p instanceof Player){
+            Player player = (Player) p;
+
+            switch (params){
+                case "skin_url":{
+                    Skin skin = SkinHandlers.getHandler().getSkin(player);
+                    return skin == null ? null : skin.getURL();
                 }
-                return null;
-            }
-            case "skin_texture":{
-                Skin skin = SkinHandlers.getHandler().getSkin(p);
-                if (skin != null){
-                    return skin.getValue();
+                case "skin_texture":{
+                    Skin skin = SkinHandlers.getHandler().getSkin(player);
+                    return skin == null ? null : skin.getValue();
                 }
-                return null;
-            }
-            case "skin_signature":{
-                Skin skin = SkinHandlers.getHandler().getSkin(p);
-                if (skin != null){
-                    return skin.getSignature();
+                case "skin_signature":{
+                    Skin skin = SkinHandlers.getHandler().getSkin(player);
+                    return skin == null ? null : skin.getSignature();
                 }
-                return null;
             }
         }
+
         return null;
     }
 

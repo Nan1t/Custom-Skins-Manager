@@ -36,7 +36,10 @@ public class HandlerSkin implements MessageHandler {
         skin.setSignature(json.get("skin_signature").getAsString());
 
         SkinHandlers.getHandler().applySkin(player, skin);
-        SkinHandlers.getHandler().updateSkin(player);
+
+        if (!player.isDead()){
+            SkinHandlers.getHandler().updateSkin(player);
+        }
     }
 
 }

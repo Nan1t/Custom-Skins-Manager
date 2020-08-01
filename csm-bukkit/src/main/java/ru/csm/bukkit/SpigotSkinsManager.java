@@ -45,6 +45,7 @@ import ru.csm.bukkit.hologram.Holograms;
 import ru.csm.bukkit.listeners.InventoryListener;
 import ru.csm.bukkit.listeners.NpcClickListener;
 import ru.csm.bukkit.listeners.PlayerListener;
+import ru.csm.bukkit.listeners.RespawnListener;
 import ru.csm.bukkit.menu.item.Item;
 import ru.csm.bukkit.messages.PluginMessageReceiver;
 import ru.csm.bukkit.messages.PluginMessageSender;
@@ -138,6 +139,7 @@ public class SpigotSkinsManager extends JavaPlugin {
             }
 
             getServer().getPluginManager().registerEvents(new InventoryListener(), this);
+            getServer().getPluginManager().registerEvents(new RespawnListener(api), this);
             getServer().getPluginManager().registerEvents(new NpcClickListener(api, menuManager), this);
 
             getServer().getServicesManager().register(SkinsAPI.class, api, this, ServicePriority.Normal);
