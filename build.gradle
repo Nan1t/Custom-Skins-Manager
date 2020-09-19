@@ -20,7 +20,7 @@ plugins {
 allprojects {
     plugins.withType(JavaPlugin) {
         group 'ru.nanit'
-        version '3.4'
+        version '3.4.1'
         sourceCompatibility = 1.8
 
         repositories {

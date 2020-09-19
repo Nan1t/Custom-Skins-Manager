@@ -61,6 +61,7 @@ import ru.csm.bukkit.services.BukkitSkinsAPI;
 import ru.csm.bukkit.services.MenuManager;
 import ru.csm.bukkit.util.BukkitTasks;
 import ru.csm.api.utils.FileUtil;
+import ru.csm.bukkit.util.ProxyUtil;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -99,7 +100,7 @@ public class SpigotSkinsManager extends JavaPlugin {
             Language lang = new Language(this, Paths.get(getDataFolder().toPath().toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
             MenuManager menuManager = new MenuManager(lang);
 
-            if(!SpigotConfig.bungee){
+            if(!ProxyUtil.isUseProxy()){
                 try{
                     setupDatabase(configuration);
                 } catch (SQLException e){
@@ -115,7 +116,7 @@ public class SpigotSkinsManager extends JavaPlugin {
                 getServer().getPluginManager().registerEvents(new PlayerListener(api), this);
                 getServer().getServicesManager().register(SkinsAPI.class, api, this, ServicePriority.Normal);
             } else {
-                getLogger().info("Using BungeeCord as skin manager");
+                getLogger().info("Using proxy server as skin manager");
 
                 PluginMessageSender sender = new PluginMessageSender(this);
                 PluginMessageReceiver receiver = new PluginMessageReceiver();

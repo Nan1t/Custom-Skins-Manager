@@ -35,7 +35,8 @@ public interface SkinHandler {
             player.updateInventory();
             player.setExp(player.getExp());
             player.setLevel(player.getLevel());
-            player.setHealth(player.getHealth());
+            player.setHealthScale(player.getHealthScale());
+            player.setHealth(Math.min(player.getHealth(), player.getHealthScale()));
             player.setFlying(player.isFlying());
             player.setPlayerListName(player.getPlayerListName());
         });
