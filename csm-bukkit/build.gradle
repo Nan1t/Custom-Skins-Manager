@@ -33,4 +33,6 @@ dependencies {
 
     compileOnly project(":csm-api")
     compileOnly fileTree('lib/')
+
+    compile files('lib/napi-reflection-1.0.jar')
 }

@@ -63,8 +63,6 @@ public final class Handler_v1_13_R2 implements SkinHandler {
                 PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, ep);
         PacketPlayOutPlayerInfo addInfo = new PacketPlayOutPlayerInfo(
                 PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, ep);
-        PacketPlayOutEntityDestroy entityDestroy = new PacketPlayOutEntityDestroy(cp.getEntityId());
-        PacketPlayOutNamedEntitySpawn entitySpawn = new PacketPlayOutNamedEntitySpawn(cp.getHandle());
 
         CraftWorld world = ((CraftWorld)cp.getWorld());
         DimensionManager dm = world.getHandle().dimension;
@@ -102,25 +100,11 @@ public final class Handler_v1_13_R2 implements SkinHandler {
             ep.playerConnection.sendPacket(slot);
 
             ep.updateAbilities();
-            updateData(player);
+            cp.updateScaledHealth();
+            ep.triggerHealthUpdate();
+            player.updateInventory();
+            player.recalculatePermissions();
+            player.setFlying(player.isFlying());
         });
-
-        /*for (Player p : Bukkit.getOnlinePlayers()){
-            if (!p.equals(player)){
-                PlayerConnection connection = ((CraftPlayer)p).getHandle().playerConnection;
-
-                if (player.getWorld().equals(p.getWorld()) && p.canSee(player)){
-                    connection.sendPacket(entityDestroy);
-                    connection.sendPacket(removeInfo);
-                    connection.sendPacket(addInfo);
-                    connection.sendPacket(entitySpawn);
-                    connection.sendPacket(metadata);
-                    continue;
-                }
-
-                connection.sendPacket(removeInfo);
-                connection.sendPacket(addInfo);
-            }
-        }*/
     }
 }

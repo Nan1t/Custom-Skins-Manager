@@ -20,7 +20,6 @@ package ru.csm.bukkit.handler;
 
 import org.bukkit.entity.Player;
 import ru.csm.api.player.Skin;
-import ru.csm.bukkit.util.BukkitTasks;
 
 public interface SkinHandler {
 
@@ -30,15 +29,4 @@ public interface SkinHandler {
 
     void updateSkin(Player player);
 
-    default void updateData(Player player){
-        BukkitTasks.runTask(()->{
-            player.updateInventory();
-            player.setExp(player.getExp());
-            player.setLevel(player.getLevel());
-            player.setHealthScale(player.getHealthScale());
-            player.setHealth(Math.min(player.getHealth(), player.getHealthScale()));
-            player.setFlying(player.isFlying());
-            player.setPlayerListName(player.getPlayerListName());
-        });
-    }
 }

@@ -101,7 +101,11 @@ public final class Handler_v1_16_R2 implements SkinHandler {
             ep.playerConnection.sendPacket(slot);
 
             ep.updateAbilities();
-            updateData(player);
+            cp.updateScaledHealth();
+            ep.triggerHealthUpdate();
+            player.updateInventory();
+            player.recalculatePermissions();
+            player.setFlying(player.isFlying());
         });
 
     }

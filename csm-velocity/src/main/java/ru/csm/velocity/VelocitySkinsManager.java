@@ -52,13 +52,14 @@ import ru.csm.velocity.message.handlers.HandlerPreview;
 import ru.csm.velocity.message.handlers.HandlerSkin;
 import ru.csm.velocity.message.handlers.HandlerSkull;
 import ru.csm.velocity.services.VelocitySkinsAPI;
+import ru.csm.velocity.util.VelocityTasks;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
-@Plugin(id = "custom_skins_manager", name = "Custom Skins Manager", version = "3.4.1", authors = {"Nanit"})
+@Plugin(id = "custom_skins_manager", name = "Custom Skins Manager", version = "3.5", authors = {"Nanit"})
 public class VelocitySkinsManager {
 
     private final ProxyServer server;
@@ -81,6 +82,7 @@ public class VelocitySkinsManager {
     public void onEnable(ProxyInitializeEvent event){
         try{
             Logger.set(new Slf4jHandler(logger));
+            VelocityTasks.init(this, server);
 
             registerSerializers();
 

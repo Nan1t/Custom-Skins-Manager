@@ -47,6 +47,7 @@ import ru.csm.bungee.message.handlers.HandlerPreview;
 import ru.csm.bungee.message.handlers.HandlerSkin;
 import ru.csm.bungee.message.handlers.HandlerSkull;
 import ru.csm.bungee.services.BungeeSkinsAPI;
+import ru.csm.bungee.util.BungeeTasks;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -72,6 +73,7 @@ public class BungeeSkinsManager extends Plugin {
             metrics = new Metrics(this, 7375);
 
             Logger.set(new JULHandler(getLogger()));
+            BungeeTasks.init(this);
 
             registerSerializers();
 

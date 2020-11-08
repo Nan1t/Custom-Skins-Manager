@@ -42,6 +42,7 @@ import ru.csm.bukkit.menu.SkinsMenu;
 import ru.csm.bukkit.npc.NPC;
 import ru.csm.bukkit.npc.Npcs;
 import ru.csm.bukkit.player.BukkitSkinPlayer;
+import ru.csm.bukkit.util.BukkitTasks;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -389,4 +390,8 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
         }
     }
 
+    @Override
+    public void savePlayer(SkinPlayer player) {
+        BukkitTasks.runTaskAsync(()->savePlayerBlocking(player));
+    }
 }

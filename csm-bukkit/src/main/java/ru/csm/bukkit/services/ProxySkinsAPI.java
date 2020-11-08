@@ -37,6 +37,7 @@ import ru.csm.api.upload.ImageQueue;
 import ru.csm.api.upload.NameQueue;
 import ru.csm.bukkit.npc.NPC;
 import ru.csm.bukkit.npc.Npcs;
+import ru.csm.bukkit.player.ProxySkinPlayer;
 
 import java.util.UUID;
 
@@ -102,12 +103,14 @@ public class ProxySkinsAPI implements SkinsAPI<Player> {
 
     @Override
     public SkinPlayer getPlayer(UUID uuid) {
-        return null;
+        Player player = Bukkit.getPlayer(uuid);
+        return player != null ? new ProxySkinPlayer(player) : null;
     }
 
     @Override
     public SkinPlayer getPlayer(String name) {
-        return null;
+        Player player = Bukkit.getPlayer(name);
+        return player != null ? new ProxySkinPlayer(player) : null;
     }
 
     @Override
@@ -227,7 +230,8 @@ public class ProxySkinsAPI implements SkinsAPI<Player> {
 
     @Override
     public SkinPlayer buildPlayer(UUID uuid, String name) {
-        return null;
+        Player player = Bukkit.getPlayer(uuid);
+        return player != null ? new ProxySkinPlayer(player) : new ProxySkinPlayer(uuid, name);
     }
 
     @Override
@@ -237,6 +241,11 @@ public class ProxySkinsAPI implements SkinsAPI<Player> {
 
     @Override
     public void removePlayer(UUID uuid) {
+
+    }
+
+    @Override
+    public void savePlayer(SkinPlayer player) {
 
     }
 }

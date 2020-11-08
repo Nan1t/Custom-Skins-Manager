@@ -25,7 +25,7 @@ public class PluginMessageSender extends MessageSender<ProxiedPlayer> {
 
     @Override
     public void send(ProxiedPlayer player, String channel, byte[] data) {
-        if (player.getServer() != null){
+        if (player != null && player.getServer() != null){
             player.getServer().getInfo().sendData(channel, data);
         }
     }

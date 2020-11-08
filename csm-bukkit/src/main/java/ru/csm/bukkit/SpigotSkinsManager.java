@@ -111,7 +111,6 @@ public class SpigotSkinsManager extends JavaPlugin {
 
                 api = new BukkitSkinsAPI(database, configuration, lang, menuManager);
                 SkinHash.startCleaner();
-                registerCommands();
 
                 getServer().getPluginManager().registerEvents(new PlayerListener(api), this);
                 getServer().getServicesManager().register(SkinsAPI.class, api, this, ServicePriority.Normal);
@@ -148,6 +147,8 @@ public class SpigotSkinsManager extends JavaPlugin {
             if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")){
                 Placeholders.init();
             }
+
+            registerCommands();
         } catch (Exception e){
             Logger.severe("Cannot enable plugin: " + e.getMessage());
         }

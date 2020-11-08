@@ -95,24 +95,11 @@ public final class Handler_v1_9_R2 implements SkinHandler {
             ep.playerConnection.sendPacket(slot);
 
             ep.updateAbilities();
-            updateData(player);
+            cp.updateScaledHealth();
+            ep.triggerHealthUpdate();
+            player.updateInventory();
+            player.recalculatePermissions();
+            player.setFlying(player.isFlying());
         });
-
-        /*for (Player p : Bukkit.getOnlinePlayers()){
-            if (!p.equals(player)){
-                PlayerConnection connection = ((CraftPlayer)p).getHandle().playerConnection;
-
-                if (player.getWorld().equals(p.getWorld()) && p.canSee(player)){
-                    connection.sendPacket(entityDestroy);
-                    connection.sendPacket(removeInfo);
-                    connection.sendPacket(addInfo);
-                    connection.sendPacket(entitySpawn);
-                    continue;
-                }
-
-                connection.sendPacket(removeInfo);
-                connection.sendPacket(addInfo);
-            }
-        }*/
     }
 }

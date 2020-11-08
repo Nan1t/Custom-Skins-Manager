@@ -37,6 +37,7 @@ import ru.csm.api.upload.*;
 import ru.csm.api.logging.Logger;
 import ru.csm.api.utils.Validator;
 import ru.csm.bungee.player.BungeeSkinPlayer;
+import ru.csm.bungee.util.BungeeTasks;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -381,4 +382,8 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
         }
     }
 
+    @Override
+    public void savePlayer(SkinPlayer player) {
+        BungeeTasks.runAsync(()->savePlayerBlocking(player));
+    }
 }

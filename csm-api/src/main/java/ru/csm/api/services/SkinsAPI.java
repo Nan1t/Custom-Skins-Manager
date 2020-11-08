@@ -27,7 +27,6 @@ import ru.csm.api.storage.database.Row;
 import ru.csm.api.upload.*;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 public interface SkinsAPI<Player> {
 
@@ -202,24 +201,24 @@ public interface SkinsAPI<Player> {
      * Save the player data into current storage (local or remote database)
      * @param player - Object of a player
      * */
-    default void savePlayer(SkinPlayer player){
-        CompletableFuture.runAsync(()->{
-            Row row = new Row();
+    void savePlayer(SkinPlayer player);
 
-            row.addField("name", player.getName());
-            row.addField("default_value", player.getDefaultSkin().getValue());
-            row.addField("default_signature", player.getDefaultSkin().getSignature());
-            row.addField("custom_value", player.hasCustomSkin() ? player.getCustomSkin().getValue() : null);
-            row.addField("custom_signature", player.hasCustomSkin() ? player.getCustomSkin().getSignature() : null);
+    default void savePlayerBlocking(SkinPlayer player){
+        Row row = new Row();
 
-            boolean exists = getDatabase().existsRow(Tables.SKINS, "uuid", player.getUUID().toString());
+        row.addField("name", player.getName());
+        row.addField("default_value", player.getDefaultSkin().getValue());
+        row.addField("default_signature", player.getDefaultSkin().getSignature());
+        row.addField("custom_value", player.hasCustomSkin() ? player.getCustomSkin().getValue() : null);
+        row.addField("custom_signature", player.hasCustomSkin() ? player.getCustomSkin().getSignature() : null);
 
-            if (exists){
-                getDatabase().updateRow(Tables.SKINS, "uuid", player.getUUID().toString(), row);
-            } else {
-                row.addField("uuid", player.getUUID().toString());
-                getDatabase().createRow(Tables.SKINS, row);
-            }
-        });
+        boolean exists = getDatabase().existsRow(Tables.SKINS, "uuid", player.getUUID().toString());
+
+        if (exists){
+            getDatabase().updateRow(Tables.SKINS, "uuid", player.getUUID().toString(), row);
+        } else {
+            row.addField("uuid", player.getUUID().toString());
+            getDatabase().createRow(Tables.SKINS, row);
+        }
     }
 }

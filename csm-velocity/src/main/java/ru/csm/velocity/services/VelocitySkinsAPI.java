@@ -42,6 +42,7 @@ import ru.csm.api.upload.*;
 import ru.csm.api.logging.Logger;
 import ru.csm.api.utils.Validator;
 import ru.csm.velocity.player.VelocitySkinPlayer;
+import ru.csm.velocity.util.VelocityTasks;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -388,4 +389,8 @@ public class VelocitySkinsAPI implements SkinsAPI<Player> {
         }
     }
 
+    @Override
+    public void savePlayer(SkinPlayer player) {
+        VelocityTasks.run(()->savePlayerBlocking(player));
+    }
 }

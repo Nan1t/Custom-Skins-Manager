@@ -26,8 +26,7 @@ import net.md_5.bungee.event.EventHandler;
 
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
-
-import java.util.concurrent.CompletableFuture;
+import ru.csm.bungee.util.BungeeTasks;
 
 public class PlayerListeners implements Listener {
 
@@ -39,7 +38,7 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent e){
-        CompletableFuture.supplyAsync(()->{
+        BungeeTasks.runAsync(()->{
             SkinPlayer player = api.loadPlayer(e.getPlayer().getUniqueId(), e.getPlayer().getName());
 
             if (player == null){
@@ -48,8 +47,7 @@ public class PlayerListeners implements Listener {
             }
 
             api.addPlayer(player);
-            return player;
-        }).thenAccept((player)->{
+
             player.applySkin();
             player.refreshSkin();
         });

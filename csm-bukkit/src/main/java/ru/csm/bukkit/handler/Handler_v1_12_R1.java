@@ -23,7 +23,6 @@ import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import ru.csm.api.player.Skin;
@@ -63,8 +62,6 @@ public final class Handler_v1_12_R1 implements SkinHandler {
                 PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, ep);
         PacketPlayOutPlayerInfo addInfo = new PacketPlayOutPlayerInfo(
                 PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, ep);
-        PacketPlayOutEntityDestroy entityDestroy = new PacketPlayOutEntityDestroy(cp.getEntityId());
-        PacketPlayOutNamedEntitySpawn entitySpawn = new PacketPlayOutNamedEntitySpawn(cp.getHandle());
 
         WorldServer world = (WorldServer) ep.getWorld();
         EnumDifficulty difficulty = world.getDifficulty();
@@ -95,24 +92,11 @@ public final class Handler_v1_12_R1 implements SkinHandler {
             ep.playerConnection.sendPacket(slot);
 
             ep.updateAbilities();
-            updateData(player);
+            cp.updateScaledHealth();
+            ep.triggerHealthUpdate();
+            player.updateInventory();
+            player.recalculatePermissions();
+            player.setFlying(player.isFlying());
         });
-
-        /*for (Player p : Bukkit.getOnlinePlayers()){
-            if (!p.equals(player)){
-                PlayerConnection connection = ((CraftPlayer)p).getHandle().playerConnection;
-
-                if (player.getWorld().equals(p.getWorld()) && p.canSee(player)){
-                    connection.sendPacket(entityDestroy);
-                    connection.sendPacket(removeInfo);
-                    connection.sendPacket(addInfo);
-                    connection.sendPacket(entitySpawn);
-                    continue;
-                }
-
-                connection.sendPacket(removeInfo);
-                connection.sendPacket(addInfo);
-            }
-        }*/
     }
 }
