@@ -1,26 +1,12 @@
-import proguard.gradle.ProGuardTask
-import java.nio.file.Paths
-
-buildscript{
-    repositories{
-        mavenCentral()
-        mavenLocal()
-        jcenter()
-    }
-    dependencies{
-        classpath 'net.sf.proguard:proguard-gradle:6.2.2'
-    }
-}
-
 plugins {
     id 'java'
-    id 'idea'
 }
 
 allprojects {
     plugins.withType(JavaPlugin) {
         group 'ru.nanit'
         version '3.5'
+
         sourceCompatibility = 1.8
 
         repositories {
@@ -38,18 +24,6 @@ dependencies {
     compile project(":csm-bukkit")
     compile project(":csm-bungee")
     compile project(":csm-velocity")
-}
-
-def jarNameWithoutExtension = jar.archiveName.with { it.take(it.lastIndexOf(".")) }
-def obfuscatedJarName = "${jarNameWithoutExtension}-min.jar"
-def jarFileLocation = jar.archivePath.parent
-def obfuscatedFilePath = Paths.get(jarFileLocation, obfuscatedJarName)
-
-task minimize(type: ProGuardTask, dependsOn:jar) {
-    configuration 'proguard.txt'
-    libraryjars files(configurations.compileOnly.collect())
-    injars jar
-    outjars obfuscatedFilePath.toString()
 }
 
 jar {

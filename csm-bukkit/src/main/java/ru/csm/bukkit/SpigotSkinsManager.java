@@ -25,7 +25,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import org.spigotmc.SpigotConfig;
 import ru.csm.api.logging.JULHandler;
 import ru.csm.api.network.Channels;
 import ru.csm.api.player.Skin;
@@ -96,7 +95,7 @@ public class SpigotSkinsManager extends JavaPlugin {
             NpcPacketHandler.init(version);
             BukkitTasks.setPlugin(this);
 
-            Configuration configuration = new Configuration("bukkit/config.conf", getDataFolder().toPath(), this);
+            Configuration configuration = new Configuration("bukkit/config.yml", getDataFolder().toPath(), this);
             Language lang = new Language(this, Paths.get(getDataFolder().toPath().toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
             MenuManager menuManager = new MenuManager(lang);
 

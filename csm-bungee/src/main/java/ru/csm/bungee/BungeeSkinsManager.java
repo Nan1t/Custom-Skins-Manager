@@ -78,7 +78,7 @@ public class BungeeSkinsManager extends Plugin {
             registerSerializers();
 
             Path pluginFolder = this.getDataFolder().toPath();
-            Configuration configuration = new Configuration("bungee/config.conf", pluginFolder, this);
+            Configuration configuration = new Configuration("bungee/config.yml", pluginFolder, this);
             Language lang = new Language(this, Paths.get(pluginFolder.toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
 
             try{

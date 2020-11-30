@@ -87,7 +87,7 @@ public class VelocitySkinsManager {
             registerSerializers();
 
             Path pluginFolder = getPluginFolder();
-            Configuration configuration = new Configuration("velocity/config.conf", pluginFolder, this);
+            Configuration configuration = new Configuration("velocity/config.yml", pluginFolder, this);
             Language lang = new Language(this, Paths.get(pluginFolder.toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
 
             try{

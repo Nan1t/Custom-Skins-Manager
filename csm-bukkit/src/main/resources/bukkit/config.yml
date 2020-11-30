@@ -1,0 +1,67 @@
+#
+# Custom Skins Manager сonfiguration
+#            (Spigot)
+#
+
+# This a name of the language file in /lang folder
+# You can create your own language file. But we've prepared following languages:
+# en_us - English (US)
+# ru_ru - Russian
+# es_es - Spanish
+language: "en_us"
+
+# Configure database credentials to store all skin data
+# By default plugin uses H2 local database
+# Available database types:
+# - H2
+# - SQLite
+# - MySQL
+database:
+  type: "H2"
+  host: "localhost"
+  port: 3306
+  database: "skins"
+  user: "user"
+  password: "password"
+
+# Set to 'false' if you need to disable skin restoring on offline-mode servers
+restoreSkins: true
+
+# Set to 'true' if you need to update player's default (premium) skin on join
+updateDefaultSkin: false
+
+# This is a list of default skins for players who do not have their own (steve, alex)
+# You can add new items to this list. Skins will be assigned randomly.
+defaultSkins:
+  - texture: "eyJ0aW1lc3RhbXAiOjE1NTI5MTI0MzYwODUsInByb2ZpbGVJZCI6IjQwZDIxYzNmZmQ0MjQyNzdhMDBjNWMwNmFjZmM2ODY2IiwicHJvZmlsZU5hbWUiOiJfTmFuaXRfIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9lOTMxMWI4ZjczYmRhOTlhMTQ3MTA4YTU3NTkwYjMwYzIwNzM1YjZjMzg0NzI4M2I1ZGY1NWQ4MDU3ZTE2YzU0In19fQ=="
+    signature: "q7J4OauMbrn5AdG7r9C1wOH5ZVsB72oP2nPkVpH7odV+AbEGNak2ZF+Sk3rwWr9lj6Dd9xuuS4RhsXtAtflsb7lp2HGriJiPbPW3I5UiI21zZ5Zaqag1uAyte803zvQtp1EwYt3zug45Gx0+qLR5Bh4p0LdUudFoVkNuRcfj3F2lFOFSfCas5aMGx0oZHxU5UlGF7re8rsuGj/hciZf/sUpX0vsXsvZ8ZtmnHsN+20EEtbaS6AFYml+N9Ptau2bQidOIoukhdlQYs+R/HmTUQ5L5hR+jz8WHe1nxKlk+96hrUvqk13mFpCwp2K1QyS/Cb58eNc9AzYRTeu+DIDHx99SfnPVqsfvMXXKml6OzJElvTRhC8okbuK0I0vW7nyDsKLMY0WAu4pG0Q9o8H2Eg/i4cUcOxMzByRMojRTO1EPoFM1EHuHKLI6gWeUu9GdYqtkoiVBXrhAnUhNEcwbl89oa+tcrEw/todExa/64SL6mIOivzeV+C+MIE/7CSZ6kfPvNRY52ij8wHDC65xS+//2mfkC9gs0rvVnCs5tBYuDywmty3jbhV0kCDxQbAzfTwFZSeZ1jSaT7aElxgqIRUf6WgZrLHNbdB7V/VfEQ4wlFs02cNH6L0iWb7Dwfhcy70XyA9e5X6oey6wcNAQ+xUhAxnOGVrxq843ee0sb44ZAQ="
+
+# You can add your own accounts and not be dependent on mineskin
+# Check out wiki to know how to do that
+mojang:
+  enable: false
+  period: 30
+  accounts:
+    - login: "example@mail.com"
+      password: "password"
+    - login: "example2@mail.com"
+      password: "password2"
+
+# Set to true if you want to enable nicknames blacklist
+enableBlacklist: false
+
+# You can add some bypass permission for every element of the blacklist
+# Just add some permission name after char ':'
+blacklist:
+  - "Notch"
+  - "Dinnerbone:some.permission"
+
+# Set to true if you want to enable nicknames blacklist
+# If blacklist enabled in same time, blacklist will be disabled automatically
+enableWhitelist: false
+
+# You can add some bypass permission for every element of the whitelist
+# Just add some permission name after char ':'
+whitelist:
+  - "Notch"
+  - "Dinnerbone:some.permission"
