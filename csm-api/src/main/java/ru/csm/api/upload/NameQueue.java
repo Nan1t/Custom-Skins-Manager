@@ -18,6 +18,9 @@
 
 package ru.csm.api.upload;
 
+import ru.csm.api.event.EventSkinChange;
+import ru.csm.api.event.EventSkinReset;
+import ru.csm.api.event.Events;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.MojangAPI;
@@ -28,6 +31,7 @@ import java.util.Optional;
 import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.function.Consumer;
 
 public final class NameQueue implements Runnable {
 
@@ -59,7 +63,11 @@ public final class NameQueue implements Runnable {
                 Optional<Skin> hashed = SkinHash.get(request.getName());
 
                 if (hashed.isPresent()){
-                    api.setCustomSkin(request.getPlayer(), hashed.get());
+                    fireEvent(request.getPlayer(), hashed.get(), (event)->{
+                        if (!event.isCancelled()){
+                            api.setCustomSkin(request.getPlayer(), hashed.get());
+                        }
+                    });
                     return;
                 }
 
@@ -69,8 +77,12 @@ public final class NameQueue implements Runnable {
                     Skin skin = MojangAPI.getPremiumSkin(targetUUID);
 
                     if(skin != null){
-                        SkinHash.add(request.getName(), skin);
-                        api.setCustomSkin(request.getPlayer(), skin);
+                        fireEvent(request.getPlayer(), skin, (event)->{
+                            if (!event.isCancelled()){
+                                SkinHash.add(request.getName(), skin);
+                                api.setCustomSkin(request.getPlayer(), skin);
+                            }
+                        });
                         return;
                     }
                 }
@@ -78,6 +90,11 @@ public final class NameQueue implements Runnable {
                 request.getPlayer().sendMessage(api.getLang().of("skin.name.error"));
             }
         });
+    }
+
+    private void fireEvent(SkinPlayer player, Skin skin, Consumer<EventSkinChange> callback){
+        EventSkinChange event = new EventSkinChange(player, player.getCurrentSkin(), skin, EventSkinChange.Source.USERNAME);
+        Events.fireSkinChange(event, callback);
     }
 
     private static class Request {

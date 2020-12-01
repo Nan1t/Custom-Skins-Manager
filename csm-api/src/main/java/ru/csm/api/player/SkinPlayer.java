@@ -35,16 +35,24 @@ public interface SkinPlayer {
     String getName();
 
     /**
-     * Set default (instead lisense) skin for player. Real license skin will not change
+     * Get player's default skin
      * @return Object of player default (license or custom default) skin.
      * */
     Skin getDefaultSkin();
 
     /**
-     * Set default (instead license) skin for player. Real license skin will not change
+     * Get player's custom skin.
      * @return Object of player custom skin, or null if player not have custom skin
      * */
     Skin getCustomSkin();
+
+    /**
+     * Get current player skin. If player has custom skin, returns custom. Otherwise return default skin
+     * @return Custom skin if preset, or default skin otherwise.
+     */
+    default Skin getCurrentSkin(){
+        return hasCustomSkin() ? getCustomSkin() : getDefaultSkin();
+    }
 
     /**
      * Set default (instead license) skin for player. Real license skin will not change

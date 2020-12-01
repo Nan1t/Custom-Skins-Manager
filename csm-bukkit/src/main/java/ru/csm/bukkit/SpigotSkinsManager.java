@@ -28,6 +28,7 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.csm.api.Dependency;
+import ru.csm.api.event.Events;
 import ru.csm.api.logging.JULHandler;
 import ru.csm.api.network.Channels;
 import ru.csm.api.player.Skin;
@@ -36,6 +37,7 @@ import ru.csm.api.storage.*;
 import ru.csm.api.logging.Logger;
 import ru.csm.api.upload.Profile;
 import ru.csm.bukkit.commands.*;
+import ru.csm.bukkit.event.SpigotEventHandler;
 import ru.csm.bukkit.nms.handler.SkinHandlers;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.bukkit.nms.hologram.Holograms;
@@ -100,6 +102,7 @@ public class SpigotSkinsManager extends JavaPlugin {
             Holograms.init(version);
             NpcPacketHandler.init(version);
             BukkitTasks.setPlugin(this);
+            Events.registerHandler(new SpigotEventHandler());
 
             Configuration configurationFile = YamlConfiguration.builder()
                     .source(ConfigSources.resource("/bukkit/config.yml", this).copyTo(getDataFolder().toPath()))

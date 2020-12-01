@@ -59,7 +59,11 @@ public final class MineskinQueue extends ImageQueue {
                     Optional<Skin> hashed = SkinHash.get(request.getUrl());
 
                     if (hashed.isPresent()){
-                        api.setCustomSkin(request.getPlayer(), hashed.get());
+                        fireChangeEvent(request.getPlayer(), hashed.get(), (event)->{
+                            if (!event.isCancelled()){
+                                api.setCustomSkin(request.getPlayer(), event.getNewSkin());
+                            }
+                        });
                         return;
                     }
 
@@ -94,8 +98,12 @@ public final class MineskinQueue extends ImageQueue {
             Skin skin = parseResponse(response);
 
             if(skin != null){
-                SkinHash.add(request.getUrl(), skin);
-                api.setCustomSkin(request.getPlayer(), skin);
+                fireChangeEvent(request.getPlayer(), skin, (event)->{
+                    if (!event.isCancelled()){
+                        SkinHash.add(request.getUrl(), event.getNewSkin());
+                        api.setCustomSkin(request.getPlayer(), event.getNewSkin());
+                    }
+                });
                 return true;
             }
         }

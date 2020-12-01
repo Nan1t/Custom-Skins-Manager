@@ -18,7 +18,6 @@
 
 package ru.csm.api.player;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import napi.configurate.data.ConfigNode;

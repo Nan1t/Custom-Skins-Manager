@@ -20,6 +20,7 @@ package ru.csm.api.upload;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import ru.csm.api.event.EventSkinChange;
 import ru.csm.api.http.HttpPost;
 import ru.csm.api.http.entity.HttpEntity;
 import ru.csm.api.http.entity.HttpResponse;
@@ -75,8 +76,12 @@ public final class MojangQueue extends ImageQueue {
                     Skin skin = MojangAPI.getPremiumSkin(profile.getUUID());
 
                     if(skin != null){
-                        SkinHash.add(request.getUrl(), skin);
-                        api.setCustomSkin(request.getPlayer(), skin);
+                        fireChangeEvent(request.getPlayer(), skin, (event)->{
+                            if (!event.isCancelled()){
+                                SkinHash.add(request.getUrl(), event.getNewSkin());
+                                api.setCustomSkin(request.getPlayer(), event.getNewSkin());
+                            }
+                        });
                         return;
                     }
                     Logger.severe("Cannot get skin of premium profile %s", profile);
@@ -104,13 +109,13 @@ public final class MojangQueue extends ImageQueue {
             int code = response.getCode();
 
             if (code != 204) {
-                Logger.info("Error while change license skin. Response code: %s", code);
+                Logger.severe("Error while change license skin. Response code: %s", code);
                 return false;
             }
 
             return true;
         } catch (IOException e) {
-            Logger.info("Error while change license skin: %s", e.getMessage());
+            Logger.severe("Error while change license skin: %s", e.getMessage());
             return false;
         }
     }
@@ -128,7 +133,6 @@ public final class MojangQueue extends ImageQueue {
 
             return response.getCode() == 204;
         } catch (Exception e){
-            e.printStackTrace();
             return false;
         }
     }
@@ -153,7 +157,7 @@ public final class MojangQueue extends ImageQueue {
             profile.setClientToken(clientToken);
             Logger.info("Successfully refreshing session for Mojang account %s", profile.getUsername());
         } catch (IOException e){
-            Logger.info("Error while refreshing session for Mojang account %s: %s", profile.getUsername(), e.getMessage());
+            Logger.severe("Error while refreshing session for Mojang account %s: %s", profile.getUsername(), e.getMessage());
         }
     }
 
@@ -186,7 +190,7 @@ public final class MojangQueue extends ImageQueue {
 
             Logger.info("Successfully authenticate account %s", profile.getUsername());
         } catch (Exception e){
-            Logger.info("Error while authenticate profile %s: %s", profile.getUsername(), e.getMessage());
+            Logger.severe("Error while authenticate profile %s: %s", profile.getUsername(), e.getMessage());
         }
     }
 }

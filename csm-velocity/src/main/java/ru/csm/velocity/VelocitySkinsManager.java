@@ -33,6 +33,7 @@ import napi.configurate.source.ConfigSources;
 import napi.configurate.yaml.YamlConfiguration;
 import napi.util.LibLoader;
 import ru.csm.api.Dependency;
+import ru.csm.api.event.Events;
 import ru.csm.api.logging.Logger;
 import ru.csm.api.network.Channels;
 import ru.csm.api.network.MessageSender;
@@ -48,6 +49,7 @@ import ru.csm.api.utils.FileUtil;
 import ru.csm.velocity.command.CommandExecutor;
 import ru.csm.velocity.command.SubCommand;
 import ru.csm.velocity.commands.*;
+import ru.csm.velocity.event.VelocityEventHandler;
 import ru.csm.velocity.listeners.PlayerListeners;
 import ru.csm.velocity.message.PluginMessageReceiver;
 import ru.csm.velocity.message.PluginMessageSender;
@@ -98,6 +100,7 @@ public class VelocitySkinsManager {
     public void onEnable(ProxyInitializeEvent event){
         try{
             VelocityTasks.init(this, server);
+            Events.registerHandler(new VelocityEventHandler(server));
 
             registerSerializers();
 

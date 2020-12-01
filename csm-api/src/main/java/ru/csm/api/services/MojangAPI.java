@@ -72,7 +72,7 @@ public final class MojangAPI {
                         JsonObject properties = object.get("properties").getAsJsonArray().get(0).getAsJsonObject();
                         String value = properties.get("value").getAsString();
                         String signature = properties.get("signature").getAsString();
-                        String skinUrl = getsSkinURL(value);
+                        String skinUrl = getSkinURL(value);
 
                         if(skinUrl != null){
                             Skin skin = new Skin();
@@ -90,7 +90,7 @@ public final class MojangAPI {
         return null;
     }
 
-    public static String getsSkinURL(String base64String) throws JsonParseException {
+    public static String getSkinURL(String base64String) throws JsonParseException {
         String encoded = new String(BASE64_DECODER.decode(base64String));
         JsonObject json = JSON_PARSER.parse(encoded).getAsJsonObject();
         JsonObject textures = json.get("textures").getAsJsonObject();

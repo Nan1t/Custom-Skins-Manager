@@ -22,6 +22,8 @@ import napi.configurate.Language;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+import ru.csm.api.event.EventSkinReset;
+import ru.csm.api.event.Events;
 import ru.csm.api.player.Head;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinModel;
@@ -55,8 +57,7 @@ public class SpigotSkinsAPI implements SkinsAPI<Player> {
 
     private Map<String, String> blacklist;
     private Map<String, String> whitelist;
-
-    private Skin[] defaultSkins;
+    private final Skin[] defaultSkins;
 
     private NameQueue nameQueue;
     private ImageQueue imageQueue;
@@ -259,11 +260,17 @@ public class SpigotSkinsAPI implements SkinsAPI<Player> {
             return;
         }
 
-        player.resetSkin();
-        player.applySkin();
-        player.refreshSkin();
-        savePlayer(player);
-        player.sendMessage(lang.of("skin.reset.success"));
+        EventSkinReset event = new EventSkinReset(player, player.getCurrentSkin());
+
+        Events.fireSkinReset(event);
+
+        if (!event.isCancelled()){
+            player.resetSkin();
+            player.applySkin();
+            player.refreshSkin();
+            savePlayer(player);
+            player.sendMessage(lang.of("skin.reset.success"));
+        }
     }
 
     @Override

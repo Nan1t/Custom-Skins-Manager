@@ -18,12 +18,16 @@
 
 package ru.csm.api.upload;
 
+import ru.csm.api.event.EventSkinChange;
+import ru.csm.api.event.Events;
+import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
 
 import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.function.Consumer;
 
 public abstract class ImageQueue implements Runnable {
 
@@ -48,6 +52,11 @@ public abstract class ImageQueue implements Runnable {
 
     public void push(SkinPlayer player, String url, SkinModel model){
         queue.offer(new Request(player, url, model));
+    }
+
+    protected void fireChangeEvent(SkinPlayer player, Skin skin, Consumer<EventSkinChange> callback){
+        EventSkinChange event = new EventSkinChange(player, player.getCurrentSkin(), skin, EventSkinChange.Source.IMAGE);
+        Events.fireSkinChange(event, callback);
     }
 
     static class Request {
