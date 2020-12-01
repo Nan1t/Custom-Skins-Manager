@@ -52,7 +52,6 @@ public final class MineskinQueue extends ImageQueue {
     @Override
     public void run() {
         if (System.currentTimeMillis() >= nextRequest){
-
             nextRequest = System.currentTimeMillis();
 
             pop().ifPresent((request)->{
@@ -64,13 +63,16 @@ public final class MineskinQueue extends ImageQueue {
                         return;
                     }
 
+                    boolean sendErrorMessage = true;
+
                     try{
-                        if (!executeRequest(request)) {
-                            request.getPlayer().sendMessage(api.getLang().of("skin.image.error"));
-                        }
+                        sendErrorMessage = !executeRequest(request);
                     } catch (IOException e){
                         Logger.severe("Cannot execute request to mineskin.org: %s", e.getMessage());
                     }
+
+                    if (sendErrorMessage)
+                        request.getPlayer().sendMessage(api.getLang().of("skin.image.error"));
                 }
             });
         }

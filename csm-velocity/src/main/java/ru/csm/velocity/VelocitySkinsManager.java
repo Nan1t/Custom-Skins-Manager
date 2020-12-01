@@ -79,7 +79,7 @@ public class VelocitySkinsManager {
     @Inject
     public VelocitySkinsManager(ProxyServer server, org.slf4j.Logger logger, @DataDirectory Path dataFolder) {
         this.server = server;
-        this.dataFolder = dataFolder;
+        this.dataFolder = dataFolder.toAbsolutePath();
 
         Logger.set(new Slf4jHandler(logger));
 
@@ -103,7 +103,7 @@ public class VelocitySkinsManager {
             registerSerializers();
 
             Configuration configurationFile = YamlConfiguration.builder()
-                    .source(ConfigSources.resource("bukkit/config.yml", this).copyTo(dataFolder))
+                    .source(ConfigSources.resource("/velocity/config.yml", this).copyTo(dataFolder))
                     .build();
 
             SkinsConfig config = new SkinsConfig(this, configurationFile);

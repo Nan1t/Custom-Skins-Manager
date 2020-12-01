@@ -89,7 +89,7 @@ public class BungeeSkinsManager extends Plugin {
 
             Path pluginFolder = this.getDataFolder().toPath();
             Configuration configurationFile = YamlConfiguration.builder()
-                    .source(ConfigSources.resource("bukkit/config.yml", this).copyTo(pluginFolder))
+                    .source(ConfigSources.resource("/bungee/config.yml", this).copyTo(pluginFolder))
                     .build();
 
             SkinsConfig config = new SkinsConfig(this, configurationFile);
