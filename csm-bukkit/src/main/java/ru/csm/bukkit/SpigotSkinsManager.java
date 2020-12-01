@@ -73,11 +73,13 @@ public class SpigotSkinsManager extends JavaPlugin {
     public void onLoad() {
         Logger.set(new JULHandler(getLogger()));
 
-        LibLoader libLoader = new LibLoader(this, Paths.get(getDataFolder().toString(), "libs"));
+        Path libsFolder = Paths.get(getDataFolder().toString(), "libs");
+        LibLoader libLoader = new LibLoader(this, libsFolder);
 
         try {
-            libLoader.loadJar(libLoader.download(Dependencies.H2.getName(), Dependencies.H2.getUrl()));
-            libLoader.loadJar(libLoader.download(Dependencies.DBCP.getName(), Dependencies.DBCP.getUrl()));
+            libLoader.download(Dependencies.H2.getName(), Dependencies.H2.getUrl());
+            libLoader.download(Dependencies.DBCP.getName(), Dependencies.DBCP.getUrl());
+            libLoader.load(libsFolder);
         } catch (Exception e){
             Logger.severe("Cannot load library: " + e.getMessage());
         }
