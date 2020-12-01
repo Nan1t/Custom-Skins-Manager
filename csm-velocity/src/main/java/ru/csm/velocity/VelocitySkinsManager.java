@@ -31,6 +31,9 @@ import napi.configurate.Configuration;
 import napi.configurate.serializing.NodeSerializers;
 import napi.configurate.source.ConfigSources;
 import napi.configurate.yaml.YamlConfiguration;
+import napi.util.LibLoader;
+import ru.csm.api.Dependencies;
+import ru.csm.api.logging.JULHandler;
 import ru.csm.api.logging.Logger;
 import ru.csm.api.network.Channels;
 import ru.csm.api.network.MessageSender;
@@ -64,7 +67,6 @@ import java.sql.SQLException;
 public class VelocitySkinsManager {
 
     private final ProxyServer server;
-    private final org.slf4j.Logger logger;
     private final Path dataFolder;
 
     private Database database;
@@ -77,14 +79,25 @@ public class VelocitySkinsManager {
     @Inject
     public VelocitySkinsManager(ProxyServer server, org.slf4j.Logger logger, @DataDirectory Path dataFolder) {
         this.server = server;
-        this.logger = logger;
         this.dataFolder = dataFolder;
+
+        Logger.set(new Slf4jHandler(logger));
+
+        Path libsFolder = Paths.get(dataFolder.toString(), "libs");
+        LibLoader libLoader = new LibLoader(this, libsFolder);
+
+        try {
+            libLoader.download(Dependencies.H2.getName(), Dependencies.H2.getUrl());
+            libLoader.download(Dependencies.DBCP.getName(), Dependencies.DBCP.getUrl());
+            libLoader.load(libsFolder);
+        } catch (Exception e){
+            Logger.severe("Cannot load library: " + e.getMessage());
+        }
     }
 
     @Subscribe
     public void onEnable(ProxyInitializeEvent event){
         try{
-            Logger.set(new Slf4jHandler(logger));
             VelocityTasks.init(this, server);
 
             registerSerializers();

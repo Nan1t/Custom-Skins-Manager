@@ -22,8 +22,10 @@ import napi.configurate.Configuration;
 import napi.configurate.serializing.NodeSerializers;
 import napi.configurate.source.ConfigSources;
 import napi.configurate.yaml.YamlConfiguration;
+import napi.util.LibLoader;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
+import ru.csm.api.Dependencies;
 import ru.csm.api.logging.JULHandler;
 import ru.csm.api.network.Channels;
 import ru.csm.api.network.MessageSender;
@@ -53,7 +55,6 @@ import java.sql.SQLException;
 
 public class BungeeSkinsManager extends Plugin {
 
-    private Metrics metrics;
     private Database database;
     private SkinsAPI<ProxiedPlayer> api;
 
@@ -61,16 +62,27 @@ public class BungeeSkinsManager extends Plugin {
         return api;
     }
 
-    public Metrics getMetrics(){
-        return metrics;
+    @Override
+    public void onLoad() {
+        Logger.set(new JULHandler(getLogger()));
+
+        Path libsFolder = Paths.get(getDataFolder().toString(), "libs");
+        LibLoader libLoader = new LibLoader(this, libsFolder);
+
+        try {
+            libLoader.download(Dependencies.H2.getName(), Dependencies.H2.getUrl());
+            libLoader.download(Dependencies.DBCP.getName(), Dependencies.DBCP.getUrl());
+            libLoader.load(libsFolder);
+        } catch (Exception e){
+            Logger.severe("Cannot load library: " + e.getMessage());
+        }
     }
 
     @Override
     public void onEnable(){
         try {
-            metrics = new Metrics(this, 7375);
+            new Metrics(this, 7375);
 
-            Logger.set(new JULHandler(getLogger()));
             BungeeTasks.init(this);
 
             registerSerializers();
