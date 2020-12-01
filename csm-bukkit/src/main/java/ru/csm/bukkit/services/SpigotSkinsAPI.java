@@ -341,18 +341,18 @@ public class SpigotSkinsAPI implements SkinsAPI<Player> {
     }
 
     private void loadQueues() {
+        nameQueue = new NameQueue(this, 1);
         int imagePeriod = 1;
 
         if (conf.isEnableMojangAccounts()){
             imagePeriod = conf.getMojangQueryPeriod();
-            imageQueue = new MojangQueue(this, conf.getMojangProfiles());
+            imageQueue = new MojangQueue(this, conf.getMojangProfiles(), imagePeriod);
         } else {
-            imageQueue = new MineskinQueue(this);
+            imageQueue = new MineskinQueue(this, imagePeriod);
         }
 
-        nameQueue = new NameQueue(this);
-        nameQueue.start(1);
-        imageQueue.start(imagePeriod);
+        BukkitTasks.runTaskTimerAsync(nameQueue, 0, 20); // 1 second
+        BukkitTasks.runTaskTimerAsync(imageQueue, 0, imagePeriod * 20);
     }
 
     @Override

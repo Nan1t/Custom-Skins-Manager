@@ -332,18 +332,18 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     private void loadQueues() {
+        nameQueue = new NameQueue(this, 1);
         int imagePeriod = 1;
 
         if (conf.isEnableMojangAccounts()){
             imagePeriod = conf.getMojangQueryPeriod();
-            imageQueue = new MojangQueue(this, conf.getMojangProfiles());
+            imageQueue = new MojangQueue(this, conf.getMojangProfiles(), imagePeriod);
         } else {
-            imageQueue = new MineskinQueue(this);
+            imageQueue = new MineskinQueue(this, imagePeriod);
         }
 
-        nameQueue = new NameQueue(this);
-        nameQueue.start(1);
-        imageQueue.start(imagePeriod);
+        BungeeTasks.runRepeatTask(nameQueue, 0, 1000);
+        BungeeTasks.runRepeatTask(imageQueue, 0, imagePeriod * 1000);
     }
 
     @Override

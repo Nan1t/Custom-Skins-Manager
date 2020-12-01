@@ -39,11 +39,12 @@ public final class MojangQueue extends ImageQueue {
     private static final String SKIN_URL = "https://api.mojang.com/user/profile/%s/skin";
     private static final JsonParser JSON_PARSER = new JsonParser();
 
-    private final SkinsAPI api;
+    private final SkinsAPI<?> api;
     private final List<Profile> profiles;
     private Iterator<Profile> profileIterator;
 
-    public MojangQueue(SkinsAPI api, List<Profile> profiles) {
+    public MojangQueue(SkinsAPI<?> api, List<Profile> profiles, int period) {
+        super(period);
         this.api = api;
         this.profiles = profiles;
         this.profileIterator = profiles.iterator();

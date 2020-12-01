@@ -37,7 +37,6 @@ import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.Database;
 import ru.csm.api.storage.Row;
 import ru.csm.api.upload.*;
-import ru.csm.api.logging.Logger;
 import ru.csm.api.utils.Validator;
 import ru.csm.velocity.player.VelocitySkinPlayer;
 import ru.csm.velocity.util.VelocityTasks;
@@ -340,18 +339,18 @@ public class VelocitySkinsAPI implements SkinsAPI<Player> {
     }
 
     private void loadQueues() {
+        nameQueue = new NameQueue(this, 1);
         int imagePeriod = 1;
 
         if (conf.isEnableMojangAccounts()){
             imagePeriod = conf.getMojangQueryPeriod();
-            imageQueue = new MojangQueue(this, conf.getMojangProfiles());
+            imageQueue = new MojangQueue(this, conf.getMojangProfiles(), imagePeriod);
         } else {
-            imageQueue = new MineskinQueue(this);
+            imageQueue = new MineskinQueue(this, imagePeriod);
         }
 
-        nameQueue = new NameQueue(this);
-        nameQueue.start(1);
-        imageQueue.start(imagePeriod);
+        VelocityTasks.runRepeat(nameQueue, 1000);
+        VelocityTasks.runRepeat(imageQueue, imagePeriod * 1000);
     }
 
     @Override

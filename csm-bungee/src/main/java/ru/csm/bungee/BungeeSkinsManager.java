@@ -112,7 +112,7 @@ public class BungeeSkinsManager extends Plugin {
             registerListeners();
             registerCommands(sender);
 
-            SkinHash.startCleaner();
+            BungeeTasks.runRepeatTask(SkinHash::clean, 0, 30000); // 30 sec
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -120,16 +120,9 @@ public class BungeeSkinsManager extends Plugin {
 
     @Override
     public void onDisable(){
-        if (api != null){
-            api.getNameQueue().stop();
-            api.getImageQueue().stop();
-        }
-
         if (database != null){
             database.closeConnection();
         }
-
-        SkinHash.stopCleaner();
     }
 
     private void registerCommands(MessageSender<ProxiedPlayer> sender){

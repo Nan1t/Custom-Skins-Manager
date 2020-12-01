@@ -23,15 +23,10 @@ import ru.csm.api.player.Skin;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public final class SkinHash {
 
     private static final Map<String, Hash> HASH = new ConcurrentHashMap<>();
-    private static final ScheduledThreadPoolExecutor EXECUTOR = new ScheduledThreadPoolExecutor(1);
-    private static ScheduledFuture<?> task;
 
     private SkinHash(){}
 
@@ -43,15 +38,8 @@ public final class SkinHash {
         HASH.put(key.toLowerCase(), new Hash(skin));
     }
 
-    public static void startCleaner(){
-        task = EXECUTOR.scheduleAtFixedRate(()->{
-            HASH.entrySet().removeIf((entry)->System.currentTimeMillis() >= entry.getValue().getExpiryTime());
-        }, 0, 30, TimeUnit.SECONDS);
-        EXECUTOR.shutdown();
-    }
-
-    public static void stopCleaner(){
-        if (task != null) task.cancel(true);
+    public static void clean(){
+        HASH.entrySet().removeIf((entry)->System.currentTimeMillis() >= entry.getValue().getExpiryTime());
     }
 
     private static class Hash extends Skin {

@@ -125,7 +125,7 @@ public class VelocitySkinsManager {
             registerListeners();
             registerCommands(sender);
 
-            SkinHash.startCleaner();
+            VelocityTasks.runRepeat(SkinHash::clean, 30000); // 30 sec
 
             Logger.info("Plugin enabled!");
         } catch (Exception e){
@@ -135,16 +135,9 @@ public class VelocitySkinsManager {
 
     @Subscribe
     public void onDisable(ProxyShutdownEvent event){
-        if (api != null){
-            api.getNameQueue().stop();
-            api.getImageQueue().stop();
-        }
-
         if (database != null){
             database.closeConnection();
         }
-
-        SkinHash.stopCleaner();
     }
 
     private void registerCommands(MessageSender<Player> sender){

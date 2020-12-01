@@ -35,11 +35,12 @@ public final class MineskinQueue extends ImageQueue {
 
     private static final String API_URL = "https://api.mineskin.org/generate/url";
     private static final JsonParser JSON_PARSER = new JsonParser();
-    private final SkinsAPI api;
+    private final SkinsAPI<?> api;
 
     private long nextRequest;
 
-    public MineskinQueue(SkinsAPI api) {
+    public MineskinQueue(SkinsAPI<?> api, int period) {
+        super(period);
         this.api = api;
     }
 

@@ -106,7 +106,8 @@ public class SpigotSkinsManager extends JavaPlugin {
                 }
 
                 api = new SpigotSkinsAPI(database, config, config.getLanguage(), menuManager);
-                SkinHash.startCleaner();
+
+                BukkitTasks.runTaskTimerAsync(SkinHash::clean, 0, 900); // 30 sec
 
                 getServer().getPluginManager().registerEvents(new PlayerListener(api), this);
                 getServer().getServicesManager().register(SkinsAPI.class, api, this, ServicePriority.Normal);
@@ -152,16 +153,9 @@ public class SpigotSkinsManager extends JavaPlugin {
 
     @Override
     public void onDisable(){
-        if (api != null){
-            if (api.getImageQueue() != null) api.getImageQueue().stop();
-            if (api.getNameQueue() != null) api.getNameQueue().stop();
-        }
-
         if(database != null){
             database.closeConnection();
         }
-
-        SkinHash.stopCleaner();
     }
 
     private void registerCommands(){

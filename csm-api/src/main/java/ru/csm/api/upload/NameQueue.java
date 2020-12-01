@@ -28,21 +28,16 @@ import java.util.Optional;
 import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public final class NameQueue implements Runnable {
 
     private final SkinsAPI<?> api;
     private final Queue<Request> queue = new ConcurrentLinkedQueue<>();
-    private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+    private final int period;
 
-    private ScheduledFuture<?> task;
-    private int period;
-
-    public NameQueue(SkinsAPI<?> api){
+    public NameQueue(SkinsAPI<?> api, int period){
         this.api = api;
+        this.period = period;
     }
 
     protected Optional<Request> pop(){
@@ -55,16 +50,6 @@ public final class NameQueue implements Runnable {
 
     public void push(SkinPlayer player, String name){
         queue.offer(new Request(player, name));
-    }
-
-    public void start(int period){
-        this.period = period;
-        if (task != null) stop();
-        task = executor.scheduleAtFixedRate(this, 0, period, TimeUnit.SECONDS);
-    }
-
-    public void stop(){
-        task.cancel(true);
     }
 
     @Override
