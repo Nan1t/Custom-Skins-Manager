@@ -27,7 +27,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.csm.api.Dependencies;
+import ru.csm.api.Dependency;
 import ru.csm.api.logging.JULHandler;
 import ru.csm.api.network.Channels;
 import ru.csm.api.player.Skin;
@@ -77,8 +77,8 @@ public class SpigotSkinsManager extends JavaPlugin {
         LibLoader libLoader = new LibLoader(this, libsFolder);
 
         try {
-            libLoader.download(Dependencies.H2.getName(), Dependencies.H2.getUrl());
-            libLoader.download(Dependencies.DBCP.getName(), Dependencies.DBCP.getUrl());
+            libLoader.download(Dependency.H2.getName(), Dependency.H2.getUrl());
+            libLoader.download(Dependency.DBCP.getName(), Dependency.DBCP.getUrl());
             libLoader.load(libsFolder);
         } catch (Exception e){
             Logger.severe("Cannot load library: " + e.getMessage());

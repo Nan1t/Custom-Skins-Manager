@@ -32,8 +32,7 @@ import napi.configurate.serializing.NodeSerializers;
 import napi.configurate.source.ConfigSources;
 import napi.configurate.yaml.YamlConfiguration;
 import napi.util.LibLoader;
-import ru.csm.api.Dependencies;
-import ru.csm.api.logging.JULHandler;
+import ru.csm.api.Dependency;
 import ru.csm.api.logging.Logger;
 import ru.csm.api.network.Channels;
 import ru.csm.api.network.MessageSender;
@@ -87,8 +86,8 @@ public class VelocitySkinsManager {
         LibLoader libLoader = new LibLoader(this, libsFolder);
 
         try {
-            libLoader.download(Dependencies.H2.getName(), Dependencies.H2.getUrl());
-            libLoader.download(Dependencies.DBCP.getName(), Dependencies.DBCP.getUrl());
+            libLoader.download(Dependency.H2.getName(), Dependency.H2.getUrl());
+            libLoader.download(Dependency.DBCP.getName(), Dependency.DBCP.getUrl());
             libLoader.load(libsFolder);
         } catch (Exception e){
             Logger.severe("Cannot load library: " + e.getMessage());
