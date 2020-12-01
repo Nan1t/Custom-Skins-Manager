@@ -27,21 +27,19 @@
 "menu.btn.next.name": "&e>>"
 "menu.btn.reset.name": "&cResetear Skin"
 
-"npc.name":[
-  "&eRMB - &aAplicar",
-  "&eLMB - &cCancelar",
-]
+"npc.name":
+  - "&eRMB - &aAplicar"
+  - "&eLMB - &cCancelar"
 
-help:[
-  "",
-  "&e▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ &7Custom Skins Manager&e ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰",
-  "&e/skin player <jugador> &7- Selecciona la Skin de un jugador premium",
-  "&e/skin url <URL> [slim] &7- Selecciona una Skin vía URL",
-  "&e/skin reset &7- Resetea tu Skin",
-  "&e/skin menu &7- Abre el menú de Skins para seleccionar una ya previamente elegida",
-  "&e/skull player <player> &7- Obtén la cabeza de otro jugador con su respectiva Skin",
-  "&e/skull url <url> &7- Obtén la cabeza con la Skin del URL especificado",
-  "",
-  "&7Para seleccionar tu Skin, necesitas subirla a &eimgur.com, copiar el link directo de la imagen, y pegarlo aquí.",
-  "",
-]
+help:
+  - ""
+  - "&e▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ &7Custom Skins Manager&e ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰"
+  - "&e/skin player <jugador> &7- Selecciona la Skin de un jugador premium"
+  - "&e/skin url <URL> [slim] &7- Selecciona una Skin vía URL"
+  - "&e/skin reset &7- Resetea tu Skin"
+  - "&e/skin menu &7- Abre el menú de Skins para seleccionar una ya previamente elegida"
+  - "&e/skull player <player> &7- Obtén la cabeza de otro jugador con su respectiva Skin"
+  - "&e/skull url <url> &7- Obtén la cabeza con la Skin del URL especificado"
+  - ""
+  - "&7Para seleccionar tu Skin, necesitas subirla a &eimgur.com, copiar el link directo de la imagen, y pegarlo aquí."
+  - ""

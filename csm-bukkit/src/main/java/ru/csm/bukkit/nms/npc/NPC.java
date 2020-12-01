@@ -16,30 +16,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.csm.api.logging;
+package ru.csm.bukkit.nms.npc;
 
-import java.util.logging.Logger;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import ru.csm.api.player.Skin;
 
-public class JULHandler implements LogHandler {
+import java.util.List;
 
-    private final Logger logger;
+public interface NPC {
 
-    public JULHandler(Logger logger){
-        this.logger = logger;
-    }
+    int getId();
 
-    @Override
-    public void info(String message) {
-        logger.info(message);
-    }
+    String getName();
 
-    @Override
-    public void warning(String message) {
-        logger.warning(message);
-    }
+    void setName(String name);
 
-    @Override
-    public void severe(String message) {
-        logger.severe(message);
-    }
+    Location getLocation();
+
+    void setLocation(Location location);
+
+    Skin getSkin();
+
+    void setSkin(Skin skin);
+
+    String getPermission();
+
+    void setPermission(String permission);
+
+    boolean isOpenMenu();
+
+    void setOpenMenu(boolean openMenu);
+
+    void setDisplayName(List<String> name);
+
+    void spawn(Player player);
+
+    void destroy(Player player);
+
 }

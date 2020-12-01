@@ -16,30 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.csm.api.logging;
+package ru.csm.bukkit.nms.hologram;
 
-import java.util.logging.Logger;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
-public class JULHandler implements LogHandler {
+import java.util.List;
 
-    private final Logger logger;
+public interface Hologram {
 
-    public JULHandler(Logger logger){
-        this.logger = logger;
-    }
+    Location getLocation();
 
-    @Override
-    public void info(String message) {
-        logger.info(message);
-    }
+    void setLocation(Location location);
 
-    @Override
-    public void warning(String message) {
-        logger.warning(message);
-    }
+    void setLines(List<String> lines);
 
-    @Override
-    public void severe(String message) {
-        logger.severe(message);
-    }
+    void spawn(Player player);
+
+    void destroy(Player player);
+
 }

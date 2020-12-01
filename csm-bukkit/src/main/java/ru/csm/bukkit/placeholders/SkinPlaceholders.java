@@ -22,7 +22,7 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import ru.csm.api.player.Skin;
-import ru.csm.bukkit.handler.SkinHandlers;
+import ru.csm.bukkit.nms.handler.SkinHandlers;
 
 public class SkinPlaceholders extends PlaceholderExpansion {
 

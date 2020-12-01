@@ -19,7 +19,7 @@
 package ru.csm.bukkit.services;
 
 import org.bukkit.entity.Player;
-import ru.csm.bukkit.npc.NPC;
+import ru.csm.bukkit.nms.npc.NPC;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -27,21 +27,19 @@
 "menu.btn.next.name": "&e>>"
 "menu.btn.reset.name": "&cReset skin"
 
-"npc.name":[
-	"&eRMB - &aApply",
-	"&eLMB - &cCancel",
-]
+"npc.name":
+  - "&eRMB - &aApply"
+  - "&eLMB - &cCancel"
 
-help:[
-	"",
-	"&e▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ &7Custom Skins Manager&e ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰",
-	"&e/skin player <player> &7- Set skin from premium account",
-	"&e/skin url <url> [slim] &7- Set skin via link to the image",
-	"&e/skin reset &7- Reset skin",
-	"&e/skin menu &7- Open skins menu to select it from already installed",
-	"&e/skull player <player> &7- Get head with player skin",
-	"&e/skull url <url> &7- Get the head with the skin from the specified image",
-	"",
-	"&7To set the skin, you need to upload your skin to the image hosting like &eimgur.com&7, copy the direct link to the image, and paste it here",
-	"",
-]
+help:
+  - ""
+  - "&e▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ &7Custom Skins Manager&e ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰"
+  - "&e/skin player <player> &7- Set skin from premium account"
+  - "&e/skin url <url> [slim] &7- Set skin via link to the image"
+  - "&e/skin reset &7- Reset skin"
+  - "&e/skin menu &7- Open skins menu to select it from already installed"
+  - "&e/skull player <player> &7- Get head with player skin"
+  - "&e/skull url <url> &7- Get the head with the skin from the specified image"
+  - ""
+  - "&7To set the skin, you need to upload your skin to the image hosting like &eimgur.com&7, copy the direct link to the image, and paste it here"
+  - ""

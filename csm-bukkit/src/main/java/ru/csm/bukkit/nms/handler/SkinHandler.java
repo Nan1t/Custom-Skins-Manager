@@ -16,30 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.csm.api.logging;
+package ru.csm.bukkit.nms.handler;
 
-import java.util.logging.Logger;
+import org.bukkit.entity.Player;
+import ru.csm.api.player.Skin;
 
-public class JULHandler implements LogHandler {
+public interface SkinHandler {
 
-    private final Logger logger;
+    Skin getSkin(Player player);
 
-    public JULHandler(Logger logger){
-        this.logger = logger;
-    }
+    void applySkin(Player player, Skin skin);
 
-    @Override
-    public void info(String message) {
-        logger.info(message);
-    }
+    void updateSkin(Player player);
 
-    @Override
-    public void warning(String message) {
-        logger.warning(message);
-    }
-
-    @Override
-    public void severe(String message) {
-        logger.severe(message);
-    }
 }

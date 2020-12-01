@@ -23,7 +23,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import ru.csm.api.network.MessageHandler;
 import ru.csm.api.player.Skin;
-import ru.csm.bukkit.handler.SkinHandlers;
+import ru.csm.bukkit.nms.handler.SkinHandlers;
 
 public class HandlerSkin implements MessageHandler {
 

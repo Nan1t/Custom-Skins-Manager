@@ -21,8 +21,8 @@ package ru.csm.bukkit.event;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import ru.csm.bukkit.npc.ClickAction;
-import ru.csm.bukkit.npc.NPC;
+import ru.csm.bukkit.nms.npc.ClickAction;
+import ru.csm.bukkit.nms.npc.NPC;
 
 public class NpcClickEvent extends Event {
 

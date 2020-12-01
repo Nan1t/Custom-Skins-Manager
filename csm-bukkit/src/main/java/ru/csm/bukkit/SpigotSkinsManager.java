@@ -22,10 +22,12 @@ import napi.configurate.Configuration;
 import napi.configurate.serializing.NodeSerializers;
 import napi.configurate.source.ConfigSources;
 import napi.configurate.yaml.YamlConfiguration;
+import napi.util.LibLoader;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import ru.csm.api.Dependencies;
 import ru.csm.api.logging.JULHandler;
 import ru.csm.api.network.Channels;
 import ru.csm.api.player.Skin;
@@ -34,9 +36,9 @@ import ru.csm.api.storage.*;
 import ru.csm.api.logging.Logger;
 import ru.csm.api.upload.Profile;
 import ru.csm.bukkit.commands.*;
-import ru.csm.bukkit.handler.SkinHandlers;
+import ru.csm.bukkit.nms.handler.SkinHandlers;
 import ru.csm.api.services.SkinsAPI;
-import ru.csm.bukkit.hologram.Holograms;
+import ru.csm.bukkit.nms.hologram.Holograms;
 import ru.csm.bukkit.listeners.InventoryListener;
 import ru.csm.bukkit.listeners.NpcClickListener;
 import ru.csm.bukkit.listeners.PlayerListener;
@@ -48,8 +50,8 @@ import ru.csm.bukkit.messages.handlers.HandlerMenu;
 import ru.csm.bukkit.messages.handlers.HandlerPreview;
 import ru.csm.bukkit.messages.handlers.HandlerSkin;
 import ru.csm.bukkit.messages.handlers.HandlerSkull;
-import ru.csm.bukkit.npc.NpcPacketHandler;
-import ru.csm.bukkit.npc.Npcs;
+import ru.csm.bukkit.nms.npc.NpcPacketHandler;
+import ru.csm.bukkit.nms.npc.Npcs;
 import ru.csm.bukkit.placeholders.Placeholders;
 import ru.csm.bukkit.services.ProxySkinsAPI;
 import ru.csm.bukkit.services.SpigotSkinsAPI;
@@ -68,10 +70,22 @@ public class SpigotSkinsManager extends JavaPlugin {
     private SkinsAPI<Player> api;
 
     @Override
+    public void onLoad() {
+        Logger.set(new JULHandler(getLogger()));
+
+        LibLoader libLoader = new LibLoader(this, Paths.get(getDataFolder().toString(), "libs"));
+
+        try {
+            libLoader.loadJar(libLoader.download(Dependencies.H2.getName(), Dependencies.H2.getUrl()));
+            libLoader.loadJar(libLoader.download(Dependencies.DBCP.getName(), Dependencies.DBCP.getUrl()));
+        } catch (Exception e){
+            Logger.severe("Cannot load library: " + e.getMessage());
+        }
+    }
+
+    @Override
     public void onEnable(){
         try{
-            Logger.set(new JULHandler(getLogger()));
-
             new Metrics(this, 7375);
 
             registerSerializers();
@@ -86,7 +100,7 @@ public class SpigotSkinsManager extends JavaPlugin {
             BukkitTasks.setPlugin(this);
 
             Configuration configurationFile = YamlConfiguration.builder()
-                    .source(ConfigSources.resource("bukkit/config.yml", this).copyTo(getDataFolder().toPath()))
+                    .source(ConfigSources.resource("/bukkit/config.yml", this).copyTo(getDataFolder().toPath()))
                     .build();
 
             SkinsConfig config = new SkinsConfig(this, configurationFile);

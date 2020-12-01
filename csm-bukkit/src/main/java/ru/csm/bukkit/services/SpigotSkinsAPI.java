@@ -36,8 +36,8 @@ import ru.csm.api.upload.*;
 import ru.csm.api.utils.Validator;
 import ru.csm.bukkit.menu.item.HeadItem;
 import ru.csm.bukkit.menu.SkinsMenu;
-import ru.csm.bukkit.npc.NPC;
-import ru.csm.bukkit.npc.Npcs;
+import ru.csm.bukkit.nms.npc.NPC;
+import ru.csm.bukkit.nms.npc.Npcs;
 import ru.csm.bukkit.player.BukkitSkinPlayer;
 import ru.csm.bukkit.util.BukkitTasks;
 

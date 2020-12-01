@@ -8,6 +8,7 @@ import ru.csm.api.player.Skin;
 import ru.csm.api.upload.Profile;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class SkinsConfig {
@@ -42,15 +43,12 @@ public class SkinsConfig {
         this.conf = conf;
     }
 
-    public Configuration getConf() {
-        return conf;
-    }
-
     public void load(Path dataFolder) throws Exception {
-        String langPath = "lang/" + conf.getNode("language").getString() + ".yml";
+        String langPath = "/lang/" + conf.getNode("language").getString() + ".yml";
 
         this.language = YamlLanguage.builder()
-                .source(ConfigSources.resource(langPath, plugin).copyTo(dataFolder))
+                .source(ConfigSources.resource(langPath, plugin)
+                        .copyTo(Paths.get(dataFolder.toString(), "lang")))
                 .build();
 
         this.language.reload();

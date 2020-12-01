@@ -16,30 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.csm.api.logging;
+package ru.csm.bukkit.nms.npc;
 
-import java.util.logging.Logger;
+public enum ClickAction {
 
-public class JULHandler implements LogHandler {
+    INTERACT,
+    ATTACK,
+    INTERACT_AT;
 
-    private final Logger logger;
-
-    public JULHandler(Logger logger){
-        this.logger = logger;
-    }
-
-    @Override
-    public void info(String message) {
-        logger.info(message);
-    }
-
-    @Override
-    public void warning(String message) {
-        logger.warning(message);
-    }
-
-    @Override
-    public void severe(String message) {
-        logger.severe(message);
-    }
 }
