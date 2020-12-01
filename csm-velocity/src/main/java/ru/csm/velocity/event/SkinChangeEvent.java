@@ -1,7 +1,6 @@
 package ru.csm.velocity.event;
 
 import ru.csm.api.event.EventSkinChange;
-import ru.csm.api.event.EventSkinReset;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
 
@@ -35,6 +34,8 @@ public class SkinChangeEvent {
                 return Source.USERNAME;
             case IMAGE:
                 return Source.IMAGE;
+            case TEXTURE:
+                return Source.TEXTURE;
         }
         return null;
     }
@@ -54,7 +55,8 @@ public class SkinChangeEvent {
     public enum Source {
 
         USERNAME,
-        IMAGE
+        IMAGE,
+        TEXTURE;
 
     }
 }

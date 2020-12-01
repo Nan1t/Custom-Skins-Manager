@@ -22,6 +22,7 @@ import napi.configurate.Language;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+import ru.csm.api.event.EventSkinChanged;
 import ru.csm.api.event.EventSkinReset;
 import ru.csm.api.event.Events;
 import ru.csm.api.player.Head;
@@ -202,6 +203,7 @@ public class SpigotSkinsAPI implements SkinsAPI<Player> {
         player.refreshSkin();
         savePlayer(player);
         player.sendMessage(lang.of("skin.success"));
+        Events.fireSkinChanged(new EventSkinChanged(player, skin));
     }
 
     @Override

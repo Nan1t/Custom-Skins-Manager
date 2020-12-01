@@ -24,6 +24,7 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import napi.configurate.Language;
 import net.kyori.text.TextComponent;
+import ru.csm.api.event.EventSkinChanged;
 import ru.csm.api.event.EventSkinReset;
 import ru.csm.api.event.Events;
 import ru.csm.api.network.Channels;
@@ -190,6 +191,7 @@ public class VelocitySkinsAPI implements SkinsAPI<Player> {
         player.refreshSkin();
         savePlayer(player);
         player.sendMessage(lang.of("skin.success"));
+        Events.fireSkinChanged(new EventSkinChanged(player, skin));
     }
 
     @Override

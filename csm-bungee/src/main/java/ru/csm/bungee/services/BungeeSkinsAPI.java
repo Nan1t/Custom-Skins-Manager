@@ -22,6 +22,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import napi.configurate.Language;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import ru.csm.api.event.EventSkinChanged;
 import ru.csm.api.event.EventSkinReset;
 import ru.csm.api.event.Events;
 import ru.csm.api.network.Channels;
@@ -183,6 +184,7 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
         player.refreshSkin();
         savePlayer(player);
         player.sendMessage(lang.of("skin.success"));
+        Events.fireSkinChanged(new EventSkinChanged(player, skin));
     }
 
     @Override

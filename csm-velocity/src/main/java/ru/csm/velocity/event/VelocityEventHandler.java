@@ -3,6 +3,7 @@ package ru.csm.velocity.event;
 import com.velocitypowered.api.proxy.ProxyServer;
 import ru.csm.api.event.EventHandler;
 import ru.csm.api.event.EventSkinChange;
+import ru.csm.api.event.EventSkinChanged;
 import ru.csm.api.event.EventSkinReset;
 
 import java.util.function.Consumer;
@@ -16,8 +17,8 @@ public class VelocityEventHandler implements EventHandler {
     }
 
     @Override
-    public void fireSkinChange(EventSkinChange event) {
-        // Not implemented
+    public void fireSkinChanged(EventSkinChanged event) {
+        server.getEventManager().fireAndForget(new SkinChangedEvent(event));
     }
 
     @Override

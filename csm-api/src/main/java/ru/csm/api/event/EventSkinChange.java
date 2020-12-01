@@ -49,7 +49,8 @@ public class EventSkinChange {
     public enum Source {
 
         USERNAME,
-        IMAGE
+        IMAGE,
+        TEXTURE;
 
     }
 }

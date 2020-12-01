@@ -38,6 +38,8 @@ public class SkinChangeEvent extends Event implements Cancellable {
                 return Source.USERNAME;
             case IMAGE:
                 return Source.IMAGE;
+            case TEXTURE:
+                return Source.TEXTURE;
         }
         return null;
     }
@@ -64,7 +66,8 @@ public class SkinChangeEvent extends Event implements Cancellable {
     public enum Source {
 
         USERNAME,
-        IMAGE
+        IMAGE,
+        TEXTURE;
 
     }
 }

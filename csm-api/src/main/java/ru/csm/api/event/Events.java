@@ -12,9 +12,9 @@ public final class Events {
         handler = h;
     }
 
-    public static void fireSkinChange(EventSkinChange event){
+    public static void fireSkinChanged(EventSkinChanged event){
         if (handler != null){
-            handler.fireSkinChange(event);
+            handler.fireSkinChanged(event);
         }
     }
 
