@@ -19,6 +19,7 @@
 package ru.csm.bukkit.services;
 
 import com.google.gson.JsonObject;
+import napi.configurate.Language;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -30,9 +31,8 @@ import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
-import ru.csm.api.storage.Configuration;
-import ru.csm.api.storage.Language;
-import ru.csm.api.storage.database.Database;
+import ru.csm.api.storage.Database;
+import ru.csm.api.storage.SkinsConfig;
 import ru.csm.api.upload.ImageQueue;
 import ru.csm.api.upload.NameQueue;
 import ru.csm.bukkit.npc.NPC;
@@ -52,7 +52,7 @@ public class ProxySkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
-    public Configuration getConfiguration() {
+    public SkinsConfig getConfig() {
         return null;
     }
 

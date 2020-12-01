@@ -18,10 +18,9 @@
 
 package ru.csm.bukkit.menu.item;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.modded.configurate.ConfigurationNode;
-import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializer;
+import napi.configurate.data.ConfigNode;
+import napi.configurate.serializing.NodeSerializer;
+import napi.configurate.serializing.NodeSerializingException;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -31,8 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Item {
-
-    public static final TypeToken<Item> TOKEN = TypeToken.of(Item.class);
 
     private ItemStack itemStack;
     private String texture;
@@ -151,13 +148,13 @@ public class Item {
 
     }
 
-    public static class Serializer implements TypeSerializer<Item> {
+    public static class Serializer implements NodeSerializer<Item> {
 
         @Override
-        public Item deserialize(TypeToken<?> type, ConfigurationNode node) throws ObjectMappingException {
+        public Item deserialize(ConfigNode node) throws NodeSerializingException {
             Material material = Material.getMaterial(node.getNode("material").getString());
             String name = node.getNode("name").getString();
-            List<String> lore = node.getNode("lore").getList(TypeToken.of(String.class));
+            List<String> lore = node.getNode("lore").getList(String.class);
             String texture = node.getNode("texture").getString();
 
             return Item.builder()
@@ -169,7 +166,7 @@ public class Item {
         }
 
         @Override
-        public void serialize(TypeToken<?> type, Item obj, ConfigurationNode value) throws ObjectMappingException {
+        public void serialize(Item obj, ConfigNode value) {
 
         }
     }

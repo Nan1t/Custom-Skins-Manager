@@ -18,27 +18,29 @@
 
 package ru.csm.velocity;
 
-import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
-import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializers;
+import napi.configurate.Configuration;
+import napi.configurate.serializing.NodeSerializers;
+import napi.configurate.source.ConfigSources;
+import napi.configurate.yaml.YamlConfiguration;
 import ru.csm.api.logging.Logger;
 import ru.csm.api.network.Channels;
 import ru.csm.api.network.MessageSender;
 import ru.csm.api.player.Skin;
 import ru.csm.api.services.SkinHash;
 import ru.csm.api.services.SkinsAPI;
-import ru.csm.api.storage.Configuration;
-import ru.csm.api.storage.Language;
-import ru.csm.api.storage.database.Database;
-import ru.csm.api.storage.database.H2Database;
-import ru.csm.api.storage.database.MySQLDatabase;
+import ru.csm.api.storage.Database;
+import ru.csm.api.storage.H2Database;
+import ru.csm.api.storage.MySQLDatabase;
+import ru.csm.api.storage.SkinsConfig;
 import ru.csm.api.upload.Profile;
 import ru.csm.api.utils.FileUtil;
 import ru.csm.velocity.command.CommandExecutor;
@@ -54,7 +56,6 @@ import ru.csm.velocity.message.handlers.HandlerSkull;
 import ru.csm.velocity.services.VelocitySkinsAPI;
 import ru.csm.velocity.util.VelocityTasks;
 
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -64,6 +65,7 @@ public class VelocitySkinsManager {
 
     private final ProxyServer server;
     private final org.slf4j.Logger logger;
+    private final Path dataFolder;
 
     private Database database;
     private SkinsAPI<Player> api;
@@ -73,9 +75,10 @@ public class VelocitySkinsManager {
     }
 
     @Inject
-    public VelocitySkinsManager(ProxyServer server, org.slf4j.Logger logger) {
+    public VelocitySkinsManager(ProxyServer server, org.slf4j.Logger logger, @DataDirectory Path dataFolder) {
         this.server = server;
         this.logger = logger;
+        this.dataFolder = dataFolder;
     }
 
     @Subscribe
@@ -86,12 +89,17 @@ public class VelocitySkinsManager {
 
             registerSerializers();
 
-            Path pluginFolder = getPluginFolder();
-            Configuration configuration = new Configuration("velocity/config.yml", pluginFolder, this);
-            Language lang = new Language(this, Paths.get(pluginFolder.toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
+            Configuration configurationFile = YamlConfiguration.builder()
+                    .source(ConfigSources.resource("bukkit/config.yml", this).copyTo(dataFolder))
+                    .build();
+
+            SkinsConfig config = new SkinsConfig(this, configurationFile);
+
+            configurationFile.reload();
+            config.load(dataFolder);
 
             try{
-                setupDatabase(configuration);
+                setupDatabase(config);
             } catch (SQLException e){
                 Logger.severe("Cannot connect to SQL database: " + e.getMessage());
                 return;
@@ -100,7 +108,7 @@ public class VelocitySkinsManager {
             MessageSender<Player> sender = new PluginMessageSender();
             PluginMessageReceiver receiver = new PluginMessageReceiver();
 
-            api = new VelocitySkinsAPI(database, configuration, lang, sender, server);
+            api = new VelocitySkinsAPI(database, config, sender, server);
 
             receiver.registerHandler(Channels.SKINS, new HandlerSkin(api));
             receiver.registerHandler(Channels.SKULLS, new HandlerSkull());
@@ -179,8 +187,8 @@ public class VelocitySkinsManager {
     }
 
     private void registerSerializers(){
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Profile.class), new Profile.Serializer());
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Skin.class), new Skin.Serializer());
+        NodeSerializers.register(Profile.class, new Profile.Serializer());
+        NodeSerializers.register(Skin.class, new Skin.Serializer());
     }
 
     private void registerListeners(){
@@ -188,23 +196,23 @@ public class VelocitySkinsManager {
         server.getEventManager().register(this, new PluginMessageReceiver());
     }
 
-    private void setupDatabase(Configuration conf) throws SQLException {
-        String type = conf.get().getNode("database", "type").getString("").toLowerCase();
+    private void setupDatabase(SkinsConfig conf) throws SQLException {
+        String type = conf.getDbType().toLowerCase();
 
         switch (type) {
             case "h2": {
-                Path path = Paths.get(getPluginFolder().toString(), "skins");
-                String user = conf.get().getNode("database", "user").getString();
-                String password = conf.get().getNode("database", "password").getString();
+                Path path = Paths.get(dataFolder.toString(), "skins");
+                String user = conf.getDbUser();
+                String password = conf.getDbPassword();
                 this.database = new H2Database(path, user, password);
                 break;
             }
             case "mysql": {
-                String host = conf.get().getNode("database", "host").getString();
-                int port = conf.get().getNode("database", "port").getInt(3306);
-                String dbname = conf.get().getNode("database", "database").getString();
-                String user = conf.get().getNode("database", "user").getString();
-                String password = conf.get().getNode("database", "password").getString();
+                String host = conf.getDbHost();
+                int port = conf.getDbPort();
+                String dbname = conf.getDbName();
+                String user = conf.getDbUser();
+                String password = conf.getDbPassword();
                 this.database = new MySQLDatabase(host, port, dbname, user, password);
                 break;
             }
@@ -213,18 +221,6 @@ public class VelocitySkinsManager {
         }
 
         this.database.executeSQL(FileUtil.readResourceContent("/tables/" + type + "/skins.sql"));
-    }
-
-    public static Path getPluginFolder(){
-        return Paths.get(getPluginsFolder().toString(), "CustomSkinsManager");
-    }
-
-    public static Path getPluginsFolder(){
-        try{
-            return Paths.get(VelocitySkinsManager.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
-        } catch (URISyntaxException e){
-            return null;
-        }
     }
 
 }

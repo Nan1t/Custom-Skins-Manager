@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.csm.api.storage.database;
+package ru.csm.api.storage;
 
 import java.sql.Connection;
 import java.sql.SQLException;

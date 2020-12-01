@@ -18,8 +18,8 @@
 
 package ru.csm.bungee.commands;
 
+import napi.configurate.Language;
 import net.md_5.bungee.api.CommandSender;
-import ru.csm.api.storage.Language;
 import ru.csm.bungee.command.CommandExecutor;
 
 public class CommandSkull extends CommandExecutor {
@@ -28,7 +28,7 @@ public class CommandSkull extends CommandExecutor {
 
     public CommandSkull(Language lang){
         super("csmskull", null, "skull");
-        this.usage = lang.ofArray("help");
+        this.usage = lang.ofArr("help");
     }
 
     @Override

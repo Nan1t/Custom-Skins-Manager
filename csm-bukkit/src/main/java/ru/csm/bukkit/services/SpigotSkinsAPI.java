@@ -18,8 +18,7 @@
 
 package ru.csm.bukkit.services;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
+import napi.configurate.Language;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -29,13 +28,11 @@ import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinHash;
 import ru.csm.api.services.SkinsAPI;
-import ru.csm.api.storage.Configuration;
-import ru.csm.api.storage.Language;
+import ru.csm.api.storage.SkinsConfig;
 import ru.csm.api.storage.Tables;
-import ru.csm.api.storage.database.Database;
-import ru.csm.api.storage.database.Row;
+import ru.csm.api.storage.Database;
+import ru.csm.api.storage.Row;
 import ru.csm.api.upload.*;
-import ru.csm.api.logging.Logger;
 import ru.csm.api.utils.Validator;
 import ru.csm.bukkit.menu.item.HeadItem;
 import ru.csm.bukkit.menu.SkinsMenu;
@@ -47,9 +44,9 @@ import ru.csm.bukkit.util.BukkitTasks;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class BukkitSkinsAPI implements SkinsAPI<Player> {
+public class SpigotSkinsAPI implements SkinsAPI<Player> {
 
-    private final Configuration conf;
+    private final SkinsConfig conf;
     private final Database database;
     private final Language lang;
 
@@ -66,26 +63,20 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
 
     private final MenuManager menuManager;
 
-    private final boolean enabledSkinRestoring;
-    private final boolean updateDefaultSkin;
-
-    public BukkitSkinsAPI(Database database, Configuration conf, Language lang, MenuManager menuManager) {
+    public SpigotSkinsAPI(Database database, SkinsConfig conf, Language lang, MenuManager menuManager) {
         this.database = database;
         this.conf = conf;
         this.lang = lang;
         this.menuManager = menuManager;
+        this.defaultSkins = conf.getDefaultSkins().toArray(new Skin[0]);
 
-        enabledSkinRestoring = conf.get().getNode("restoreSkins").getBoolean(true);
-        updateDefaultSkin = conf.get().getNode("updateDefaultSkin").getBoolean(false);
-
-        loadDefaultSkins();
         loadBlacklist();
         loadWhitelist();
         loadQueues();
     }
 
     @Override
-    public Configuration getConfiguration(){
+    public SkinsConfig getConfig() {
         return conf;
     }
 
@@ -135,12 +126,12 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
 
     @Override
     public boolean isEnabledSkinRestoring() {
-        return enabledSkinRestoring;
+        return conf.isRestoreSkins();
     }
 
     @Override
     public boolean isUpdateDefaultSkin() {
-        return updateDefaultSkin;
+        return conf.isUpdateDefaultSkin();
     }
 
     @Override
@@ -323,71 +314,45 @@ public class BukkitSkinsAPI implements SkinsAPI<Player> {
         }
     }
 
-    private void loadDefaultSkins(){
-        try{
-            List<Skin> skins = conf.get().getNode("defaultSkins").getList(TypeToken.of(Skin.class));
-            defaultSkins = skins.toArray(new Skin[0]);
-        } catch (ObjectMappingException e){
-            Logger.severe("Cannot load default skins: %s", e.getMessage());
-        }
-    }
-
     private void loadBlacklist(){
-        boolean enable = conf.get().getNode("enableBlacklist").getBoolean();
+        if (conf.isEnableBlackList()){
+            this.blacklist = new HashMap<>();
+            List<String> list = conf.getSkinsBlackList();
 
-        if (enable){
-            blacklist = new HashMap<>();
-            try{
-                List<String> list = conf.get().getNode("blacklist").getList(TypeToken.of(String.class));
-
-                for (String elem : list){
-                    String[] arr = elem.split(":");
-                    blacklist.put(arr[0].toLowerCase(), (arr.length == 2) ? arr[1] : null);
-                }
-            } catch (ObjectMappingException e){
-                Logger.severe("Cannot load skins blacklist: %s", e.getMessage());
+            for (String elem : list){
+                String[] arr = elem.split(":");
+                blacklist.put(arr[0].toLowerCase(), (arr.length == 2) ? arr[1] : null);
             }
         }
     }
 
     private void loadWhitelist(){
-        boolean enable = conf.get().getNode("enableWhitelist").getBoolean();
+        if (conf.isEnableWhitelist()){
+            this.blacklist = null;
+            this.whitelist = new HashMap<>();
 
-        if (enable){
-            blacklist = null;
-            whitelist = new HashMap<>();
-            try{
-                List<String> list = conf.get().getNode("whitelist").getList(TypeToken.of(String.class));
+            List<String> list = conf.getSkinsWhiteList();
 
-                for (String elem : list){
-                    String[] arr = elem.split(":");
-                    whitelist.put(arr[0].toLowerCase(), (arr.length == 2) ? arr[1] : null);
-                }
-            } catch (ObjectMappingException e){
-                Logger.severe("Cannot load skins whitelist: %s", e.getMessage());
+            for (String elem : list){
+                String[] arr = elem.split(":");
+                whitelist.put(arr[0].toLowerCase(), (arr.length == 2) ? arr[1] : null);
             }
         }
     }
 
     private void loadQueues() {
-        try{
-            boolean enableMojang = conf.get().getNode("mojang", "enable").getBoolean();
-            int imagePeriod = 1;
+        int imagePeriod = 1;
 
-            if (enableMojang){
-                imagePeriod = conf.get().getNode("mojang", "period").getInt();
-                List<Profile> profiles = conf.get().getNode("mojang", "accounts").getList(TypeToken.of(Profile.class));
-                imageQueue = new MojangQueue(this, profiles);
-            } else {
-                imageQueue = new MineskinQueue(this);
-            }
-
-            nameQueue = new NameQueue(this);
-            nameQueue.start(1);
-            imageQueue.start(imagePeriod);
-        } catch (ObjectMappingException e){
-            Logger.severe("Cannot load skin queue service: %s" + e.getMessage());
+        if (conf.isEnableMojangAccounts()){
+            imagePeriod = conf.getMojangQueryPeriod();
+            imageQueue = new MojangQueue(this, conf.getMojangProfiles());
+        } else {
+            imageQueue = new MineskinQueue(this);
         }
+
+        nameQueue = new NameQueue(this);
+        nameQueue.start(1);
+        imageQueue.start(imagePeriod);
     }
 
     @Override

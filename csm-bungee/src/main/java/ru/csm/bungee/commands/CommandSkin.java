@@ -18,8 +18,8 @@
 
 package ru.csm.bungee.commands;
 
+import napi.configurate.Language;
 import net.md_5.bungee.api.CommandSender;
-import ru.csm.api.storage.Language;
 import ru.csm.bungee.command.CommandExecutor;
 
 public class CommandSkin extends CommandExecutor {
@@ -28,7 +28,7 @@ public class CommandSkin extends CommandExecutor {
 
     public CommandSkin(Language lang){
         super("csm", null, "skin", "skins");
-        this.usage = lang.ofArray("help");
+        this.usage = lang.ofArr("help");
     }
 
     @Override

@@ -18,9 +18,8 @@
 
 package ru.csm.api.upload;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.modded.configurate.ConfigurationNode;
-import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializer;
+import napi.configurate.data.ConfigNode;
+import napi.configurate.serializing.NodeSerializer;
 import ru.csm.api.utils.UuidUtil;
 
 import java.util.UUID;
@@ -79,17 +78,17 @@ public class Profile {
         return username;
     }
 
-    public static class Serializer implements TypeSerializer<Profile> {
+    public static class Serializer implements NodeSerializer<Profile> {
 
         @Override
-        public Profile deserialize(TypeToken<?> type, ConfigurationNode node) {
+        public Profile deserialize(ConfigNode node) {
             String login = node.getNode("login").getString();
             String password = node.getNode("password").getString();
             return new Profile(login, password);
         }
 
         @Override
-        public void serialize(TypeToken<?> type, Profile profile, ConfigurationNode node) {
+        public void serialize(Profile profile, ConfigNode node) {
 
         }
     }

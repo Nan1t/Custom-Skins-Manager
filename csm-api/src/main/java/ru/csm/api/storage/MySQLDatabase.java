@@ -16,32 +16,51 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.csm.api.storage.database;
+package ru.csm.api.storage;
 
-import org.h2.jdbcx.JdbcConnectionPool;
+import org.apache.commons.dbcp.BasicDataSource;
 
-import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class H2Database implements Database {
+public class MySQLDatabase implements Database {
 
-    private final JdbcConnectionPool pool;
+    private final BasicDataSource dataSource;
 
-    public H2Database(Path path, String user, String password) throws SQLException {
-        pool = JdbcConnectionPool.create("jdbc:h2:file:" + path.toString(), user, password);
-        pool.getConnection().close(); // Just check connection
+    public MySQLDatabase(String url, int port, String database, String user, String password) throws SQLException {
+        dataSource = new BasicDataSource();
+        dataSource.setUrl("jdbc:mysql://" + url + ":" + port + "/" + database);
+        dataSource.setUsername(user);
+        dataSource.setPassword(password);
+        dataSource.setMinIdle(5);
+        dataSource.setMaxIdle(10);
+        dataSource.setMaxOpenPreparedStatements(100);
+        dataSource.addConnectionProperty("autoReconnect", "true");
+        dataSource.addConnectionProperty("useSSL", "false");
+        dataSource.addConnectionProperty("characterEncoding", "UTF-8");
+        dataSource.addConnectionProperty("serverTimezone", "UTC");
+
+        if(dataSource.getConnection() == null) throw new SQLException();
     }
 
     @Override
-    public Connection getConnection() throws SQLException {
-        return pool.getConnection();
+    public Connection getConnection() {
+        try{
+            return dataSource.getConnection();
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public void closeConnection(){
-        pool.dispose();
+        try{
+            dataSource.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -49,7 +68,7 @@ public class H2Database implements Database {
         Row row = null;
 
         try (Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE "+key+"=?")){
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE LOWER("+key+") LIKE LOWER(?)")){
             statement.setObject(1, value);
 
             ResultSet result = statement.executeQuery();
@@ -58,7 +77,7 @@ public class H2Database implements Database {
             if(result.next()) {
                 row = new Row();
                 for(int i = 1; i <= data.getColumnCount(); i++) {
-                    row.addField(data.getColumnName(i).toLowerCase(), result.getObject(i));
+                    row.addField(data.getColumnName(i), result.getObject(i));
                 }
             }
 
@@ -75,7 +94,7 @@ public class H2Database implements Database {
         Row row = null;
 
         try (Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE "+key1+"=? AND "+key2+"=?")){
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE LOWER("+key1+") LIKE LOWER(?) AND LOWER("+key2+") LIKE LOWER(?)")){
             statement.setObject(1, value1);
             statement.setObject(2, value2);
 
@@ -85,7 +104,7 @@ public class H2Database implements Database {
             if(result.next()) {
                 row = new Row();
                 for(int i = 1; i <= data.getColumnCount(); i++) {
-                    row.addField(data.getColumnName(i).toLowerCase(), result.getObject(i));
+                    row.addField(data.getColumnName(i), result.getObject(i));
                 }
             }
 
@@ -102,7 +121,7 @@ public class H2Database implements Database {
         List<Row> rows;
 
         try (Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE "+key+"=?")){
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE LOWER("+key+") LIKE LOWER(?)")){
             statement.setObject(1, value);
 
             ResultSet result = statement.executeQuery();
@@ -114,7 +133,7 @@ public class H2Database implements Database {
                 Row row = new Row();
 
                 for(int j = 1; j <= data.getColumnCount(); j++) {
-                    row.addField(data.getColumnName(j).toLowerCase(), result.getObject(j));
+                    row.addField(data.getColumnName(j), result.getObject(j));
                 }
 
                 rows.add(row);
@@ -133,7 +152,7 @@ public class H2Database implements Database {
         Row[] rows;
 
         try (Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE "+key1+"=? AND "+key2+"=?")){
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE LOWER("+key1+") LIKE LOWER(?) AND LOWER("+key2+") LIKE LOWER(?)")){
             statement.setObject(1, value1);
             statement.setObject(2, value2);
 
@@ -147,7 +166,7 @@ public class H2Database implements Database {
                 Row row = new Row();
 
                 for(int j = 1; j <= data.getColumnCount(); j++) {
-                    row.addField(data.getColumnName(j).toLowerCase(), result.getObject(j));
+                    row.addField(data.getColumnName(j), result.getObject(j));
                 }
 
                 rows[i] = row;
@@ -175,7 +194,7 @@ public class H2Database implements Database {
                 Row row = new Row();
 
                 for(int i = 1; i <= data.getColumnCount(); i++) {
-                    row.addField(data.getColumnName(i).toLowerCase(), result.getObject(i));
+                    row.addField(data.getColumnName(i), result.getObject(i));
                 }
 
                 list.add(row);
@@ -200,7 +219,7 @@ public class H2Database implements Database {
             while(result.next()) {
                 Row row = new Row();
                 for(int i = 1; i <= data.getColumnCount(); i++) {
-                    row.addField(data.getColumnName(i).toLowerCase(), result.getObject(i));
+                    row.addField(data.getColumnName(i), result.getObject(i));
                 }
                 list.add(row);
             }

@@ -18,9 +18,10 @@
 
 package ru.csm.bukkit;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.modded.configurate.objectmapping.serialize.TypeSerializers;
-
+import napi.configurate.Configuration;
+import napi.configurate.serializing.NodeSerializers;
+import napi.configurate.source.ConfigSources;
+import napi.configurate.yaml.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,17 +30,12 @@ import ru.csm.api.logging.JULHandler;
 import ru.csm.api.network.Channels;
 import ru.csm.api.player.Skin;
 import ru.csm.api.services.SkinHash;
-import ru.csm.api.storage.database.H2Database;
+import ru.csm.api.storage.*;
 import ru.csm.api.logging.Logger;
+import ru.csm.api.upload.Profile;
 import ru.csm.bukkit.commands.*;
 import ru.csm.bukkit.handler.SkinHandlers;
 import ru.csm.api.services.SkinsAPI;
-import ru.csm.api.storage.Configuration;
-import ru.csm.api.storage.Language;
-import ru.csm.api.storage.database.Database;
-import ru.csm.api.storage.database.MySQLDatabase;
-import ru.csm.api.storage.database.SQLiteDatabase;
-import ru.csm.api.upload.Profile;
 import ru.csm.bukkit.hologram.Holograms;
 import ru.csm.bukkit.listeners.InventoryListener;
 import ru.csm.bukkit.listeners.NpcClickListener;
@@ -56,7 +52,7 @@ import ru.csm.bukkit.npc.NpcPacketHandler;
 import ru.csm.bukkit.npc.Npcs;
 import ru.csm.bukkit.placeholders.Placeholders;
 import ru.csm.bukkit.services.ProxySkinsAPI;
-import ru.csm.bukkit.services.BukkitSkinsAPI;
+import ru.csm.bukkit.services.SpigotSkinsAPI;
 import ru.csm.bukkit.services.MenuManager;
 import ru.csm.bukkit.util.BukkitTasks;
 import ru.csm.api.utils.FileUtil;
@@ -68,21 +64,15 @@ import java.sql.SQLException;
 
 public class SpigotSkinsManager extends JavaPlugin {
 
-    private Metrics metrics;
-
     private Database database;
     private SkinsAPI<Player> api;
-
-    public Metrics getMetrics(){
-        return metrics;
-    }
 
     @Override
     public void onEnable(){
         try{
             Logger.set(new JULHandler(getLogger()));
 
-            metrics = new Metrics(this, 7375);
+            new Metrics(this, 7375);
 
             registerSerializers();
 
@@ -95,20 +85,27 @@ public class SpigotSkinsManager extends JavaPlugin {
             NpcPacketHandler.init(version);
             BukkitTasks.setPlugin(this);
 
-            Configuration configuration = new Configuration("bukkit/config.yml", getDataFolder().toPath(), this);
-            Language lang = new Language(this, Paths.get(getDataFolder().toPath().toString(), "lang"), "lang/"+configuration.get().getNode("language").getString());
-            MenuManager menuManager = new MenuManager(lang);
+            Configuration configurationFile = YamlConfiguration.builder()
+                    .source(ConfigSources.resource("bukkit/config.yml", this).copyTo(getDataFolder().toPath()))
+                    .build();
+
+            SkinsConfig config = new SkinsConfig(this, configurationFile);
+
+            configurationFile.reload();
+            config.load(getDataFolder().toPath());
+
+            MenuManager menuManager = new MenuManager(config.getLanguage());
 
             if(!ProxyUtil.isUseProxy()){
                 try{
-                    setupDatabase(configuration);
+                    setupDatabase(config);
                 } catch (SQLException e){
                     Logger.severe("Cannot connect to SQL database: %s", e.getMessage());
                     getPluginLoader().disablePlugin(this);
                     return;
                 }
 
-                api = new BukkitSkinsAPI(database, configuration, lang, menuManager);
+                api = new SpigotSkinsAPI(database, config, config.getLanguage(), menuManager);
                 SkinHash.startCleaner();
 
                 getServer().getPluginManager().registerEvents(new PlayerListener(api), this);
@@ -119,7 +116,7 @@ public class SpigotSkinsManager extends JavaPlugin {
                 PluginMessageSender sender = new PluginMessageSender(this);
                 PluginMessageReceiver receiver = new PluginMessageReceiver();
 
-                api = new ProxySkinsAPI(lang, sender);
+                api = new ProxySkinsAPI(config.getLanguage(), sender);
 
                 receiver.registerHandler(Channels.SKINS, new HandlerSkin());
                 receiver.registerHandler(Channels.SKULLS, new HandlerSkull());
@@ -187,36 +184,31 @@ public class SpigotSkinsManager extends JavaPlugin {
     }
 
     private void registerSerializers(){
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Profile.class), new Profile.Serializer());
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Skin.class), new Skin.Serializer());
-        TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Item.class), new Item.Serializer());
+        NodeSerializers.register(Profile.class, new Profile.Serializer());
+        NodeSerializers.register(Skin.class, new Skin.Serializer());
+        NodeSerializers.register(Item.class, new Item.Serializer());
     }
 
-    private void setupDatabase(Configuration conf) throws SQLException {
-        String type = conf.get().getNode("database", "type").getString("").toLowerCase();
+    private void setupDatabase(SkinsConfig conf) throws SQLException {
+        String type = conf.getDbType().toLowerCase();
 
         switch (type) {
             case "h2": {
                 Path path = Paths.get(getDataFolder().getAbsolutePath(), "skins");
-                String user = conf.get().getNode("database", "user").getString();
-                String password = conf.get().getNode("database", "password").getString();
-                this.database = new H2Database(path, user, password);
+                this.database = new H2Database(path, conf.getDbUser(), conf.getDbPassword());
                 break;
             }
             case "sqlite": {
                 String path = getDataFolder().getAbsolutePath();
-                String dbname = conf.get().getNode("database", "database").getString();
-                String user = conf.get().getNode("database", "user").getString();
-                String password = conf.get().getNode("database", "password").getString();
-                this.database = new SQLiteDatabase(path, dbname, user, password);
+                this.database = new SQLiteDatabase(path, conf.getDbName(), conf.getDbUser(), conf.getDbPassword());
                 break;
             }
             case "mysql": {
-                String host = conf.get().getNode("database", "host").getString();
-                int port = conf.get().getNode("database", "port").getInt(3306);
-                String dbname = conf.get().getNode("database", "database").getString();
-                String user = conf.get().getNode("database", "user").getString();
-                String password = conf.get().getNode("database", "password").getString();
+                String host = conf.getDbHost();
+                int port = conf.getDbPort();
+                String dbname = conf.getDbName();
+                String user = conf.getDbUser();
+                String password = conf.getDbPassword();
                 this.database = new MySQLDatabase(host, port, dbname, user, password);
                 break;
             }

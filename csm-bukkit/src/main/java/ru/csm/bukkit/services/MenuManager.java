@@ -18,10 +18,10 @@
 
 package ru.csm.bukkit.services;
 
+import napi.configurate.Language;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import ru.csm.api.services.SkinsAPI;
-import ru.csm.api.storage.Language;
 import ru.csm.bukkit.menu.GeneratedSkinsMenu;
 import ru.csm.bukkit.menu.item.HeadItem;
 import ru.csm.bukkit.menu.SkinsMenu;

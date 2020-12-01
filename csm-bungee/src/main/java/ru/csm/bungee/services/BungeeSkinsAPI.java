@@ -18,23 +18,20 @@
 
 package ru.csm.bungee.services;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import napi.configurate.Language;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import ninja.leaping.modded.configurate.objectmapping.ObjectMappingException;
 import ru.csm.api.network.Channels;
 import ru.csm.api.network.MessageSender;
 import ru.csm.api.player.*;
 import ru.csm.api.services.SkinHash;
 import ru.csm.api.services.SkinsAPI;
-import ru.csm.api.storage.Configuration;
-import ru.csm.api.storage.Language;
+import ru.csm.api.storage.SkinsConfig;
 import ru.csm.api.storage.Tables;
-import ru.csm.api.storage.database.Database;
-import ru.csm.api.storage.database.Row;
+import ru.csm.api.storage.Database;
+import ru.csm.api.storage.Row;
 import ru.csm.api.upload.*;
-import ru.csm.api.logging.Logger;
 import ru.csm.api.utils.Validator;
 import ru.csm.bungee.player.BungeeSkinPlayer;
 import ru.csm.bungee.util.BungeeTasks;
@@ -44,43 +41,36 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
 
-    private final Configuration conf;
+    private final SkinsConfig conf;
     private final Database database;
     private final Language lang;
 
+    private final Skin[] defaultSkins;
     private final Map<UUID, SkinPlayer> playersByUUID = new HashMap<>();
     private final Map<String, SkinPlayer> playersByName = new HashMap<>();
 
     private Map<String, String> blacklist;
     private Map<String, String> whitelist;
 
-    private Skin[] defaultSkins;
-
     private NameQueue nameQueue;
     private ImageQueue imageQueue;
 
     private final MessageSender<ProxiedPlayer> messageSender;
 
-    private final boolean enabledSkinRestoring;
-    private final boolean updateDefaultSkin;
-
-    public BungeeSkinsAPI(Database database, Configuration conf, Language lang, MessageSender<ProxiedPlayer> messageSender) {
+    public BungeeSkinsAPI(Database database, SkinsConfig conf, MessageSender<ProxiedPlayer> messageSender) {
         this.database = database;
         this.conf = conf;
-        this.lang = lang;
+        this.lang = conf.getLanguage();
         this.messageSender = messageSender;
+        this.defaultSkins = conf.getDefaultSkins().toArray(new Skin[0]);
 
-        enabledSkinRestoring = conf.get().getNode("restoreSkins").getBoolean(true);
-        updateDefaultSkin = conf.get().getNode("updateDefaultSkin").getBoolean(false);
-
-        loadDefaultSkins();
         loadBlacklist();
         loadWhitelist();
         loadQueues();
     }
 
     @Override
-    public Configuration getConfiguration(){
+    public SkinsConfig getConfig() {
         return conf;
     }
 
@@ -130,12 +120,12 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
 
     @Override
     public boolean isEnabledSkinRestoring() {
-        return enabledSkinRestoring;
+        return conf.isRestoreSkins();
     }
 
     @Override
     public boolean isUpdateDefaultSkin() {
-        return updateDefaultSkin;
+        return conf.isUpdateDefaultSkin();
     }
 
     @Override
@@ -315,71 +305,45 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
         }
     }
 
-    private void loadDefaultSkins(){
-        try{
-            List<Skin> skins = conf.get().getNode("defaultSkins").getList(TypeToken.of(Skin.class));
-            defaultSkins = skins.toArray(new Skin[0]);
-        } catch (ObjectMappingException e){
-            Logger.severe("Cannot load default skins: %s", e.getMessage());
-        }
-    }
-
     private void loadBlacklist(){
-        boolean enable = conf.get().getNode("enableBlacklist").getBoolean();
+        if (conf.isEnableBlackList()){
+            this.blacklist = new HashMap<>();
+            List<String> list = conf.getSkinsBlackList();
 
-        if (enable){
-            blacklist = new HashMap<>();
-            try{
-                List<String> list = conf.get().getNode("blacklist").getList(TypeToken.of(String.class));
-
-                for (String elem : list){
-                    String[] arr = elem.split(":");
-                    blacklist.put(arr[0].toLowerCase(), (arr.length == 2) ? arr[1] : null);
-                }
-            } catch (ObjectMappingException e){
-                Logger.severe("Cannot load skins blacklist: %s", e.getMessage());
+            for (String elem : list){
+                String[] arr = elem.split(":");
+                blacklist.put(arr[0].toLowerCase(), (arr.length == 2) ? arr[1] : null);
             }
         }
     }
 
     private void loadWhitelist(){
-        boolean enable = conf.get().getNode("enableWhitelist").getBoolean();
+        if (conf.isEnableWhitelist()){
+            this.blacklist = null;
+            this.whitelist = new HashMap<>();
 
-        if (enable){
-            blacklist = null;
-            whitelist = new HashMap<>();
-            try{
-                List<String> list = conf.get().getNode("whitelist").getList(TypeToken.of(String.class));
+            List<String> list = conf.getSkinsWhiteList();
 
-                for (String elem : list){
-                    String[] arr = elem.split(":");
-                    whitelist.put(arr[0].toLowerCase(), (arr.length == 2) ? arr[1] : null);
-                }
-            } catch (ObjectMappingException e){
-                Logger.severe("Cannot load skins whitelist: %s", e.getMessage());
+            for (String elem : list){
+                String[] arr = elem.split(":");
+                whitelist.put(arr[0].toLowerCase(), (arr.length == 2) ? arr[1] : null);
             }
         }
     }
 
     private void loadQueues() {
-        try{
-            boolean enableMojang = conf.get().getNode("mojang", "enable").getBoolean();
-            int imagePeriod = 1;
+        int imagePeriod = 1;
 
-            if (enableMojang){
-                imagePeriod = conf.get().getNode("mojang", "period").getInt();
-                List<Profile> profiles = conf.get().getNode("mojang", "accounts").getList(TypeToken.of(Profile.class));
-                imageQueue = new MojangQueue(this, profiles);
-            } else {
-                imageQueue = new MineskinQueue(this);
-            }
-
-            nameQueue = new NameQueue(this);
-            nameQueue.start(1);
-            imageQueue.start(imagePeriod);
-        } catch (ObjectMappingException e){
-            Logger.severe("Cannot load skin queue service: %s" + e.getMessage());
+        if (conf.isEnableMojangAccounts()){
+            imagePeriod = conf.getMojangQueryPeriod();
+            imageQueue = new MojangQueue(this, conf.getMojangProfiles());
+        } else {
+            imageQueue = new MineskinQueue(this);
         }
+
+        nameQueue = new NameQueue(this);
+        nameQueue.start(1);
+        imageQueue.start(imagePeriod);
     }
 
     @Override

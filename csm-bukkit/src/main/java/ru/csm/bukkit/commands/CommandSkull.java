@@ -18,8 +18,8 @@
 
 package ru.csm.bukkit.commands;
 
+import napi.configurate.Language;
 import org.bukkit.command.CommandSender;
-import ru.csm.api.storage.Language;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class CommandSkull extends Command {
     private final String[] usage;
 
     public CommandSkull(Language lang){
-        this.usage = lang.ofArray("help");
+        this.usage = lang.ofArr("help");
     }
 
     @Override

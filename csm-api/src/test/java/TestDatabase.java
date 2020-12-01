@@ -1,7 +1,7 @@
 import org.junit.Test;
-import ru.csm.api.storage.database.Database;
-import ru.csm.api.storage.database.MySQLDatabase;
-import ru.csm.api.storage.database.Row;
+import ru.csm.api.storage.Database;
+import ru.csm.api.storage.MySQLDatabase;
+import ru.csm.api.storage.Row;
 
 public class TestDatabase {
 
