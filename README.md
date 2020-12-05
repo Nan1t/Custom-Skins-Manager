@@ -1,6 +1,6 @@
 ## Custom Skins Manager
 
-* [Wiki](https://github.com/Nan1t/Custom-Skins-Manager/wikil)
+* [Wiki](https://github.com/Nan1t/Custom-Skins-Manager/wiki)
 * [SpigotMC](https://www.spigotmc.org/resources/custom-skins-manager.57760/)
 * [Velocity forum](https://forums.velocitypowered.com/t/custom-skins-manager-universal-and-powerful-skins-manager/468)
 * [Discord](https://discord.gg/4VGP3Gv)
