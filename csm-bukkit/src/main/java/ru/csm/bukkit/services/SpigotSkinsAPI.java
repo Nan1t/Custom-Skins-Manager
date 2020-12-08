@@ -36,6 +36,7 @@ import ru.csm.api.storage.Row;
 import ru.csm.api.upload.*;
 import ru.csm.api.utils.Validator;
 import ru.csm.bukkit.event.SkinChangeEvent;
+import ru.csm.bukkit.event.SkinChangedEvent;
 import ru.csm.bukkit.event.SkinResetEvent;
 import ru.csm.bukkit.menu.item.HeadItem;
 import ru.csm.bukkit.menu.SkinsMenu;
@@ -209,6 +210,8 @@ public class SpigotSkinsAPI implements SkinsAPI<Player> {
             savePlayer(player);
             player.sendMessage(lang.of("skin.success"));
         }
+
+        Bukkit.getPluginManager().callEvent(new SkinChangedEvent(player, event.getNewSkin()));
     }
 
     @Override
