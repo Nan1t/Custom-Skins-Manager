@@ -20,8 +20,6 @@ package ru.csm.bungee.commands;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import ru.csm.api.event.EventSkinChange;
-import ru.csm.api.event.Events;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
@@ -70,13 +68,7 @@ public class CommandSkinTo extends SubCommand {
                     Skin skin = new Skin();
                     skin.setValue(args[2]);
                     skin.setSignature(args[3]);
-
-                    Events.fireSkinChange(new EventSkinChange(target,
-                            target.getCurrentSkin(), skin, EventSkinChange.Source.TEXTURE), (event)->{
-                        if (!event.isCancelled()){
-                            api.setCustomSkin(target, skin);
-                        }
-                    });
+                    api.setCustomSkin(target, skin);
                     return;
                 }
             }

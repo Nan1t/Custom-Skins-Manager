@@ -26,7 +26,6 @@ import napi.util.LibLoader;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import ru.csm.api.Dependency;
-import ru.csm.api.event.Events;
 import ru.csm.api.logging.JULHandler;
 import ru.csm.api.network.Channels;
 import ru.csm.api.network.MessageSender;
@@ -40,7 +39,6 @@ import ru.csm.api.logging.Logger;
 import ru.csm.bungee.command.CommandExecutor;
 import ru.csm.bungee.command.SubCommand;
 import ru.csm.bungee.commands.*;
-import ru.csm.bungee.event.BungeeEventHandler;
 import ru.csm.bungee.listeners.PlayerListeners;
 import ru.csm.bungee.message.PluginMessageReceiver;
 import ru.csm.bungee.message.PluginMessageSender;
@@ -86,7 +84,6 @@ public class BungeeSkinsManager extends Plugin {
             new Metrics(this, 7375);
 
             BungeeTasks.init(this);
-            Events.registerHandler(new BungeeEventHandler());
 
             registerSerializers();
 

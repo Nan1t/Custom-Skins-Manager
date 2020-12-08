@@ -19,12 +19,10 @@
 package ru.csm.bukkit.services;
 
 import napi.configurate.Language;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
-import ru.csm.api.event.EventSkinChanged;
-import ru.csm.api.event.EventSkinReset;
-import ru.csm.api.event.Events;
 import ru.csm.api.player.Head;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinModel;
@@ -37,6 +35,8 @@ import ru.csm.api.storage.Database;
 import ru.csm.api.storage.Row;
 import ru.csm.api.upload.*;
 import ru.csm.api.utils.Validator;
+import ru.csm.bukkit.event.SkinChangeEvent;
+import ru.csm.bukkit.event.SkinResetEvent;
 import ru.csm.bukkit.menu.item.HeadItem;
 import ru.csm.bukkit.menu.SkinsMenu;
 import ru.csm.bukkit.nms.npc.NPC;
@@ -198,12 +198,17 @@ public class SpigotSkinsAPI implements SkinsAPI<Player> {
 
     @Override
     public void setCustomSkin(SkinPlayer player, Skin skin){
-        player.setCustomSkin(skin);
-        player.applySkin();
-        player.refreshSkin();
-        savePlayer(player);
-        player.sendMessage(lang.of("skin.success"));
-        Events.fireSkinChanged(new EventSkinChanged(player, skin));
+        SkinChangeEvent event = new SkinChangeEvent(player, player.getCurrentSkin(), skin);
+
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (!event.isCancelled()){
+            player.setCustomSkin(event.getNewSkin());
+            player.applySkin();
+            player.refreshSkin();
+            savePlayer(player);
+            player.sendMessage(lang.of("skin.success"));
+        }
     }
 
     @Override
@@ -262,9 +267,9 @@ public class SpigotSkinsAPI implements SkinsAPI<Player> {
             return;
         }
 
-        EventSkinReset event = new EventSkinReset(player, player.getCurrentSkin());
+        SkinResetEvent event = new SkinResetEvent(player, player.getCurrentSkin());
 
-        Events.fireSkinReset(event);
+        Bukkit.getPluginManager().callEvent(event);
 
         if (!event.isCancelled()){
             player.resetSkin();

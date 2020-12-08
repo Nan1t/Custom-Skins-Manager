@@ -20,7 +20,6 @@ package ru.csm.api.upload;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import ru.csm.api.event.EventSkinChange;
 import ru.csm.api.http.HttpPost;
 import ru.csm.api.http.entity.HttpEntity;
 import ru.csm.api.http.entity.HttpResponse;
@@ -76,12 +75,8 @@ public final class MojangQueue extends ImageQueue {
                     Skin skin = MojangAPI.getPremiumSkin(profile.getUUID());
 
                     if(skin != null){
-                        fireChangeEvent(request.getPlayer(), skin, (event)->{
-                            if (!event.isCancelled()){
-                                SkinHash.add(request.getUrl(), event.getNewSkin());
-                                api.setCustomSkin(request.getPlayer(), event.getNewSkin());
-                            }
-                        });
+                        SkinHash.add(request.getUrl(), skin);
+                        api.setCustomSkin(request.getPlayer(), skin);
                         return;
                     }
                     Logger.severe("Cannot get skin of premium profile %s", profile);

@@ -21,8 +21,6 @@ package ru.csm.velocity.commands;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import net.kyori.text.TextComponent;
-import ru.csm.api.event.EventSkinChange;
-import ru.csm.api.event.Events;
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
@@ -72,12 +70,7 @@ public class CommandSkinTo extends SubCommand {
                     skin.setValue(args[2]);
                     skin.setSignature(args[3]);
 
-                    Events.fireSkinChange(new EventSkinChange(target,
-                            target.getCurrentSkin(), skin, EventSkinChange.Source.TEXTURE), (event)->{
-                        if (!event.isCancelled()){
-                            api.setCustomSkin(target, skin);
-                        }
-                    });
+                    api.setCustomSkin(target, skin);
                     return;
                 }
             }
