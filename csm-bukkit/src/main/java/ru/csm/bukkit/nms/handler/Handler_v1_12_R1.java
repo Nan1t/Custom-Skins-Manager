@@ -79,24 +79,38 @@ public final class Handler_v1_12_R1 implements SkinHandler {
         );
         PacketPlayOutHeldItemSlot slot = new PacketPlayOutHeldItemSlot(player.getInventory().getHeldItemSlot());
 
-        BukkitTasks.runTask(()->{
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                p.hidePlayer(player);
-                p.showPlayer(player);
-            }
+        if (Bukkit.isPrimaryThread()){
+            sendUpdate(ep, removeInfo, addInfo, respawn, position, slot);
+        } else {
+            BukkitTasks.runTask(()->sendUpdate(ep, removeInfo, addInfo, respawn, position, slot));
+        }
+    }
 
-            ep.playerConnection.sendPacket(removeInfo);
-            ep.playerConnection.sendPacket(addInfo);
-            ep.playerConnection.sendPacket(respawn);
-            ep.playerConnection.sendPacket(position);
-            ep.playerConnection.sendPacket(slot);
+    private void sendUpdate(EntityPlayer ep, PacketPlayOutPlayerInfo removeInfo,
+                            PacketPlayOutPlayerInfo addInfo,
+                            PacketPlayOutRespawn respawn,
+                            PacketPlayOutPosition position,
+                            PacketPlayOutHeldItemSlot slot){
 
-            ep.updateAbilities();
-            cp.updateScaledHealth();
-            ep.triggerHealthUpdate();
-            player.updateInventory();
-            player.recalculatePermissions();
-            player.setFlying(player.isFlying());
-        });
+        CraftPlayer player = ep.getBukkitEntity();
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.hidePlayer(player);
+            p.showPlayer(player);
+        }
+
+        ep.playerConnection.sendPacket(removeInfo);
+        ep.playerConnection.sendPacket(addInfo);
+        ep.playerConnection.sendPacket(respawn);
+        ep.playerConnection.sendPacket(position);
+        ep.playerConnection.sendPacket(slot);
+
+        ep.updateAbilities();
+        ep.triggerHealthUpdate();
+        ep.updateInventory(ep.activeContainer);
+
+        player.updateScaledHealth();
+        player.recalculatePermissions();
+        player.setFlying(player.isFlying());
     }
 }
