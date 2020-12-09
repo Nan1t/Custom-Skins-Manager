@@ -199,19 +199,21 @@ public class SpigotSkinsAPI implements SkinsAPI<Player> {
 
     @Override
     public void setCustomSkin(SkinPlayer player, Skin skin){
-        SkinChangeEvent event = new SkinChangeEvent(player, player.getCurrentSkin(), skin);
+        BukkitTasks.runTask(()->{
+            SkinChangeEvent event = new SkinChangeEvent(player, player.getCurrentSkin(), skin);
 
-        Bukkit.getPluginManager().callEvent(event);
+            Bukkit.getPluginManager().callEvent(event);
 
-        if (!event.isCancelled()){
-            player.setCustomSkin(event.getNewSkin());
-            player.applySkin();
-            player.refreshSkin();
-            savePlayer(player);
-            player.sendMessage(lang.of("skin.success"));
-        }
+            if (!event.isCancelled()){
+                player.setCustomSkin(event.getNewSkin());
+                player.applySkin();
+                player.refreshSkin();
+                savePlayer(player);
+                player.sendMessage(lang.of("skin.success"));
+            }
 
-        Bukkit.getPluginManager().callEvent(new SkinChangedEvent(player, event.getNewSkin()));
+            Bukkit.getPluginManager().callEvent(new SkinChangedEvent(player, event.getNewSkin()));
+        });
     }
 
     @Override
@@ -270,17 +272,19 @@ public class SpigotSkinsAPI implements SkinsAPI<Player> {
             return;
         }
 
-        SkinResetEvent event = new SkinResetEvent(player, player.getCurrentSkin());
+        BukkitTasks.runTask(()->{
+            SkinResetEvent event = new SkinResetEvent(player, player.getCurrentSkin());
 
-        Bukkit.getPluginManager().callEvent(event);
+            Bukkit.getPluginManager().callEvent(event);
 
-        if (!event.isCancelled()){
-            player.resetSkin();
-            player.applySkin();
-            player.refreshSkin();
-            savePlayer(player);
-            player.sendMessage(lang.of("skin.reset.success"));
-        }
+            if (!event.isCancelled()){
+                player.resetSkin();
+                player.applySkin();
+                player.refreshSkin();
+                savePlayer(player);
+                player.sendMessage(lang.of("skin.reset.success"));
+            }
+        });
     }
 
     @Override

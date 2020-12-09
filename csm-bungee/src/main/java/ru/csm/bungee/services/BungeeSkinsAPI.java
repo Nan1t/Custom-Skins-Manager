@@ -21,6 +21,7 @@ package ru.csm.bungee.services;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import napi.configurate.Language;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import ru.csm.api.network.Channels;
 import ru.csm.api.network.MessageSender;
@@ -33,6 +34,9 @@ import ru.csm.api.storage.Database;
 import ru.csm.api.storage.Row;
 import ru.csm.api.upload.*;
 import ru.csm.api.utils.Validator;
+import ru.csm.bungee.event.SkinChangeEvent;
+import ru.csm.bungee.event.SkinChangedEvent;
+import ru.csm.bungee.event.SkinResetEvent;
 import ru.csm.bungee.player.BungeeSkinPlayer;
 import ru.csm.bungee.util.BungeeTasks;
 
@@ -175,12 +179,21 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
-    public void setCustomSkin(SkinPlayer player, Skin skin){
-        player.setCustomSkin(skin);
-        player.applySkin();
-        player.refreshSkin();
-        savePlayer(player);
-        player.sendMessage(lang.of("skin.success"));
+    public void setCustomSkin(SkinPlayer player, Skin skin) {
+        SkinChangeEvent event = new SkinChangeEvent(player, player.getCurrentSkin(), skin);
+
+        ProxyServer.getInstance().getPluginManager().callEvent(event);
+
+        if (!event.isCancelled()){
+            player.setCustomSkin(event.getNewSkin());
+            player.applySkin();
+            player.refreshSkin();
+            savePlayer(player);
+            player.sendMessage(lang.of("skin.success"));
+
+            ProxyServer.getInstance().getPluginManager()
+                    .callEvent(new SkinChangedEvent(player, event.getNewSkin()));
+        }
     }
 
     @Override
@@ -239,11 +252,17 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
             return;
         }
 
-        player.resetSkin();
-        player.applySkin();
-        player.refreshSkin();
-        savePlayer(player);
-        player.sendMessage(lang.of("skin.reset.success"));
+        SkinResetEvent event = new SkinResetEvent(player, player.getCurrentSkin());
+
+        ProxyServer.getInstance().getPluginManager().callEvent(event);
+
+        if (!event.isCancelled()){
+            player.resetSkin();
+            player.applySkin();
+            player.refreshSkin();
+            savePlayer(player);
+            player.sendMessage(lang.of("skin.reset.success"));
+        }
     }
 
     @Override

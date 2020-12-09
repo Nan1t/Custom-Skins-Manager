@@ -38,6 +38,9 @@ import ru.csm.api.storage.Database;
 import ru.csm.api.storage.Row;
 import ru.csm.api.upload.*;
 import ru.csm.api.utils.Validator;
+import ru.csm.velocity.event.SkinChangeEvent;
+import ru.csm.velocity.event.SkinChangedEvent;
+import ru.csm.velocity.event.SkinResetEvent;
 import ru.csm.velocity.player.VelocitySkinPlayer;
 import ru.csm.velocity.util.VelocityTasks;
 
@@ -183,11 +186,20 @@ public class VelocitySkinsAPI implements SkinsAPI<Player> {
 
     @Override
     public void setCustomSkin(SkinPlayer player, Skin skin){
-        player.setCustomSkin(skin);
-        player.applySkin();
-        player.refreshSkin();
-        savePlayer(player);
-        player.sendMessage(lang.of("skin.success"));
+        SkinChangeEvent event = new SkinChangeEvent(player, player.getCurrentSkin(), skin);
+
+        server.getEventManager().fire(event).thenAccept((result)->{
+            if (!result.isCancelled()){
+                player.setCustomSkin(result.getNewSkin());
+                player.applySkin();
+                player.refreshSkin();
+                savePlayer(player);
+                player.sendMessage(lang.of("skin.success"));
+
+                server.getEventManager()
+                        .fireAndForget(new SkinChangedEvent(player, result.getNewSkin()));
+            }
+        });
     }
 
     @Override
@@ -246,11 +258,17 @@ public class VelocitySkinsAPI implements SkinsAPI<Player> {
             return;
         }
 
-        player.resetSkin();
-        player.applySkin();
-        player.refreshSkin();
-        savePlayer(player);
-        player.sendMessage(lang.of("skin.reset.success"));
+        SkinResetEvent event = new SkinResetEvent(player, player.getCurrentSkin());
+
+        server.getEventManager().fire(event).thenAccept((result)->{
+            if (!result.isCancelled()){
+                player.resetSkin();
+                player.applySkin();
+                player.refreshSkin();
+                savePlayer(player);
+                player.sendMessage(lang.of("skin.reset.success"));
+            }
+        });
     }
 
     @Override
