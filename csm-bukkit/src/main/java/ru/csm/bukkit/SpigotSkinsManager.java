@@ -22,6 +22,7 @@ import napi.configurate.Configuration;
 import napi.configurate.serializing.NodeSerializers;
 import napi.configurate.source.ConfigSources;
 import napi.configurate.yaml.YamlConfiguration;
+import napi.reflect.BukkitReflect;
 import napi.util.LibLoader;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.ServicePriority;
@@ -36,6 +37,7 @@ import ru.csm.api.storage.*;
 import ru.csm.api.logging.Logger;
 import ru.csm.api.upload.Profile;
 import ru.csm.bukkit.commands.*;
+import ru.csm.bukkit.npc.inject.NpcPacketHandler;
 import ru.csm.bukkit.skin.SkinHandlers;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.bukkit.hologram.Holograms;
@@ -50,7 +52,6 @@ import ru.csm.bukkit.messages.handlers.HandlerMenu;
 import ru.csm.bukkit.messages.handlers.HandlerPreview;
 import ru.csm.bukkit.messages.handlers.HandlerSkin;
 import ru.csm.bukkit.messages.handlers.HandlerSkull;
-import ru.csm.bukkit.npc.NpcPacketHandler;
 import ru.csm.bukkit.npc.Npcs;
 import ru.csm.bukkit.placeholders.Placeholders;
 import ru.csm.bukkit.services.ProxySkinsAPI;
@@ -95,10 +96,11 @@ public class SpigotSkinsManager extends JavaPlugin {
             String packageName = getServer().getClass().getPackage().getName();
             String version = packageName.substring(packageName.lastIndexOf('.') + 1);
 
+            BukkitReflect.init(getServer());
             SkinHandlers.init(version);
             Npcs.init(version);
             Holograms.init(version);
-            NpcPacketHandler.init(version);
+            NpcPacketHandler.initClasses();
             BukkitTasks.setPlugin(this);
 
             Configuration configurationFile = YamlConfiguration.builder()

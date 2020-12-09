@@ -26,7 +26,7 @@ import ru.csm.api.services.SkinsAPI;
 import ru.csm.bukkit.event.NpcClickEvent;
 import ru.csm.bukkit.npc.ClickAction;
 import ru.csm.bukkit.npc.NPC;
-import ru.csm.bukkit.npc.NpcPacketHandler;
+import ru.csm.bukkit.npc.inject.HandlerInjector;
 import ru.csm.bukkit.services.MenuManager;
 import ru.csm.bukkit.services.NpcManager;
 
@@ -42,7 +42,7 @@ public class NpcClickListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
-        NpcPacketHandler.inject(event.getPlayer());
+        HandlerInjector.inject(event.getPlayer());
     }
 
     @EventHandler

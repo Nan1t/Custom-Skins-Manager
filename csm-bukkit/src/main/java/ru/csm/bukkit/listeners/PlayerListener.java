@@ -49,7 +49,7 @@ public class PlayerListener implements Listener {
 
             useResourcePack = resourcePack != null && resourcePack.length() > 0;
         } catch (Exception e){
-            // Ignore. On older versions resource packs works
+            // Ignore. On older versions the resource packs works
         }
     }
 
