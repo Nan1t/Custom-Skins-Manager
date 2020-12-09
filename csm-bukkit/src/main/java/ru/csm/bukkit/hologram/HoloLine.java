@@ -16,36 +16,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.csm.bukkit.services;
+package ru.csm.bukkit.hologram;
 
-import org.bukkit.entity.Player;
-import ru.csm.bukkit.npc.NPC;
+import org.bukkit.Location;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+public class HoloLine {
 
-public final class NpcManager {
+    private int id;
+    private Location location;
+    private final String text;
 
-    private static final Map<UUID, NPC> NPC_MAP = new HashMap<>();
-
-    private NpcManager(){}
-
-    public static Collection<NPC> getAllNPC(){
-        return NPC_MAP.values();
+    public HoloLine(String text) {
+        this.text = text;
     }
 
-    public static NPC getPlayerNPC(UUID uuid){
-        return NPC_MAP.get(uuid);
+    public int getId() {
+        return id;
     }
 
-    public static void addNpc(Player player, NPC npc){
-        NPC_MAP.put(player.getUniqueId(), npc);
+    public void setId(int id){
+        this.id = id;
     }
 
-    public static void removeNpc(Player player){
-        NPC npc = NPC_MAP.remove(player.getUniqueId());
-        if (npc != null) npc.destroy(player);
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public String getText() {
+        return text;
     }
 }

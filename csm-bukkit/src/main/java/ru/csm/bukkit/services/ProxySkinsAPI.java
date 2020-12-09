@@ -35,8 +35,8 @@ import ru.csm.api.storage.Database;
 import ru.csm.api.storage.SkinsConfig;
 import ru.csm.api.upload.ImageQueue;
 import ru.csm.api.upload.NameQueue;
-import ru.csm.bukkit.nms.npc.NPC;
-import ru.csm.bukkit.nms.npc.Npcs;
+import ru.csm.bukkit.npc.NPC;
+import ru.csm.bukkit.npc.Npcs;
 import ru.csm.bukkit.player.ProxySkinPlayer;
 
 import java.util.UUID;

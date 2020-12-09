@@ -24,9 +24,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.bukkit.event.NpcClickEvent;
-import ru.csm.bukkit.nms.npc.ClickAction;
-import ru.csm.bukkit.nms.npc.NPC;
-import ru.csm.bukkit.nms.npc.NpcPacketHandler;
+import ru.csm.bukkit.npc.ClickAction;
+import ru.csm.bukkit.npc.NPC;
+import ru.csm.bukkit.npc.NpcPacketHandler;
 import ru.csm.bukkit.services.MenuManager;
 import ru.csm.bukkit.services.NpcManager;
 

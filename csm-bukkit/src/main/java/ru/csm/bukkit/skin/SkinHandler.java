@@ -16,33 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.csm.bukkit.messages.handlers;
+package ru.csm.bukkit.skin;
 
-import com.google.gson.JsonObject;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import ru.csm.api.network.MessageHandler;
 import ru.csm.api.player.Skin;
-import ru.csm.bukkit.skin.SkinHandlers;
 
-public class HandlerSkin implements MessageHandler {
+public interface SkinHandler {
 
-    @Override
-    public void execute(JsonObject json) {
-        Player player = Bukkit.getPlayer(json.get("player").getAsString());
+    Skin getSkin(Player player);
 
-        if (player != null){
-            Skin skin = new Skin();
+    void applySkin(Player player, Skin skin);
 
-            skin.setValue(json.get("skin_value").getAsString());
-            skin.setSignature(json.get("skin_signature").getAsString());
-
-            SkinHandlers.getHandler().applySkin(player, skin);
-
-            if (!player.isDead()){
-                SkinHandlers.getHandler().updateSkin(player);
-            }
-        }
-    }
+    void updateSkin(Player player);
 
 }

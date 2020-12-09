@@ -16,33 +16,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.csm.bukkit.messages.handlers;
+package ru.csm.bukkit.npc;
 
-import com.google.gson.JsonObject;
-import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import ru.csm.api.network.MessageHandler;
 import ru.csm.api.player.Skin;
-import ru.csm.bukkit.skin.SkinHandlers;
 
-public class HandlerSkin implements MessageHandler {
+import java.util.List;
 
-    @Override
-    public void execute(JsonObject json) {
-        Player player = Bukkit.getPlayer(json.get("player").getAsString());
+public interface NPC {
 
-        if (player != null){
-            Skin skin = new Skin();
+    int getId();
 
-            skin.setValue(json.get("skin_value").getAsString());
-            skin.setSignature(json.get("skin_signature").getAsString());
+    String getName();
 
-            SkinHandlers.getHandler().applySkin(player, skin);
+    void setName(String name);
 
-            if (!player.isDead()){
-                SkinHandlers.getHandler().updateSkin(player);
-            }
-        }
-    }
+    Location getLocation();
+
+    void setLocation(Location location);
+
+    Skin getSkin();
+
+    void setSkin(Skin skin);
+
+    String getPermission();
+
+    void setPermission(String permission);
+
+    boolean isOpenMenu();
+
+    void setOpenMenu(boolean openMenu);
+
+    void setDisplayName(List<String> name);
+
+    void spawn(Player player);
+
+    void destroy(Player player);
 
 }

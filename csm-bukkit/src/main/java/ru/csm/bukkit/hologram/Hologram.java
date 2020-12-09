@@ -16,36 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ru.csm.bukkit.services;
+package ru.csm.bukkit.hologram;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import ru.csm.bukkit.npc.NPC;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
-public final class NpcManager {
+public interface Hologram {
 
-    private static final Map<UUID, NPC> NPC_MAP = new HashMap<>();
+    Location getLocation();
 
-    private NpcManager(){}
+    void setLocation(Location location);
 
-    public static Collection<NPC> getAllNPC(){
-        return NPC_MAP.values();
-    }
+    void setLines(List<String> lines);
 
-    public static NPC getPlayerNPC(UUID uuid){
-        return NPC_MAP.get(uuid);
-    }
+    void spawn(Player player);
 
-    public static void addNpc(Player player, NPC npc){
-        NPC_MAP.put(player.getUniqueId(), npc);
-    }
+    void destroy(Player player);
 
-    public static void removeNpc(Player player){
-        NPC npc = NPC_MAP.remove(player.getUniqueId());
-        if (npc != null) npc.destroy(player);
-    }
 }
