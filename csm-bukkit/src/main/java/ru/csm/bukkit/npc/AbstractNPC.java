@@ -22,7 +22,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import ru.csm.api.player.Skin;
 import ru.csm.bukkit.hologram.Hologram;
-import ru.csm.bukkit.hologram.Holograms;
+import ru.csm.bukkit.nms.Holograms;
 import ru.csm.bukkit.services.NpcManager;
 
 import java.util.List;

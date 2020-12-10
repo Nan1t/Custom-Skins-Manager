@@ -23,8 +23,7 @@ import org.bukkit.entity.Player;
 
 import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
-import ru.csm.bukkit.skin.SkinHandler;
-import ru.csm.bukkit.skin.SkinHandlers;
+import ru.csm.bukkit.nms.SkinHandlers;
 
 import java.util.UUID;
 

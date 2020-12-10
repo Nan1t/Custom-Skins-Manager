@@ -40,8 +40,8 @@ import ru.csm.bukkit.event.SkinChangedEvent;
 import ru.csm.bukkit.event.SkinResetEvent;
 import ru.csm.bukkit.menu.item.HeadItem;
 import ru.csm.bukkit.menu.SkinsMenu;
+import ru.csm.bukkit.nms.Npcs;
 import ru.csm.bukkit.npc.NPC;
-import ru.csm.bukkit.npc.Npcs;
 import ru.csm.bukkit.player.BukkitSkinPlayer;
 import ru.csm.bukkit.util.BukkitTasks;
 
