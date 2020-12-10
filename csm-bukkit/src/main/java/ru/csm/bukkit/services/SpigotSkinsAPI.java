@@ -79,11 +79,6 @@ public class SpigotSkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
-    public SkinsConfig getConfig() {
-        return conf;
-    }
-
-    @Override
     public Language getLang(){
         return lang;
     }
@@ -91,16 +86,6 @@ public class SpigotSkinsAPI implements SkinsAPI<Player> {
     @Override
     public Database getDatabase() {
         return database;
-    }
-
-    @Override
-    public NameQueue getNameQueue() {
-        return nameQueue;
-    }
-
-    @Override
-    public ImageQueue getImageQueue() {
-        return imageQueue;
     }
 
     @Override

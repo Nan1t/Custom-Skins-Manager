@@ -32,9 +32,6 @@ import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
 import ru.csm.api.storage.Database;
-import ru.csm.api.storage.SkinsConfig;
-import ru.csm.api.upload.ImageQueue;
-import ru.csm.api.upload.NameQueue;
 import ru.csm.bukkit.nms.Npcs;
 import ru.csm.bukkit.npc.NPC;
 import ru.csm.bukkit.player.ProxySkinPlayer;
@@ -52,27 +49,12 @@ public class ProxySkinsAPI implements SkinsAPI<Player> {
     }
 
     @Override
-    public SkinsConfig getConfig() {
-        return null;
-    }
-
-    @Override
     public Language getLang() {
         return lang;
     }
 
     @Override
     public Database getDatabase() {
-        return null;
-    }
-
-    @Override
-    public NameQueue getNameQueue() {
-        return null;
-    }
-
-    @Override
-    public ImageQueue getImageQueue() {
         return null;
     }
 

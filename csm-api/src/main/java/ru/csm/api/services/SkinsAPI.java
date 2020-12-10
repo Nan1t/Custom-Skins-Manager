@@ -20,25 +20,17 @@ package ru.csm.api.services;
 
 import napi.configurate.Language;
 import ru.csm.api.player.*;
-import ru.csm.api.storage.SkinsConfig;
 import ru.csm.api.storage.Tables;
 import ru.csm.api.storage.Database;
 import ru.csm.api.storage.Row;
-import ru.csm.api.upload.*;
 
 import java.util.*;
 
 public interface SkinsAPI<Player> {
 
-    SkinsConfig getConfig();
-
     Language getLang();
     
     Database getDatabase();
-    
-    NameQueue getNameQueue();
-
-    ImageQueue getImageQueue();
 
     /**
      * Check is premium nickname exist in blacklist

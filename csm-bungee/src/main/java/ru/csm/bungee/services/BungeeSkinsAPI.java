@@ -22,6 +22,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import napi.configurate.Language;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import ru.csm.api.network.Channels;
 import ru.csm.api.network.MessageSender;
@@ -74,11 +75,6 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     }
 
     @Override
-    public SkinsConfig getConfig() {
-        return conf;
-    }
-
-    @Override
     public Language getLang(){
         return lang;
     }
@@ -86,16 +82,6 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
     @Override
     public Database getDatabase() {
         return database;
-    }
-
-    @Override
-    public NameQueue getNameQueue() {
-        return nameQueue;
-    }
-
-    @Override
-    public ImageQueue getImageQueue() {
-        return imageQueue;
     }
 
     @Override
@@ -276,7 +262,7 @@ public class BungeeSkinsAPI implements SkinsAPI<ProxiedPlayer> {
         Row[] rows = database.getRowsWithRequest(String.format(sql, Tables.SKINS, range, offset));
 
         if (rows.length == 0) {
-            if (page == 1) player.sendMessage(lang.of("menu.empty"));
+            if (page == 1) player.sendMessage(TextComponent.fromLegacyText(lang.of("menu.empty")));
             return;
         }
 
