@@ -14,5 +14,5 @@ In addition to standard functions, such as changing the skin using a nickname, t
 
 You can help this project keep alive, if you:
 * Report about bugs in the issue section or in our discord server.
-* Help fixing bugs, adding new features and optimizing code.
+* Help to fixing bugs, adding new features and optimizing code.
 * Help other users. We not always can fast reply on user's question.
