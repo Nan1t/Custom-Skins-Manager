@@ -1,4 +1,4 @@
-package ru.csm.bukkit.cmd.cmdto;
+package ru.csm.bukkit.commands;
 
 import napi.commands.CommandExecutor;
 import napi.commands.exception.CommandException;
@@ -9,24 +9,18 @@ import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
 
-public class CmdToUrl implements CommandExecutor {
+public class CmdSkinToUrl implements CommandExecutor {
 
     private final SkinsAPI<Player> api;
 
-    public CmdToUrl(SkinsAPI<Player> api){
+    public CmdSkinToUrl(SkinsAPI<Player> api){
         this.api = api;
     }
 
     @Override
     public void execute(CommandSender sender, CommandContext ctx) throws CommandException {
-        Player player = ctx.get("target", null);
-
-        if (player == null){
-            sender.sendMessage("Player does not exist or offline");
-            return;
-        }
-
-        SkinPlayer target = api.getPlayer(player.getName());
+        String targetName = ctx.<Player>get("target").get().getName();
+        SkinPlayer target = api.getPlayer(targetName);
 
         if (target == null){
             sender.sendMessage("Player does not exist or offline");

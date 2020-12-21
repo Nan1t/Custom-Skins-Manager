@@ -36,8 +36,7 @@ import ru.csm.api.services.SkinHash;
 import ru.csm.api.storage.*;
 import ru.csm.api.logging.Logger;
 import ru.csm.api.upload.Profile;
-import ru.csm.bukkit.cmd.Commands;
-import ru.csm.bukkit.commands.*;
+import ru.csm.bukkit.commands.Commands;
 import ru.csm.bukkit.nms.Holograms;
 import ru.csm.bukkit.nms.Npcs;
 import ru.csm.bukkit.nms.SkinHandlers;
@@ -69,7 +68,6 @@ import java.sql.SQLException;
 public class SpigotSkinsManager extends JavaPlugin {
 
     private Database database;
-    private SkinsAPI<Player> api;
 
     @Override
     public void onLoad() {
@@ -114,6 +112,8 @@ public class SpigotSkinsManager extends JavaPlugin {
             config.load(getDataFolder().toPath());
 
             MenuManager menuManager = new MenuManager(config.getLanguage());
+
+            SkinsAPI<Player> api;
 
             if(!ProxyUtil.isUseProxy()){
                 try{
@@ -175,16 +175,6 @@ public class SpigotSkinsManager extends JavaPlugin {
         if(database != null){
             database.closeConnection();
         }
-    }
-
-    private void registerCommands() {
-        Command commandSkull = new CommandSkull(api.getLang());
-
-        commandSkull.addSub(new CommandSkullPlayer(api).setPermission("csm.skull.player"), "player");
-        commandSkull.addSub(new CommandSkullUrl(api).setPermission("csm.skull.url"), "url");
-        commandSkull.addSub(new CommandSkullTo(api).setPermission("csm.skull.to"), "to");
-
-        getCommand("csmskull").setExecutor(commandSkull);
     }
 
     private void registerSerializers(){

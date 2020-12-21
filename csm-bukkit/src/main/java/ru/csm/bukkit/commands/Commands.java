@@ -1,4 +1,4 @@
-package ru.csm.bukkit.cmd;
+package ru.csm.bukkit.commands;
 
 import napi.commands.Arguments;
 import napi.commands.Command;
@@ -7,10 +7,6 @@ import napi.commands.bukkit.BukkitCommandManager;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import ru.csm.api.services.SkinsAPI;
-import ru.csm.bukkit.cmd.cmdto.CmdToFrom;
-import ru.csm.bukkit.cmd.cmdto.CmdToReset;
-import ru.csm.bukkit.cmd.cmdto.CmdToSet;
-import ru.csm.bukkit.cmd.cmdto.CmdToUrl;
 
 public final class Commands {
 
@@ -18,6 +14,8 @@ public final class Commands {
 
     public static void init(Plugin plugin, SkinsAPI<Player> api) {
         BukkitCommandManager manager = new BukkitCommandManager(plugin);
+
+        /*  /skin commands  */
 
         Command cmdSkinPlayer = Command.builder()
                 .permission("csm.skin.player")
@@ -46,7 +44,7 @@ public final class Commands {
                         BukkitArgs.player("target"),
                         Arguments.string("username")
                 )
-                .executor(new CmdToFrom(api))
+                .executor(new CmdSkinToFrom(api))
                 .build();
 
         Command cmdSkinToUrl = Command.builder()
@@ -55,7 +53,7 @@ public final class Commands {
                         Arguments.string("url"),
                         Arguments.optional(Arguments.string("slim"))
                 )
-                .executor(new CmdToUrl(api))
+                .executor(new CmdSkinToUrl(api))
                 .build();
 
         Command cmdSkinToSet = Command.builder()
@@ -64,14 +62,14 @@ public final class Commands {
                         Arguments.string("texture"),
                         Arguments.string("signature")
                 )
-                .executor(new CmdToSet(api))
+                .executor(new CmdSkinToSet(api))
                 .build();
 
         Command cmdSkinToReset = Command.builder()
                 .args(
                         BukkitArgs.player("target")
                 )
-                .executor(new CmdToReset(api))
+                .executor(new CmdSkinToReset(api))
                 .build();
 
         Command cmdSkinTo = Command.builder()
@@ -99,6 +97,7 @@ public final class Commands {
                 .build();
 
         Command cmdSkin = Command.builder()
+                .description("CustomSkinsManager skin command")
                 .help(api.getLang().ofArr("help"))
                 .child(cmdSkinPlayer, "player")
                 .child(cmdSkinUrl, "url")
@@ -108,7 +107,57 @@ public final class Commands {
                 .child(cmdSkinMenu, "menu")
                 .build();
 
+        /*  /skull commands  */
+
+        Command cmdSkullPlayer = Command.builder()
+                .permission("csm.skull.player")
+                .args(
+                        Arguments.string("username")
+                )
+                .executor(new CmdSkullPlayer(api))
+                .build();
+
+        Command cmdSkullUrl = Command.builder()
+                .permission("csm.skull.url")
+                .args(
+                        Arguments.string("url")
+                )
+                .executor(new CmdSkullUrl(api))
+                .build();
+
+        Command cmdSkullToPlayer = Command.builder()
+                .args(
+                        BukkitArgs.player("target"),
+                        Arguments.string("username")
+                )
+                .executor(new CmdSkullToFrom(api))
+                .build();
+
+        Command cmdSkullToUrl = Command.builder()
+                .args(
+                        BukkitArgs.player("target"),
+                        Arguments.string("url")
+                )
+                .executor(new CmdSkullToUrl())
+                .build();
+
+        Command cmdSkullTo = Command.builder()
+                .permission("csm.skull.to")
+                .child(cmdSkullToPlayer, "player")
+                .child(cmdSkullToUrl, "url")
+                .build();
+
+        Command cmdSkull = Command.builder()
+                .permission("csm.skulls")
+                .description("CustomSkinsManager skull command")
+                .help(api.getLang().ofArr("help"))
+                .child(cmdSkullPlayer, "player")
+                .child(cmdSkullUrl, "url")
+                .child(cmdSkullTo, "to")
+                .build();
+
         manager.register(cmdSkin, "csm", "skin", "skins");
+        manager.register(cmdSkull, "csmskull", "skull");
     }
 
 }

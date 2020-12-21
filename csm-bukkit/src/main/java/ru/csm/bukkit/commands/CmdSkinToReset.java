@@ -1,4 +1,4 @@
-package ru.csm.bukkit.cmd;
+package ru.csm.bukkit.commands;
 
 import napi.commands.CommandExecutor;
 import napi.commands.exception.CommandException;
@@ -8,23 +8,25 @@ import org.bukkit.entity.Player;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
 
-public class CmdSkinReset implements CommandExecutor {
+public class CmdSkinToReset implements CommandExecutor {
 
     private final SkinsAPI<Player> api;
 
-    public CmdSkinReset(SkinsAPI<Player> api){
+    public CmdSkinToReset(SkinsAPI<Player> api){
         this.api = api;
     }
 
     @Override
     public void execute(CommandSender sender, CommandContext ctx) throws CommandException {
-        if (!(sender.getSender() instanceof Player)) return;
+        String targetName = ctx.<Player>get("target").get().getName();
+        SkinPlayer target = api.getPlayer(targetName);
 
-        SkinPlayer player = api.getPlayer(sender.getName());
-
-        if(player != null){
-            api.resetSkin(player);
+        if (target == null){
+            sender.sendMessage("Player does not exist or offline");
+            return;
         }
+
+        api.resetSkin(target);
     }
 
 }

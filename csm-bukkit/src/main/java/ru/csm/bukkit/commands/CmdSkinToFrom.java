@@ -1,42 +1,32 @@
-package ru.csm.bukkit.cmd.cmdto;
+package ru.csm.bukkit.commands;
 
 import napi.commands.CommandExecutor;
 import napi.commands.exception.CommandException;
 import napi.commands.parsed.CommandContext;
 import napi.commands.parsed.CommandSender;
 import org.bukkit.entity.Player;
-import ru.csm.api.player.Skin;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
 
-public class CmdToSet implements CommandExecutor {
+public class CmdSkinToFrom implements CommandExecutor {
 
     private final SkinsAPI<Player> api;
 
-    public CmdToSet(SkinsAPI<Player> api){
+    public CmdSkinToFrom(SkinsAPI<Player> api){
         this.api = api;
     }
 
     @Override
     public void execute(CommandSender sender, CommandContext ctx) throws CommandException {
-        Player player = ctx.get("target", null);
-
-        if (player == null){
-            sender.sendMessage("Player does not exist or offline");
-            return;
-        }
-
-        SkinPlayer target = api.getPlayer(player.getName());
+        String targetName = ctx.<Player>get("target").get().getName();
+        SkinPlayer target = api.getPlayer(targetName);
 
         if (target == null){
             sender.sendMessage("Player does not exist or offline");
             return;
         }
 
-        String texture = ctx.getString("texture");
-        String signature = ctx.getString("signature");
-
-        api.setCustomSkin(target, Skin.of(texture, signature));
+        api.setSkinFromName(target, ctx.getString("username"));
+        sender.sendMessage(String.format("Processing skin from name for %s...", target.getName()));
     }
-
 }

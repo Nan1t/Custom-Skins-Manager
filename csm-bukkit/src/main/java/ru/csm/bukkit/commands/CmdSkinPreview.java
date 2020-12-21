@@ -1,4 +1,4 @@
-package ru.csm.bukkit.cmd;
+package ru.csm.bukkit.commands;
 
 import napi.commands.CommandExecutor;
 import napi.commands.exception.CommandException;

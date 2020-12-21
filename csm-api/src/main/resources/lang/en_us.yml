@@ -9,7 +9,7 @@
 "skin.success": "&aYour skin successfully applied"
 
 "skin.image.error": "&cAn error occurred while loading the skin. The link may be damaged or incorrectly specified"
-"skin.image.invalid": "&cLink in invalid. You have to use direct link to image"
+"skin.image.invalid": "&cLink is invalid. You have to use direct link to image"
 
 "skin.name.error": "&cOh no, error! Maybe a premium account with such name doesn't have skin"
 "skin.name.invalid": "&cThe nickname which you entered is invalid"

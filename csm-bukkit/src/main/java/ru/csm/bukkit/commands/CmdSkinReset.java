@@ -1,19 +1,18 @@
-package ru.csm.bukkit.cmd;
+package ru.csm.bukkit.commands;
 
 import napi.commands.CommandExecutor;
 import napi.commands.exception.CommandException;
 import napi.commands.parsed.CommandContext;
 import napi.commands.parsed.CommandSender;
 import org.bukkit.entity.Player;
-import ru.csm.api.player.SkinModel;
 import ru.csm.api.player.SkinPlayer;
 import ru.csm.api.services.SkinsAPI;
 
-public class CmdSkinUrl implements CommandExecutor {
+public class CmdSkinReset implements CommandExecutor {
 
     private final SkinsAPI<Player> api;
 
-    public CmdSkinUrl(SkinsAPI<Player> api){
+    public CmdSkinReset(SkinsAPI<Player> api){
         this.api = api;
     }
 
@@ -24,10 +23,7 @@ public class CmdSkinUrl implements CommandExecutor {
         SkinPlayer player = api.getPlayer(sender.getName());
 
         if(player != null){
-            String url = ctx.getString("url");
-            SkinModel model = ctx.has("slim") ? SkinModel.ALEX : SkinModel.STEVE;
-
-            api.setSkinFromImage(player, url, model);
+            api.resetSkin(player);
         }
     }
 
