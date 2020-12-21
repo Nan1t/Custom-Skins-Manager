@@ -45,9 +45,7 @@ import ru.csm.api.storage.MySQLDatabase;
 import ru.csm.api.storage.SkinsConfig;
 import ru.csm.api.upload.Profile;
 import ru.csm.api.utils.FileUtil;
-import ru.csm.velocity.command.CommandExecutor;
-import ru.csm.velocity.command.SubCommand;
-import ru.csm.velocity.commands.*;
+import ru.csm.velocity.cmd.Commands;
 import ru.csm.velocity.listeners.PlayerListeners;
 import ru.csm.velocity.message.PluginMessageReceiver;
 import ru.csm.velocity.message.PluginMessageSender;
@@ -135,7 +133,7 @@ public class VelocitySkinsManager {
             server.getEventManager().register(this, receiver);
 
             registerListeners();
-            registerCommands(sender);
+            Commands.init(server, api, sender);
 
             VelocityTasks.runRepeat(SkinHash::clean, 30000); // 30 sec
 
@@ -150,45 +148,6 @@ public class VelocitySkinsManager {
         if (database != null){
             database.closeConnection();
         }
-    }
-
-    private void registerCommands(MessageSender<Player> sender){
-        CommandExecutor skinCommand = new CommandSkin(api.getLang());
-        CommandExecutor skullCommand = new CommandSkull(api.getLang());
-
-        SubCommand skinPlayer = new CommandSkinPlayer(api);
-        SubCommand skinUrl = new CommandSkinUrl(api);
-        SubCommand skinReset = new CommandSkinReset(api);
-        SubCommand skinMenu = new CommandSkinMenu(api);
-        SubCommand skinTo = new CommandSkinTo(api);
-        SubCommand skinPreview = new CommandSkinPreview(api, server);
-        SubCommand skullPlayer = new CommandSkullPlayer(api, sender);
-        SubCommand skullUrl = new CommandSkullUrl(api, sender);
-        SubCommand skullTo = new CommandSkullTo(api, server, sender);
-
-        skinPlayer.setPermission("csm.skin.player");
-        skinUrl.setPermission("csm.skin.url");
-        skinReset.setPermission("csm.skin.reset");
-        skinMenu.setPermission("csm.skin.menu");
-        skinTo.setPermission("csm.skin.to");
-        skinPreview.setPermission("csm.skin.preview");
-        skullPlayer.setPermission("csm.skull.player");
-        skullUrl.setPermission("csm.skull.url");
-        skullTo.setPermission("csm.skull.to");
-
-        skinCommand.addSub(skinPlayer, "player");
-        skinCommand.addSub(skinUrl, "url");
-        skinCommand.addSub(skinReset, "reset");
-        skinCommand.addSub(skinMenu, "menu");
-        skinCommand.addSub(skinTo, "to");
-        skinCommand.addSub(skinPreview, "preview");
-
-        skullCommand.addSub(skullPlayer, "player");
-        skullCommand.addSub(skullUrl, "url");
-        skullCommand.addSub(skullTo, "to");
-
-        server.getCommandManager().register(skinCommand, "csm", "skin", "skins");
-        server.getCommandManager().register(skullCommand, "csmskull", "skull");
     }
 
     private void registerSerializers(){
