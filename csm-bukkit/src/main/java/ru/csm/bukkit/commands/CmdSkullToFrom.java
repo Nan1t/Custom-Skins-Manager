@@ -21,9 +21,9 @@ public class CmdSkullToFrom implements CommandExecutor {
     @Override
     public void execute(CommandSender sender, CommandContext ctx) throws CommandException {
         Player player = ctx.<Player>get("target").get();
-        String username = ctx.getString("username");
+        Player targetPlayer = ctx.<Player>get("username").get();
 
-        Head head = api.getPlayerHead(username);
+        Head head = api.getPlayerHead(targetPlayer.getName());
 
         if (head != null){
             ItemStack item = Skull.getCustomSkull(head.getUrl());
@@ -31,7 +31,7 @@ public class CmdSkullToFrom implements CommandExecutor {
             return;
         }
 
-        sender.sendMessage(String.format(api.getLang().of("player.missing"), username));
+        sender.sendMessage(String.format(api.getLang().of("player.missing"), targetPlayer.getName()));
     }
 
 }

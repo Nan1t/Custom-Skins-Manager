@@ -23,8 +23,8 @@ public class CmdSkullPlayer implements CommandExecutor {
         if (!(sender.getSender() instanceof Player)) return;
 
         Player player = sender.getSender();
-        String username = ctx.getString("username");
-        Head head = api.getPlayerHead(username);
+        Player targetPlayer = ctx.<Player>get("player").get();
+        Head head = api.getPlayerHead(targetPlayer.getName());
 
         if (head != null){
             ItemStack item = Skull.getCustomSkull(head.getUrl());
@@ -33,7 +33,7 @@ public class CmdSkullPlayer implements CommandExecutor {
             return;
         }
 
-        player.sendMessage(String.format(api.getLang().of("player.missing"), username));
+        player.sendMessage(String.format(api.getLang().of("player.missing"), targetPlayer.getName()));
     }
 
 }

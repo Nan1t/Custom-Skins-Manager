@@ -21,7 +21,7 @@ public class CmdSkullUrl implements CommandExecutor {
     public void execute(CommandSender sender, CommandContext ctx) throws CommandException {
         if (!(sender.getSender() instanceof Player)) return;
 
-        Player player = (Player) sender;
+        Player player = sender.getSender();
         String url = ctx.getString("url");
         ItemStack item = Skull.getCustomSkull(url);
 

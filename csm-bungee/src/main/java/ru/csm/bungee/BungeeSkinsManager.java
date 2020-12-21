@@ -36,9 +36,7 @@ import ru.csm.api.storage.*;
 import ru.csm.api.upload.Profile;
 import ru.csm.api.utils.FileUtil;
 import ru.csm.api.logging.Logger;
-import ru.csm.bungee.command.CommandExecutor;
-import ru.csm.bungee.command.SubCommand;
-import ru.csm.bungee.commands.*;
+import ru.csm.bungee.cmd.Commands;
 import ru.csm.bungee.listeners.PlayerListeners;
 import ru.csm.bungee.message.PluginMessageReceiver;
 import ru.csm.bungee.message.PluginMessageSender;
@@ -122,7 +120,8 @@ public class BungeeSkinsManager extends Plugin {
             getProxy().getPluginManager().registerListener(this, receiver);
 
             registerListeners();
-            registerCommands(sender);
+
+            Commands.init(this, api, sender);
 
             BungeeTasks.runRepeatTask(SkinHash::clean, 0, 30000); // 30 sec
         } catch (Exception e){
@@ -135,45 +134,6 @@ public class BungeeSkinsManager extends Plugin {
         if (database != null){
             database.closeConnection();
         }
-    }
-
-    private void registerCommands(MessageSender<ProxiedPlayer> sender){
-        CommandExecutor skinCommand = new CommandSkin(api.getLang());
-        CommandExecutor skullCommand = new CommandSkull(api.getLang());
-
-        SubCommand skinPlayer = new CommandSkinPlayer(api);
-        SubCommand skinUrl = new CommandSkinUrl(api);
-        SubCommand skinReset = new CommandSkinReset(api);
-        SubCommand skinMenu = new CommandSkinMenu(api);
-        SubCommand skinTo = new CommandSkinTo(api);
-        SubCommand skinPreview = new CommandSkinPreview(api);
-        SubCommand skullPlayer = new CommandSkullPlayer(api, sender);
-        SubCommand skullUrl = new CommandSkullUrl(api, sender);
-        SubCommand skullTo = new CommandSkullTo(api, sender);
-
-        skinPlayer.setPermission("csm.skin.player");
-        skinUrl.setPermission("csm.skin.url");
-        skinReset.setPermission("csm.skin.reset");
-        skinMenu.setPermission("csm.skin.menu");
-        skinTo.setPermission("csm.skin.to");
-        skinPreview.setPermission("csm.skin.preview");
-        skullPlayer.setPermission("csm.skull.player");
-        skullUrl.setPermission("csm.skull.url");
-        skullTo.setPermission("csm.skull.to");
-
-        skinCommand.addSub(skinPlayer, "player");
-        skinCommand.addSub(skinUrl, "url");
-        skinCommand.addSub(skinReset, "reset");
-        skinCommand.addSub(skinMenu, "menu");
-        skinCommand.addSub(skinTo, "to");
-        skinCommand.addSub(skinPreview, "preview");
-
-        skullCommand.addSub(skullPlayer, "player");
-        skullCommand.addSub(skullUrl, "url");
-        skullCommand.addSub(skullTo, "to");
-
-        getProxy().getPluginManager().registerCommand(this, skinCommand);
-        getProxy().getPluginManager().registerCommand(this, skullCommand);
     }
 
     private void registerSerializers(){

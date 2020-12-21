@@ -5,12 +5,7 @@ api-version: '1.13'
 author: '_Nanit_'
 softdepend:
   - "PlaceholderAPI"
-commands:
-  csmskull:
-    permission: 'csm.skulls'
-    description: 'Custom Skins Manager skull command'
-    aliases: ["skull"]
-    permission-message: "You don't have permission to do that"
+
 permissions:
   csm.skin.player:
     description: "Allow to setup skin from license name"

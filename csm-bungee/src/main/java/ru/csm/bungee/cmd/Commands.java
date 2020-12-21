@@ -1,20 +1,21 @@
-package ru.csm.bukkit.commands;
+package ru.csm.bungee.cmd;
 
 import napi.commands.Arguments;
 import napi.commands.Command;
-import napi.commands.bukkit.BukkitArgs;
-import napi.commands.bukkit.BukkitCommandManager;
+import napi.commands.bungee.BungeeArgs;
+import napi.commands.bungee.BungeeCommandManager;
 import napi.commands.manager.CommandManager;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.plugin.Plugin;
+import ru.csm.api.network.MessageSender;
 import ru.csm.api.services.SkinsAPI;
 
 public final class Commands {
 
     private Commands(){}
 
-    public static void init(Plugin plugin, SkinsAPI<Player> api) {
-        CommandManager manager = new BukkitCommandManager(plugin);
+    public static void init(Plugin plugin, SkinsAPI<ProxiedPlayer> api, MessageSender<ProxiedPlayer> sender) {
+        CommandManager manager = new BungeeCommandManager(plugin);
 
         /*  /skin commands  */
 
@@ -42,7 +43,7 @@ public final class Commands {
 
         Command cmdSkinToFrom = Command.builder()
                 .args(
-                        BukkitArgs.player("target"),
+                        BungeeArgs.player("target"),
                         Arguments.string("username")
                 )
                 .executor(new CmdSkinToFrom(api))
@@ -50,7 +51,7 @@ public final class Commands {
 
         Command cmdSkinToUrl = Command.builder()
                 .args(
-                        BukkitArgs.player("target"),
+                        BungeeArgs.player("target"),
                         Arguments.string("url"),
                         Arguments.optional(Arguments.string("slim"))
                 )
@@ -59,7 +60,7 @@ public final class Commands {
 
         Command cmdSkinToSet = Command.builder()
                 .args(
-                        BukkitArgs.player("target"),
+                        BungeeArgs.player("target"),
                         Arguments.string("texture"),
                         Arguments.string("signature")
                 )
@@ -68,7 +69,7 @@ public final class Commands {
 
         Command cmdSkinToReset = Command.builder()
                 .args(
-                        BukkitArgs.player("target")
+                        BungeeArgs.player("target")
                 )
                 .executor(new CmdSkinToReset(api))
                 .build();
@@ -84,7 +85,7 @@ public final class Commands {
         Command cmdSkinPreview = Command.builder()
                 .permission("csm.skin.preview")
                 .args(
-                        BukkitArgs.player("player"),
+                        BungeeArgs.player("player"),
                         Arguments.string("texture"),
                         Arguments.string("signature"),
                         Arguments.optional(Arguments.string("permission"))
@@ -113,9 +114,9 @@ public final class Commands {
         Command cmdSkullPlayer = Command.builder()
                 .permission("csm.skull.player")
                 .args(
-                        BukkitArgs.player("player")
+                        BungeeArgs.player("player")
                 )
-                .executor(new CmdSkullPlayer(api))
+                .executor(new CmdSkullPlayer(api, sender))
                 .build();
 
         Command cmdSkullUrl = Command.builder()
@@ -126,25 +127,25 @@ public final class Commands {
                 .executor(new CmdSkullUrl(api))
                 .build();
 
-        Command cmdSkullToPlayer = Command.builder()
+        Command cmdSkullToFrom = Command.builder()
                 .args(
-                        BukkitArgs.player("target"),
-                        BukkitArgs.player("username")
+                        BungeeArgs.player("target"),
+                        BungeeArgs.player("username")
                 )
-                .executor(new CmdSkullToFrom(api))
+                .executor(new CmdSkullToFrom(api, sender))
                 .build();
 
         Command cmdSkullToUrl = Command.builder()
                 .args(
-                        BukkitArgs.player("target"),
+                        BungeeArgs.player("target"),
                         Arguments.string("url")
                 )
-                .executor(new CmdSkullToUrl())
+                .executor(new CmdSkullToUrl(sender))
                 .build();
 
         Command cmdSkullTo = Command.builder()
                 .permission("csm.skull.to")
-                .child(cmdSkullToPlayer, "from")
+                .child(cmdSkullToFrom, "from")
                 .child(cmdSkullToUrl, "url")
                 .build();
 
