@@ -6,10 +6,6 @@ author: '_Nanit_'
 softdepend:
   - "PlaceholderAPI"
 commands:
-  csm:
-    description: 'Custom Skins Manager main command'
-    aliases: ["skin", "skins"]
-    permission-message: "You don't have permission to do that"
   csmskull:
     permission: 'csm.skulls'
     description: 'Custom Skins Manager skull command'

@@ -43,9 +43,9 @@ public class HandlerSkin implements MessageHandler {
 
             switch (action){
                 case "set":{
-                    Skin skin = new Skin();
-                    skin.setValue(json.get("skin_value").getAsString());
-                    skin.setSignature(json.get("skin_signature").getAsString());
+                    Skin skin = Skin.of(json.get("skin_value").getAsString(),
+                            json.get("skin_signature").getAsString());
+
                     api.setCustomSkin(player, skin);
                     break;
                 }

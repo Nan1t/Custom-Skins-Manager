@@ -144,15 +144,11 @@ public class VelocitySkinsAPI implements SkinsAPI<Player> {
 
         if (row != null){
             String owner = row.getField("name").toString();
-            Skin skin = new Skin();
+            String texture = row.hasField("custom_value")
+                    ? row.getField("custom_value").toString()
+                    : row.getField("default_value").toString();
 
-            if (row.hasField("custom_value")){
-                skin.setValue(row.getField("custom_value").toString());
-            } else {
-                skin.setValue(row.getField("default_value").toString());
-            }
-
-            return new Head(owner, skin.getURL());
+            return new Head(owner, Skin.of(texture, null).getURL());
         }
 
         return null;

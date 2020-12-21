@@ -24,4 +24,5 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compileOnly project(":csm-api")
     compileOnly files('lib/BungeeCord.jar')
+    compile files('lib/napi-commands-bungee-1.0.jar')
 }

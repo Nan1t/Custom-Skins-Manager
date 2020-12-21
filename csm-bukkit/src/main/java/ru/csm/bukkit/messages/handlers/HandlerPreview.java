@@ -36,12 +36,9 @@ public class HandlerPreview implements MessageHandler {
     @Override
     public void execute(JsonObject json) {
         Player player = Bukkit.getPlayer(json.get("player").getAsString());
-        Skin skin = new Skin();
         boolean openMenu = json.get("open_menu").getAsBoolean();
         String permission = null;
-
-        skin.setValue(json.get("skin_value").getAsString());
-        skin.setSignature(json.get("skin_signature").getAsString());
+        Skin skin = Skin.of(json.get("skin_value").getAsString(), json.get("skin_signature").getAsString());
 
         if (json.has("permission") && !json.get("permission").isJsonNull()){
             permission = json.get("permission").getAsString();

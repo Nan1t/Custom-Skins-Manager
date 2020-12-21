@@ -75,10 +75,7 @@ public final class MojangAPI {
                         String skinUrl = getSkinURL(value);
 
                         if(skinUrl != null){
-                            Skin skin = new Skin();
-                            skin.setValue(value);
-                            skin.setSignature(signature);
-                            return skin;
+                            return Skin.of(value, signature);
                         }
                     }
                 }

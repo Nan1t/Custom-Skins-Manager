@@ -156,12 +156,10 @@ public interface SkinsAPI<Player> {
 
         if (row != null){
             SkinPlayer player = buildPlayer(uuid, name);
-            Skin defaultSkin = new Skin();
+            Skin defaultSkin = Skin.of(row.getField("default_value").toString(),
+                    row.getField("default_signature").toString());
             Skin customSkin = null;
             boolean savePlayer = false;
-
-            defaultSkin.setValue(row.getField("default_value").toString());
-            defaultSkin.setSignature(row.getField("default_signature").toString());
 
             if (isUpdateDefaultSkin()){
                 Optional<Skin> skinOpt = getDefaultSkin(player.getName());
@@ -173,9 +171,8 @@ public interface SkinsAPI<Player> {
             }
 
             if (row.hasField("custom_value") && row.hasField("custom_signature")){
-                customSkin = new Skin();
-                customSkin.setValue(row.getField("custom_value").toString());
-                customSkin.setSignature(row.getField("custom_signature").toString());
+                customSkin = Skin.of(row.getField("custom_value").toString(),
+                        row.getField("custom_signature").toString());
             }
 
             player.setDefaultSkin(defaultSkin);

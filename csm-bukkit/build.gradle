@@ -35,4 +35,5 @@ dependencies {
     compileOnly fileTree('lib/')
 
     compile files('lib/napi-reflection-1.0.jar')
+    compile files('lib/napi-reflection-1.0.jar')
 }

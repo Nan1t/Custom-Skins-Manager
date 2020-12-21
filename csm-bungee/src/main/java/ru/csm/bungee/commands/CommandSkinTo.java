@@ -65,10 +65,7 @@ public class CommandSkinTo extends SubCommand {
                         return;
                     }
                 } else if (args[1].equalsIgnoreCase("set")){
-                    Skin skin = new Skin();
-                    skin.setValue(args[2]);
-                    skin.setSignature(args[3]);
-                    api.setCustomSkin(target, skin);
+                    api.setCustomSkin(target, Skin.of(args[3], args[3]));
                     return;
                 }
             }

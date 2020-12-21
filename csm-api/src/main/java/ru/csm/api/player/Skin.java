@@ -30,10 +30,8 @@ public class Skin {
     private static final Base64.Decoder DECODER = Base64.getDecoder();
     private static final JsonParser JSON_PARSER = new JsonParser();
 
-    private String value;
-    private String signature;
-
-    public Skin(){}
+    private final String value;
+    private final String signature;
 
     public Skin(Skin skin){
         this.value = skin.getValue();
@@ -49,16 +47,8 @@ public class Skin {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public String getSignature() {
         return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
     }
 
     public SkinModel getModel(){
@@ -131,6 +121,10 @@ public class Skin {
     @Override
     public String toString() {
         return String.format("Skin{texture:%s, signature: %s}", value, signature);
+    }
+
+    public static Skin of(String texture, String signature){
+        return new Skin(texture, signature);
     }
 
     public static class Serializer implements NodeSerializer<Skin> {

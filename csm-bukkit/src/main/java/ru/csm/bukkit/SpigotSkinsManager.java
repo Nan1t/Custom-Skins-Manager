@@ -36,6 +36,7 @@ import ru.csm.api.services.SkinHash;
 import ru.csm.api.storage.*;
 import ru.csm.api.logging.Logger;
 import ru.csm.api.upload.Profile;
+import ru.csm.bukkit.cmd.Commands;
 import ru.csm.bukkit.commands.*;
 import ru.csm.bukkit.nms.Holograms;
 import ru.csm.bukkit.nms.Npcs;
@@ -163,7 +164,7 @@ public class SpigotSkinsManager extends JavaPlugin {
                 Placeholders.init();
             }
 
-            registerCommands();
+            Commands.init(this, api);
         } catch (Exception e){
             Logger.severe("Cannot enable plugin: " + e.getMessage());
         }
@@ -176,22 +177,13 @@ public class SpigotSkinsManager extends JavaPlugin {
         }
     }
 
-    private void registerCommands(){
-        Command commandSkin = new CommandSkin(api.getLang());
+    private void registerCommands() {
         Command commandSkull = new CommandSkull(api.getLang());
-
-        commandSkin.addSub(new CommandSkinPlayer(api).setPermission("csm.skin.player"), "player");
-        commandSkin.addSub(new CommandSkinUrl(api).setPermission("csm.skin.url"), "url");
-        commandSkin.addSub(new CommandSkinReset(api).setPermission("csm.skin.reset"), "reset");
-        commandSkin.addSub(new CommandSkinMenu(api).setPermission("csm.skin.menu"), "menu");
-        commandSkin.addSub(new CommandSkinTo(api).setPermission("csm.skin.to"), "to");
-        commandSkin.addSub(new CommandSkinPreview(api).setPermission("csm.skin.preview"), "preview");
 
         commandSkull.addSub(new CommandSkullPlayer(api).setPermission("csm.skull.player"), "player");
         commandSkull.addSub(new CommandSkullUrl(api).setPermission("csm.skull.url"), "url");
         commandSkull.addSub(new CommandSkullTo(api).setPermission("csm.skull.to"), "to");
 
-        getCommand("csm").setExecutor(commandSkin);
         getCommand("csmskull").setExecutor(commandSkull);
     }
 

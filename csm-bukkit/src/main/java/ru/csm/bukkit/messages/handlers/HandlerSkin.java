@@ -32,10 +32,8 @@ public class HandlerSkin implements MessageHandler {
         Player player = Bukkit.getPlayer(json.get("player").getAsString());
 
         if (player != null){
-            Skin skin = new Skin();
-
-            skin.setValue(json.get("skin_value").getAsString());
-            skin.setSignature(json.get("skin_signature").getAsString());
+            Skin skin = Skin.of(json.get("skin_value").getAsString(),
+                    json.get("skin_signature").getAsString());
 
             SkinHandlers.getHandler().applySkin(player, skin);
 
