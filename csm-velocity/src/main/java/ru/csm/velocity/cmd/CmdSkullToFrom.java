@@ -26,17 +26,17 @@ public class CmdSkullToFrom implements CommandExecutor {
         Player player = ctx.<Player>get("target").get();
         Player targetPlayer = ctx.<Player>get("username").get();
 
-        Head head = api.getPlayerHead(targetPlayer.getName());
+        Head head = api.getPlayerHead(targetPlayer.getUsername());
 
         if (head != null){
             JsonObject message = new JsonObject();
-            message.addProperty("player", player.getName());
+            message.addProperty("player", player.getUsername());
             message.addProperty("url", head.getUrl());
             this.sender.sendMessage(player, Channels.SKULLS, message);
             return;
         }
 
-        sender.sendMessage(String.format(api.getLang().of("player.missing"), targetPlayer.getName()));
+        sender.sendMessage(String.format(api.getLang().of("player.missing"), targetPlayer.getUsername()));
     }
 
 }

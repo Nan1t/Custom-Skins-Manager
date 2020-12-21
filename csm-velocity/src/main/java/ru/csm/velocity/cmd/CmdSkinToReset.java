@@ -18,7 +18,7 @@ public class CmdSkinToReset implements CommandExecutor {
 
     @Override
     public void execute(CommandSender sender, CommandContext ctx) throws CommandException {
-        String targetName = ctx.<Player>get("target").get().getName();
+        String targetName = ctx.<Player>get("target").get().getUsername();
         SkinPlayer target = api.getPlayer(targetName);
 
         if (target == null){
