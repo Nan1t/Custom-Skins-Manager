@@ -68,8 +68,11 @@ public class BungeeSkinsManager extends Plugin {
         LibLoader libLoader = new LibLoader(this, libsFolder);
 
         try {
-            libLoader.download(Dependency.H2.getName(), Dependency.H2.getUrl());
+            libLoader.download(Dependency.COMMONS_LOGGING.getName(), Dependency.COMMONS_LOGGING.getUrl());
+            libLoader.download(Dependency.COMMONS_POOL.getName(), Dependency.COMMONS_POOL.getUrl());
             libLoader.download(Dependency.DBCP.getName(), Dependency.DBCP.getUrl());
+            libLoader.download(Dependency.H2.getName(), Dependency.H2.getUrl());
+
             libLoader.load(libsFolder);
         } catch (Exception e){
             Logger.severe("Cannot load library: " + e.getMessage());

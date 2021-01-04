@@ -1,6 +1,6 @@
 name: 'CustomSkinsManager'
 main: 'ru.csm.bukkit.SpigotSkinsManager'
-version: '3.6'
+version: '3.6.1'
 api-version: '1.13'
 author: '_Nanit_'
 softdepend:
