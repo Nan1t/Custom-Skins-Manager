@@ -20,9 +20,11 @@ package ru.csm.api.utils;
 
 import java.util.regex.Pattern;
 
-public class Validator {
+public final class Validator {
 
     private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9._]{3,16}$");
+
+    private Validator(){ }
 
     public static boolean validateURL(String url){
         return (url.startsWith("http://") || url.startsWith("https://"));

@@ -19,6 +19,10 @@ public enum Dependency {
       "commons-pool2-2.8.1.jar",
       "https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/2.8.1/commons-pool2-2.8.1.jar"
     ),
+    COMMONS_LANG3(
+            "commons-lang3-3.11.jar",
+            "https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.11/commons-lang3-3.11.jar"
+    ),
     H2(
             "h2-1.4.200.jar",
             "https://repo1.maven.org/maven2/com/h2database/h2/1.4.200/h2-1.4.200.jar"

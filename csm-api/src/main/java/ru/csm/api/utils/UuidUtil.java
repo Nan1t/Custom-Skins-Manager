@@ -20,7 +20,9 @@ package ru.csm.api.utils;
 
 import java.util.UUID;
 
-public class UuidUtil {
+public final class UuidUtil {
+
+    private UuidUtil(){ }
 
     public static UUID getUUID(String str){
         if(str.contains("-")) return UUID.fromString(str);

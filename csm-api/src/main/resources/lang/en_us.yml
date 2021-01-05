@@ -22,7 +22,8 @@
 "menu.empty": "&cSkins menu is empty"
 "menu.title": "&lChoose skin"
 "menu.btn.head.name": "&e%player%'s skin"
-"menu.btn.head.lore": "&7Click, to show skin preview"
+"menu.btn.head.lore":
+  - "&7Click, to show skin preview"
 "menu.btn.prev.name": "&e<<"
 "menu.btn.next.name": "&e>>"
 "menu.btn.reset.name": "&cReset skin"

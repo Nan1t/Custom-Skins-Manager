@@ -22,7 +22,8 @@
 "menu.empty": "&cМеню для выбора скина пустое"
 "menu.title": "&lВыбор скина"
 "menu.btn.head.name": "&eСкин %player%"
-"menu.btn.head.lore": "&7Нажмите, чтобы посмотреть скин полностью"
+"menu.btn.head.lore":
+  - "&7Нажмите, чтобы посмотреть скин полностью"
 "menu.btn.prev.name": "&e<<"
 "menu.btn.next.name": "&e>>"
 "menu.btn.reset.name": "&cСбросить скин"

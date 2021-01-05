@@ -22,7 +22,8 @@
 "menu.empty": "&cEl menú de Skins está vacío"
 "menu.title": "&lElige una Skin"
 "menu.btn.head.name": "&eSkin de %player%"
-"menu.btn.head.lore": "&7Clic para obtener una vista previa"
+"menu.btn.head.lore":
+  - "&7Clic para obtener una vista previa"
 "menu.btn.prev.name": "&e<<"
 "menu.btn.next.name": "&e>>"
 "menu.btn.reset.name": "&cResetear Skin"

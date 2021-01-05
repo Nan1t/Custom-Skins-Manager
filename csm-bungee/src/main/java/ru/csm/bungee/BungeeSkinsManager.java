@@ -69,6 +69,7 @@ public class BungeeSkinsManager extends Plugin {
 
         try {
             libLoader.download(Dependency.COMMONS_LOGGING.getName(), Dependency.COMMONS_LOGGING.getUrl());
+            libLoader.download(Dependency.COMMONS_LANG3.getName(), Dependency.COMMONS_LANG3.getUrl());
             libLoader.download(Dependency.COMMONS_POOL.getName(), Dependency.COMMONS_POOL.getUrl());
             libLoader.download(Dependency.DBCP.getName(), Dependency.DBCP.getUrl());
             libLoader.download(Dependency.H2.getName(), Dependency.H2.getUrl());

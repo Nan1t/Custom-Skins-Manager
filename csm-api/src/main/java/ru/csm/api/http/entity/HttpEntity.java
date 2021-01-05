@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class HttpEntity {
 
-    private Map<String, String> urlEncodeParams = new HashMap<>();
+    private final Map<String, String> urlEncodeParams = new HashMap<>();
     private String simpleLine;
 
     public HttpEntity(){}

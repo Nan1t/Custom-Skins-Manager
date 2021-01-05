@@ -18,10 +18,10 @@
 
 package ru.csm.api.http;
 
-import org.apache.commons.io.IOUtils;
 import ru.csm.api.http.entity.HttpEntity;
 import ru.csm.api.http.entity.HttpResponse;
 import ru.csm.api.http.entity.RequestMethod;
+import ru.csm.api.utils.StringUtil;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.DataOutputStream;
@@ -29,7 +29,7 @@ import java.io.IOException;
 
 public class HttpPost extends HttpRequest {
 
-    private HttpsURLConnection connection;
+    private final HttpsURLConnection connection;
     private HttpEntity entity;
 
     public HttpPost(String url) throws IOException {
@@ -63,7 +63,7 @@ public class HttpPost extends HttpRequest {
         String line = null;
 
         if(connection.getInputStream() != null){
-            line = IOUtils.toString(connection.getInputStream(), "UTF-8");
+            line = StringUtil.streamToString(connection.getInputStream());
         }
 
         return new HttpResponse(responseCode, line);

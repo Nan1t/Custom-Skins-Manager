@@ -20,6 +20,8 @@ package ru.csm.api.utils;
 
 public final class NumUtil {
 
+    private NumUtil(){ }
+
     public static byte[] toByteArray(int value) {
         return new byte[] {
                 (byte)(value >> 24),
