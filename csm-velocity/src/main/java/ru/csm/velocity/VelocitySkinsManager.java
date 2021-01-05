@@ -60,7 +60,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
-@Plugin(id = "custom_skins_manager", name = "Custom Skins Manager", version = "3.6.2", authors = {"Nanit"})
+@Plugin(id = "custom_skins_manager", name = "Custom Skins Manager", version = "3.6.3", authors = {"Nanit"})
 public class VelocitySkinsManager {
 
     private final ProxyServer server;

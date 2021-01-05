@@ -65,10 +65,11 @@ public final class Handler_v1_12_R1 implements SkinHandler {
                 PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, ep);
 
         WorldServer world = (WorldServer) ep.getWorld();
+        int dimId = world.worldProvider.getDimensionManager().getDimensionID();
         EnumDifficulty difficulty = world.getDifficulty();
         WorldType worldType = world.worldData.getType();
 
-        PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(world.dimension, difficulty, worldType, ep.playerInteractManager.getGameMode());
+        PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(dimId, difficulty, worldType, ep.playerInteractManager.getGameMode());
         PacketPlayOutPosition position = new PacketPlayOutPosition(
                 player.getLocation().getX(),
                 player.getLocation().getY(),
