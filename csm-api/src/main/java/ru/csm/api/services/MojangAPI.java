@@ -41,9 +41,8 @@ public final class MojangAPI {
     private MojangAPI(){}
 
     public static UUID getUUID(String name){
-        try{
-            URL url = new URL(String.format(UUID_URL, name));
-            String jsonString = getLine(url.openStream());
+        try(InputStream in = new URL(String.format(UUID_URL, name)).openStream()){
+            String jsonString = getLine(in);
 
             if(!jsonString.isEmpty()){
                 JsonObject object = JSON_PARSER.parse(jsonString).getAsJsonObject();
@@ -58,9 +57,8 @@ public final class MojangAPI {
     }
 
     public static Skin getPremiumSkin(UUID uuid){
-        try{
-            URL url = new URL(String.format(SKIN_URL, clearUUID(uuid)));
-            String jsonString = getLine(url.openStream());
+        try(InputStream in = new URL(String.format(SKIN_URL, clearUUID(uuid))).openStream()){
+            String jsonString = getLine(in);
 
             if(!jsonString.isEmpty()){
                 JsonObject object = JSON_PARSER.parse(jsonString).getAsJsonObject();
