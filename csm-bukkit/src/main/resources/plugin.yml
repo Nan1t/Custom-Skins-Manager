@@ -25,3 +25,7 @@ permissions:
     description: "/skull url command"
   csm.skull.to:
     description: "/skull to command"
+
+libraries:
+  - "org.apache.commons:commons-dbcp2:2.8.0"
+  - "com.h2database:h2:1.4.200"
