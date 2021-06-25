@@ -73,15 +73,22 @@ public class SpigotSkinsManager extends JavaPlugin {
     public void onLoad() {
         Logger.set(new JULHandler(getLogger()));
 
-        Path libsFolder = Paths.get(getDataFolder().toString(), "libs");
-        LibLoader libLoader = new LibLoader(this, libsFolder);
-
         try {
-            libLoader.download(Dependency.H2.getName(), Dependency.H2.getUrl());
-            libLoader.download(Dependency.DBCP.getName(), Dependency.DBCP.getUrl());
-            libLoader.load(libsFolder);
-        } catch (Exception e){
-            Logger.severe("Cannot load library: " + e.getMessage());
+            // Check for Bukkit's library loader
+            Class.forName("org.bukkit.plugin.java.LibraryLoader");
+        } catch (ClassNotFoundException cnfe) {
+            // Load libraries if Spigot < 1.16.5
+            Path libsFolder = Paths.get(getDataFolder().toString(), "libs");
+
+            try {
+                LibLoader libLoader = new LibLoader(this, libsFolder);
+
+                libLoader.download(Dependency.H2.getName(), Dependency.H2.getUrl());
+                libLoader.download(Dependency.DBCP.getName(), Dependency.DBCP.getUrl());
+                libLoader.load(libsFolder);
+            } catch (Exception e){
+                Logger.severe("Cannot load library: " + e.getMessage());
+            }
         }
     }
 
