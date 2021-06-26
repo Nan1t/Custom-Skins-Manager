@@ -80,20 +80,16 @@ public final class Handler_v1_10_R1 implements SkinHandler {
                 0
         );
         PacketPlayOutHeldItemSlot slot = new PacketPlayOutHeldItemSlot(player.getInventory().getHeldItemSlot());
+        PacketPlayOutEntityStatus status = new PacketPlayOutEntityStatus(ep, (byte) 28);
 
         if (Bukkit.isPrimaryThread()){
-            sendUpdate(ep, removeInfo, addInfo, respawn, position, slot);
+            sendUpdate(ep, removeInfo, addInfo, respawn, position, slot, status);
         } else {
-            BukkitTasks.runTask(()->sendUpdate(ep, removeInfo, addInfo, respawn, position, slot));
+            BukkitTasks.runTask(()->sendUpdate(ep, removeInfo, addInfo, respawn, position, slot, status));
         }
     }
 
-    private void sendUpdate(EntityPlayer ep, PacketPlayOutPlayerInfo removeInfo,
-                            PacketPlayOutPlayerInfo addInfo,
-                            PacketPlayOutRespawn respawn,
-                            PacketPlayOutPosition position,
-                            PacketPlayOutHeldItemSlot slot){
-
+    private void sendUpdate(EntityPlayer ep, Packet<?>... packets){
         CraftPlayer player = ep.getBukkitEntity();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -101,11 +97,9 @@ public final class Handler_v1_10_R1 implements SkinHandler {
             p.showPlayer(player);
         }
 
-        ep.playerConnection.sendPacket(removeInfo);
-        ep.playerConnection.sendPacket(addInfo);
-        ep.playerConnection.sendPacket(respawn);
-        ep.playerConnection.sendPacket(position);
-        ep.playerConnection.sendPacket(slot);
+        for (Packet<?> packet : packets) {
+            ep.playerConnection.sendPacket(packet);
+        }
 
         ep.updateAbilities();
         ep.triggerHealthUpdate();

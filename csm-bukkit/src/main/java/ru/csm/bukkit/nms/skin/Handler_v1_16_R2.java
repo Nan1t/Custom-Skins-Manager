@@ -63,8 +63,6 @@ public final class Handler_v1_16_R2 implements SkinHandler {
                 PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, ep);
         PacketPlayOutPlayerInfo addInfo = new PacketPlayOutPlayerInfo(
                 PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, ep);
-        PacketPlayOutEntityDestroy entityDestroy = new PacketPlayOutEntityDestroy(ep.getId());
-        PacketPlayOutNamedEntitySpawn entitySpawn = new PacketPlayOutNamedEntitySpawn(ep);
 
         WorldServer worldServer = ep.getWorldServer();
 
@@ -87,21 +85,16 @@ public final class Handler_v1_16_R2 implements SkinHandler {
         watcher.set(DataWatcherRegistry.a.a(16), (byte) 127);
 
         PacketPlayOutEntityMetadata metadata = new PacketPlayOutEntityMetadata(ep.getId(), watcher, false);
+        PacketPlayOutEntityStatus status = new PacketPlayOutEntityStatus(ep, (byte) 28);
 
         if (Bukkit.isPrimaryThread()){
-            sendUpdate(ep, removeInfo, addInfo, metadata, respawn, position, slot);
+            sendUpdate(ep, removeInfo, addInfo, metadata, respawn, position, slot, status);
         } else {
-            BukkitTasks.runTask(()->sendUpdate(ep, removeInfo, addInfo, metadata, respawn, position, slot));
+            BukkitTasks.runTask(()->sendUpdate(ep, removeInfo, addInfo, metadata, respawn, position, slot, status));
         }
     }
 
-    private void sendUpdate(EntityPlayer ep, PacketPlayOutPlayerInfo removeInfo,
-                            PacketPlayOutPlayerInfo addInfo,
-                            PacketPlayOutEntityMetadata metadata,
-                            PacketPlayOutRespawn respawn,
-                            PacketPlayOutPosition position,
-                            PacketPlayOutHeldItemSlot slot){
-
+    private void sendUpdate(EntityPlayer ep, Packet<?>... packets){
         CraftPlayer player = ep.getBukkitEntity();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -109,12 +102,9 @@ public final class Handler_v1_16_R2 implements SkinHandler {
             p.showPlayer(player);
         }
 
-        ep.playerConnection.sendPacket(removeInfo);
-        ep.playerConnection.sendPacket(addInfo);
-        ep.playerConnection.sendPacket(metadata);
-        ep.playerConnection.sendPacket(respawn);
-        ep.playerConnection.sendPacket(position);
-        ep.playerConnection.sendPacket(slot);
+        for (Packet<?> packet : packets) {
+            ep.playerConnection.sendPacket(packet);
+        }
 
         ep.updateAbilities();
         ep.triggerHealthUpdate();
