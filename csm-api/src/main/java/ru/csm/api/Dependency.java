@@ -16,8 +16,8 @@ public enum Dependency {
             "https://repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar"
     ),
     COMMONS_POOL(
-      "commons-pool2-2.8.1.jar",
-      "https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/2.8.1/commons-pool2-2.8.1.jar"
+            "commons-pool2-2.8.1.jar",
+            "https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/2.8.1/commons-pool2-2.8.1.jar"
     ),
     COMMONS_LANG3(
             "commons-lang3-3.11.jar",
