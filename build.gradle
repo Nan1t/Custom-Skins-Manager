@@ -5,7 +5,7 @@ plugins {
 allprojects {
     plugins.withType(JavaPlugin) {
         group 'ru.nanit'
-        version '3.6.3'
+        version '3.7'
 
         sourceCompatibility = 1.8
 
@@ -20,14 +20,14 @@ allprojects {
 }
 
 dependencies {
-    compile project(":csm-api")
-    compile project(":csm-bukkit")
-    compile project(":csm-bungee")
-    compile project(":csm-velocity")
+    implementation project(":csm-api")
+    implementation project(":csm-bukkit")
+    implementation project(":csm-bungee")
+    implementation project(":csm-velocity")
 }
 
 jar {
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }

@@ -23,6 +23,7 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.PluginManager;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
@@ -31,7 +32,6 @@ import napi.configurate.Configuration;
 import napi.configurate.serializing.NodeSerializers;
 import napi.configurate.source.ConfigSources;
 import napi.configurate.yaml.YamlConfiguration;
-import napi.util.LibLoader;
 import ru.csm.api.Dependency;
 import ru.csm.api.logging.Logger;
 import ru.csm.api.network.Channels;
@@ -56,15 +56,22 @@ import ru.csm.velocity.message.handlers.HandlerSkull;
 import ru.csm.velocity.services.VelocitySkinsAPI;
 import ru.csm.velocity.util.VelocityTasks;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.*;
 import java.sql.SQLException;
 
-@Plugin(id = "custom_skins_manager", name = "Custom Skins Manager", version = "3.6.3", authors = {"Nanit"})
+@Plugin(
+        id = "custom_skins_manager",
+        name = "Custom Skins Manager",
+        version = "3.7",
+        authors = {"Nanit"}
+)
 public class VelocitySkinsManager {
 
     private final ProxyServer server;
     private final Path dataFolder;
+    private final Path libsFolder;
 
     private Database database;
     private SkinsAPI<Player> api;
@@ -74,31 +81,29 @@ public class VelocitySkinsManager {
     }
 
     @Inject
-    public VelocitySkinsManager(ProxyServer server, org.slf4j.Logger logger, @DataDirectory Path dataFolder) {
+    public VelocitySkinsManager(ProxyServer server, org.slf4j.Logger logger, @DataDirectory Path dataFolder) throws IOException {
         this.server = server;
         this.dataFolder = dataFolder.toAbsolutePath();
 
         Logger.set(new Slf4jHandler(logger));
+        libsFolder = Paths.get(dataFolder.toString(), "libs");
 
-        Path libsFolder = Paths.get(dataFolder.toString(), "libs");
-        LibLoader libLoader = new LibLoader(this, libsFolder);
-
-        try {
-            libLoader.download(Dependency.COMMONS_LOGGING.getName(), Dependency.COMMONS_LOGGING.getUrl());
-            libLoader.download(Dependency.COMMONS_LANG3.getName(), Dependency.COMMONS_LANG3.getUrl());
-            libLoader.download(Dependency.COMMONS_POOL.getName(), Dependency.COMMONS_POOL.getUrl());
-            libLoader.download(Dependency.DBCP.getName(), Dependency.DBCP.getUrl());
-            libLoader.download(Dependency.H2.getName(), Dependency.H2.getUrl());
-
-            libLoader.load(libsFolder);
-        } catch (Exception e){
-            Logger.severe("Cannot load library: " + e.getMessage());
+        if (!Files.exists(libsFolder)) {
+            Files.createDirectories(libsFolder);
         }
     }
 
     @Subscribe
-    public void onEnable(ProxyInitializeEvent event){
+    public void onEnable(ProxyInitializeEvent event) {
         try{
+            PluginManager pm = server.getPluginManager();
+
+            pm.addToClasspath(this, downloadLib(Dependency.COMMONS_LOGGING.getName(), Dependency.COMMONS_LOGGING.getUrl()));
+            pm.addToClasspath(this, downloadLib(Dependency.COMMONS_LANG3.getName(), Dependency.COMMONS_LANG3.getUrl()));
+            pm.addToClasspath(this, downloadLib(Dependency.COMMONS_POOL.getName(), Dependency.COMMONS_POOL.getUrl()));
+            pm.addToClasspath(this, downloadLib(Dependency.DBCP.getName(), Dependency.DBCP.getUrl()));
+            pm.addToClasspath(this, downloadLib(Dependency.H2.getName(), Dependency.H2.getUrl()));
+
             VelocityTasks.init(this, server);
 
             registerSerializers();
@@ -189,6 +194,17 @@ public class VelocitySkinsManager {
         }
 
         this.database.executeSQL(FileUtil.readResourceContent("/tables/" + type + "/skins.sql"));
+    }
+
+    private Path downloadLib(String name, URL url) throws IOException {
+        Path file = Paths.get(libsFolder.toString(), name);
+
+        if (!Files.exists(file) || Files.size(file) < 100L) {
+            Logger.info(String.format("Downloading library %s ...", name));
+            Files.copy(url.openStream(), file, StandardCopyOption.REPLACE_EXISTING);
+        }
+
+        return file;
     }
 
 }
