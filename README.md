@@ -1,7 +1,5 @@
 ## Custom Skins Manager
 
-**Current development branch: [dev/3.7](https://github.com/Nan1t/Custom-Skins-Manager/tree/dev/3.7)**
-
 * [Wiki](https://github.com/Nan1t/Custom-Skins-Manager/wiki)
 * [SpigotMC](https://www.spigotmc.org/resources/custom-skins-manager.57760/)
 * [Velocity forum](https://forums.velocitypowered.com/t/custom-skins-manager-universal-and-powerful-skins-manager/468)
